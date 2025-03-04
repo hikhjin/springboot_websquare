@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map"></w2:dataCollection>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+scwin.onpageload = function() {
+    category.setValue(selectCategory.getValue());
+
+    var curDate = $p.getCurrentServerDate("yyyyMMddHHmmss"); // default: yyyyMMdd
+
+    startDate.setValue(curDate);
+	
+};
+
+scwin.btn_save_onclick = function(e) {
+
+};
+
+scwin.btn_prvPcImage_onclick = function(e) {
+
+};]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_wrapper" id="" style="">
+    		<w2:wframe class="page_header" id="" scope="true" src="../../../common/xml/wf_titleFav.xml" style=""></w2:wframe>
+    		<xf:group class="page_contents" id="" style=""></xf:group>
+    	</xf:group>
+
+    	<xf:group id="" style="margin-top: 20px; margin-bottom: 20px;">
+    		<w2:textbox id="" label="게시글 등록" style="" tagname="h1"></w2:textbox>
+    	</xf:group>
+    	<xf:group id="" style="" tagname="section">
+    		<xf:group class="tbbox" id="" style="">
+    			<xf:group class="w2tb tb" id="" style=";width:100%;" tagname="table">
+    				<w2:attributes>
+    					<w2:summary></w2:summary>
+    				</w2:attributes>
+    				<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
+    				<xf:group tagname="colgroup">
+    					<xf:group style="width:19.46%;" tagname="col"></xf:group>
+    					<xf:group tagname="col" style="width:10%;"></xf:group>
+    					<xf:group tagname="col"></xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="구분" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select1 id="selectCategory" chooseOption=""
+    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto" allOption=""
+    							disabled="false" direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled" ref="" chooseOptionLabel="선택">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[일반]]></xf:label>
+    									<xf:value><![CDATA[1]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[공지]]></xf:label>
+    									<xf:value><![CDATA[0]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="카테고리" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="선택" direction="auto"
+    							disabled="false" disabledClass="w2selectbox_disabled" id="selectbox3" ref=""
+    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[영상/음악]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[부가서비스]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    						<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="선택" direction="auto"
+    							disabled="false" disabledClass="w2selectbox_disabled" id="selectbox4" ref=""
+    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[영상/음악]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[부가서비스]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="제목" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    						<w2:textbox class="" id="" label="최대 50자" style="" tagname="p"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="전시 여부" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    							selectedIndex="-1" style="width: 150px;height: 21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="전시 기간 " style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" class="wd-110" focusOnDateSelect="false"
+    							footerDiv="false" id="cal_strtDt" readOnly="" ref="data:dma_BilbBnnrFormDto.urcEposStrtDt" renderDiv="true"
+    							renderType="component" rightAlign="false" style="">
+    						</w2:inputCalendar>
+    						<w2:span id="" label="~" style=""></w2:span>
+    						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" class="wd-110" focusOnDateSelect="false"
+    							footerDiv="false" id="urcEposStrtDt" readOnly="" ref="data:dma_BilbBnnrFormDto.urcEposStrtDt" renderDiv="true"
+    							renderType="component" rightAlign="false" style="">
+    						</w2:inputCalendar>
+
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="내용" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:editor id="editor6" style="height: 250px;"></w2:editor>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="" id="" label="출처 매체" style="float:right;clear:none;" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="추천 여행지" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>2</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="PC 이미지 등록" style="float:right;clear:none;" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group tagname="th" class="w2tb_th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="이미지" style="float:right;clear:none;" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes></w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-130 req" id="pcIconImgeUrl" readOnly="true"
+    							ref="data:dma_snglPdInfo.pcIconImgeUrl" style="">
+    						</xf:input>
+    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="btn_pcFileUpload" style="" type="button"
+    							userData3="P">
+    							<xf:label><![CDATA[+파일찾기]]></xf:label>
+    						</xf:trigger>
+
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP" style=""
+    							type="button" userData3="P">
+    							<xf:label><![CDATA[-파일삭제]]></xf:label>
+    						</xf:trigger>
+    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvPcImage_onclic" id="btn_prvMblIconImge"
+    							style="" type="button">
+    							<xf:label><![CDATA[미리보기]]></xf:label>
+    						</xf:trigger>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="" tagname="th">
+    						<w2:attributes>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="대체 텍스트" style="float:right;clear:none;" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes></w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt10" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>2</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="Mobile 이미지 등록" style="float:right;clear:none;" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_th" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="이미지" style="float:right;clear:none;" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes></w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-130 req" id="pcIconImgeUrl10" readOnly="true"
+    							ref="data:dma_snglPdInfo.pcIconImgeUrl" style="">
+    						</xf:input>
+    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="btn_mobileFileUpload" style="" type="button"
+    							userData3="P">
+    							<xf:label><![CDATA[+파일찾기]]></xf:label>
+    						</xf:trigger>
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM" style=""
+    							type="button" userData3="P">
+    							<xf:label><![CDATA[-파일삭제]]></xf:label>
+    						</xf:trigger>
+    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvMblIconImge_onclick" id="trigger6" style=""
+    							type="button">
+    							<xf:label><![CDATA[미리보기]]></xf:label>
+    						</xf:trigger>
+
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="" tagname="th">
+    						<w2:attributes>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="대체 텍스트" style="float:right;clear:none;" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes></w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt20" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="첨부파일" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-130 req" id="pcIconImgeUrl20" readOnly="true"
+    							ref="data:dma_snglPdInfo.pcIconImgeUrl" style="">
+    						</xf:input>
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="trigger7" style="" type="button"
+    							userData3="P">
+    							<xf:label><![CDATA[-파일삭제]]></xf:label>
+    						</xf:trigger>
+    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="trigger8" style="" type="button" userData3="P">
+    							<xf:label><![CDATA[+파일찾기]]></xf:label>
+    						</xf:trigger>
+
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    	<br></br>
+    	<xf:group id="" style="" tagname="section">
+
+    		<xf:group class="tbbox" id="" style=""></xf:group>
+    	</xf:group>
+    	<xf:trigger class="btn_save" ev:onclick="scwin.btn_save_onclick" id="trigger19" style="" type="button">
+    		<xf:label><![CDATA[저장]]></xf:label>
+    	</xf:trigger>
+    </body>
+</html>

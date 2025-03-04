@@ -1,0 +1,94 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.2'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+ext {
+    // Servlet5 기반 웹스퀘어 참조 라이브러리
+    orgApachePoiVersion = '4.0.1'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    /**
+     * WebSquare Engine Dependency Library
+     **/
+    runtimeOnly ('org.antlr:antlr-complete:3.5.2') {
+        exclude group: 'org.antlr', module: 'antlr'
+        exclude group: 'org.antlr', module: 'antlr-runtime'
+        exclude group: 'org.antlr', module: 'gunit'
+    }
+
+    // Servlet5 기반 웹스퀘어 참조 라이브러리
+    runtimeOnly 'org.apache.commons:commons-collections4:4.1'
+    runtimeOnly 'org.apache.commons:commons-compress:1.19'
+    runtimeOnly 'org.apache.commons:commons-fileupload2-jakarta:2.0.0-M1'
+    runtimeOnly 'commons-io:commons-io:2.13.0'
+
+    runtimeOnly 'commons-logging:commons-logging:1.0.4'
+
+    runtimeOnly ('dom4j:dom4j:1.6.1') {
+        exclude group: 'xml-apis', module: 'xml-apis'
+    }
+    compileOnly 'com.googlecode.json-simple:json-simple:1.1'
+    runtimeOnly 'log4j:log4j:1.2.14'
+    runtimeOnly ('org.apache.poi:ooxml-schemas:1.1') {
+        exclude group: 'org.apache.xmlbeans', module: 'xmlbeans'
+    }
+    runtimeOnly 'net.sf.opencsv:opencsv:1.8'
+    runtimeOnly ("org.apache.poi:poi:${orgApachePoiVersion}") {
+        exclude group: 'commons-codec', module: 'commons-codec'
+    }
+    runtimeOnly "org.apache.poi:poi-ooxml:${orgApachePoiVersion}"
+    runtimeOnly ("org.apache.poi:poi-excelant:${orgApachePoiVersion}") {
+        exclude group: 'org.apache.ant', module: 'ant'
+    }
+    runtimeOnly "org.apache.poi:poi-scratchpad:${orgApachePoiVersion}"
+    runtimeOnly "org.apache.poi:poi-ooxml-schemas:${orgApachePoiVersion}"
+
+    runtimeOnly 'xerces:xercesImpl:2.7.1'
+
+
+    /**
+     * 수동 등록 라이브러리
+     */
+    runtimeOnly files('local_libs/batik-all-1.7.1-20150510.jar')
+    runtimeOnly files('local_libs/pdf-transcoder-1.0beta2.jar')
+
+    // Servlet5 기반 웹스퀘어 라이브러리
+    implementation files('local_libs/websquare_5.0_5.5158B.20240229.085845_servlet5.jar')
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

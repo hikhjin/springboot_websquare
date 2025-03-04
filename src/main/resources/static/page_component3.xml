@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare"
+	xmlns:xf="http://www.w3.org/2002/xforms">
+	<head meta_programName="포인트 할인">
+		<w2:type>DEFAULT</w2:type>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection baseNode="map">
+				<w2:dataMap baseNode="map" id="dma_search">
+					<w2:keyInfo>
+						<w2:key id="srchCondDivsCntn" name="검색조건구분내용" dataType="text"></w2:key>
+						<w2:key id="srchCondCntn" name="검색조건내용" dataType="text"></w2:key>
+						<w2:key id="scrnEposYn" name="화면노출여부" dataType="text"></w2:key>
+					</w2:keyInfo>
+				</w2:dataMap>
+				<w2:dataList baseNode="list" repeatNode="map" id="dlt_cmmListInqDto" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="urcBnftNm" name="유플러스대표채널혜택명" dataType="number"></w2:column>
+						<w2:column id="urcBnftMenuIdfyNm" name="유플러스대표채널혜택메뉴식별명" dataType="text"></w2:column><w2:column id="urcBnftId" name="유플러스대표채널혜택ID" dataType="text"></w2:column>
+						<w2:column id="scrnEposYn" name="화면노출여부" dataType="text"></w2:column>
+						<w2:column id="scrnSortOrd" name="화면정렬순서" dataType="text"></w2:column>
+						<w2:column id="updDttm" name="수정일" dataType="date"></w2:column>
+						<w2:column id="updIntgUserId" name="수정자" dataType="text"></w2:column>
+						<w2:column id="regDttm" name="등록일" dataType="date"></w2:column>
+						<w2:column id="regIntgUserId" name="등록자" dataType="text"></w2:column>
+						<w2:column id="chk" name="선택유무" dataType="text"></w2:column>
+
+						
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataMap baseNode="map" id="dma_pageInfo">
+					<w2:keyInfo>
+						<w2:key id="last" name="name1" dataType="text"></w2:key>
+						<w2:key id="pageNo" name="name2" dataType="text"></w2:key>
+						<w2:key id="totalPage" name="name3" dataType="text"></w2:key>
+						<w2:key id="start" name="name4" dataType="text"></w2:key>
+						<w2:key id="pageSize" name="name5" dataType="text"></w2:key>
+						<w2:key id="totalCount" name="name6" dataType="text"></w2:key>
+						<w2:key id="rowSize" name="name7" dataType="text"></w2:key>
+					</w2:keyInfo>
+				</w2:dataMap>
+				<w2:dataMap baseNode="map" id="dma_delList">
+					<w2:keyInfo>
+						<w2:key id="urcBnftIdList" name="혜택번호리스트" dataType="text"></w2:key>
+					</w2:keyInfo>
+				</w2:dataMap>
+			</w2:dataCollection>
+			<w2:workflowCollection></w2:workflowCollection>
+			<xf:submission id="sbm_retrievePntDcntList"
+				ref='data:json,[{"id":"dma_pageInfo","key":"pageInfo"},{"id":"dma_search","key":"queryString"}]' target="data:json,dlt_cmmListInqDto"
+				action="/uhdc/bo/prdv/dcntbnft/v1/pnt-dcnt-list" method="get" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+				errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit=""
+				ev:submitdone="scwin.sbm_retrievePntDcntList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
+			</xf:submission>
+			<xf:submission id="sbm_deletePntDcntList" ref="data:json,dma_delList" target=""
+				action="/uhdc/bo/prdv/dcntbnft/v1/pnt-dcnt-dl?urcBnftIdList={urcBnftIdList}" method="put" mediatype="application/json" encoding="UTF-8"
+				instance="" replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit=""
+				ev:submitdone="scwin.sbm_deletePntDcntList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
+			</xf:submission>
+			<xf:submission id="sbm_updatePntDcntList" ref='data:json,{"id":"dlt_cmmListInqDto","key":"cmmBnftFormList"}' target=""
+				action="/uhdc/bo/prdv/dcntbnft/v1/pnt-dcnt-list:complex" method="put" mediatype="application/json" encoding="UTF-8" instance=""
+				replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit=""
+				ev:submitdone="scwin.sbm_updatePntDcntList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
+			</xf:submission>
+		</xf:model>
+		<script type="text/javascript" lazy="false"><![CDATA[
+	/*
+	 * 전역 변수 
+	 */
+	const RESPONSE_OK_CODE = "200"; // 요청 응답 코드
+	scwin.currGridData = {};
+	const DETL_UPD_SRC_PATH = "/web/uhdc/evet/bm/evetBmPntDcntDetl.xml";
+
+	///////////////////////
+
+	/*
+	 * 이벤트 
+	 */
+	scwin.onpageload = function() {
+		dma_pageInfo.set("pageNo", 1);
+		dma_pageInfo.set("rowSize", 10);
+		dma_pageInfo.set("pageSize", 10);
+		com.win.setEnterKeyEvent(grp_srchBox, scwin.btn_search_onclick);
+		scwin.fn_searEvetList(1);
+
+	};
+
+	scwin.onpageunload = function() {
+
+	};
+
+	/**
+	 * @description : 추첨담당자 목록 조회
+	 * @Author      : jk0649
+	 */
+	scwin.fn_searEvetList = function(pageNo) {
+		dma_pageInfo.set("rowSize", Number(slb_pagePerCount.getValue()));
+		dma_pageInfo.set("pageNo", pageNo);
+		dma_search.set("srchCondDivsCntn", sbx_srchCondDivsCntn.getValue());
+		dma_search.set("srchCondCntn", inp_srchCondCntn.getValue());
+		dma_search.set("scrnEposYn", slb_scrnEposYn.getValue());
+
+		com.sbm.execute(sbm_retrievePntDcntList, {}, gcm.SERVICE_LIST.PRDV);
+	}
+
+	/**
+	 * @description : 페이지건수 onclick
+	 * @Author      : jk0649
+	 */
+	scwin.slb_pagePerCount_onchange = function() {
+		scwin.fn_searEvetList(1);
+	};
+
+	/**
+	 * @description : 초기화 버튼 onclick
+	 * @Author      : jk0649
+	 */
+	scwin.btn_init_onclick = function(e) {
+		com.win.setInit(grp_srchBox);
+	};
+
+	scwin.btn_reg_onclick = function(e) {
+		var paramData = {
+			data : {
+				label : "포인트 할인 등록"
+			}
+		};
+		var option = {
+			openAction : "select"
+		};
+		com.win.openMenu("300000889", paramData, option);
+	};
+
+	// 그리드 셀 클릭
+	scwin.grd_main_oncellclick = function(row, col) {
+		// 선택한 셀이 링크일 경우
+		console.log(col);
+		if (grd_main.getColumnType(col) == "link") {
+			// 선택한 셀이 상품명일 경우
+			if (grd_main.getColumnID(col) == "urcBnftNm") {
+				// 상세 페이지 이동
+				var urcBnftId = dlt_cmmListInqDto.getCellData(row,
+						"urcBnftId");
+				var urcBnftNm = dlt_cmmListInqDto.getCellData(row,
+						"urcBnftNm");
+				
+				scwin.fn_dvicAddTab(urcBnftNm, urcBnftId, DETL_UPD_SRC_PATH,
+						urcBnftId);
+			}
+		}
+	};
+
+	// 새로고침 onclick
+	scwin.btn_grid_reload_onclick = function(e) {
+		scwin.gridReload(e);
+	};
+	
+	//////////////////////////////////////////////
+
+	/*
+	 * 정의 함수 
+	 */
+
+	// 목록 조회 서브미션
+	scwin.sbm_retrievePntDcntList_submitdone = function(e) {
+		if (e.responseStatusCode == RESPONSE_OK_CODE) {
+			var pglFlag = true;
+			if ("1" == dma_pageInfo.get("pageNo")) {
+				pglFlag = false;
+			}
+
+			pgl_pageList.setCount(dma_pageInfo.get("totalPage"), pglFlag);
+			pgl_pageList.setSelectedIndex(dma_pageInfo.get("pageNo"));
+
+			tabControl.setSelectedTabIndex(0);
+			scwin.currGridData = dlt_cmmListInqDto.getAllJSON();
+
+		} else {
+			dlt_cmmListInqDto.removeAll();
+		}
+	};
+
+	// 검색 버튼
+	scwin.btn_search_onclick = function(e) {
+		scwin.fn_searEvetList(1);
+	};
+
+	/**
+	 * @description : 삭제 버튼 onclick
+	 * @Author      : jk0649
+	 */
+	scwin.btn_delete_onclick = function(e) {
+		if (!scwin.isChangeCheckGrid([grd_main], "chk")) {
+			com.win.alert("삭제할 행을 선택해 주세요.");
+			return;
+		}
+
+		com.win.confirm(com.data.getMessage("com.cfm.0003"),
+				scwin.confirmGrdDelCallback);
+	};
+
+	/*
+	 * 체크된 grid 및 삭제 grid 변경 체크	 
+	 * @param	<Object:Y> gridArr	: 그리드 객체의 1차원 배열
+	 * @param	<String:Y> colId	: 해당 체크할 check or radio 객체 id
+	 * @return 	<Boolean> true/false
+	 * */
+	scwin.isChangeCheckGrid = function(gridArr, colId) {
+		if (!gridArr) {
+			return false;
+		}
+		// 변경체크
+		var tmpDltStr = "";
+		var tmpDtlObj = null;
+		for ( var i in gridArr) {
+			if (typeof gridArr[i] === "string") {
+				gridArr[i] = WebSquare.util.getComponentById(gridArr[i]);
+			}
+			tmpDltStr = gridArr[i].getDataList();
+			tmpDtlObj = WebSquare.util.getComponentById(tmpDltStr);
+			if (!tmpDtlObj) {
+				return false;
+			}
+			if (tmpDtlObj.getDeletedData().length > 0
+					|| gridArr[i].getCheckedIndex(colId).length > 0) { // 삭제
+				return true;
+			}
+		}
+		return false;
+	};
+
+	/**
+	 * @description : 삭제 서브미션 callback
+	 * @Author      : jk0649
+	 */
+	scwin.sbm_deletePntDcntList_submitdone = function(e) {
+		if (e.responseStatusCode != "200" || e.responseJSON == "0") {
+			com.win.alert(com.data.getMessage("error.systemError"));
+			return;
+		}
+
+		com.win.alert(com.data.getMessage("com.inf.0009", "삭제"));
+		scwin.fn_searEvetList(1);
+	};
+
+	// 삭제 서브미션 실행
+	scwin.mainDelete = function() {
+		var oList = dlt_cmmListInqDto.getMatchedJSON("chk", "1");
+
+		var urcBnftIdList = [];
+		for (var i = 0; i < oList.length; i++) {
+			urcBnftIdList[i] = oList[i].urcBnftId;
+		}
+
+		dma_delList.set("urcBnftIdList", urcBnftIdList);
+		com.sbm.execute(sbm_deletePntDcntList, {}, gcm.SERVICE_LIST.PRDV);
+	};
+
+	// 삭제 confirm callback
+	scwin.confirmGrdDelCallback = function(result) {
+		if (!result.clickValue)
+			return;
+
+		scwin.mainDelete();
+	};
+
+	// 저장버튼 클릭
+	scwin.btn_save_onclick = function(e) {
+		if (!com.data.checkModified(dlt_cmmListInqDto))
+			return;
+
+		var valInfo = [{
+			id : "scrnEposYn",
+			label : "화면노출여부",
+			mandatory : true
+		}, {
+			id : "scrnEposYn",
+			label : "화면노출여부",
+			mandatory : true
+		}];
+
+		// 그리드 필수값 체크
+		if (!com.data.validateGridView(grd_main, valInfo))
+			return;
+
+		com.win.confirm(com.data.getMessage("com.cfm.0012","변경사항"),
+				scwin.confirmSaveCallback);
+	};
+
+	// 저장 confirm callback
+	scwin.confirmSaveCallback = function(result) {
+		if (!result.clickValue)
+			return;
+
+		scwin.save();
+	};
+
+	// 저장 서브미션 실행
+	scwin.save = function() {
+		com.sbm.execute(sbm_updatePntDcntList, {}, gcm.SERVICE_LIST.PRDV);
+	};
+
+	scwin.sbm_updatePntDcntList_submitdone = function(e) {
+		if (e.responseStatusCode != "200" || e.responseJSON == "0") {
+			com.win.alert(com.data.getMessage("error.systemError"));
+			return;
+		}
+
+		com.win.alert(com.data.getMessage("com.inf.0006"));
+		scwin.fn_searEvetList(1);
+	};
+
+	// 텝 추가
+	scwin.fn_dvicAddTab = function(label, tabId, src, key) {
+		var openAction = "new";
+		var tabId = tabId;
+		var tabInfoArr = tabControl.getTabInfo();
+		// 이미 열린 탭인 경우, 해당 탭으로 이동
+		for (var i = 0; i < tabInfoArr.length; i++) {
+			if (tabInfoArr[i].label == label) {
+				openAction = "exist";
+				tabId = tabInfoArr[i].id;
+			}
+		}
+
+		var tabOpt = {
+			label : label,
+			closable : true,
+			openAction : openAction
+		};
+
+		var contOpt = {
+			frameMode : "wframePreload",
+			scope : true,
+			src : src,
+			alwaysDraw : false,
+			"dataObject" : {
+				"type" : "json",
+				"name" : "param",
+				"data" : {
+					"tabId" : tabId,
+					"src" : src,
+					"urcBnftId" : key
+				}
+			}
+		};
+
+		tabControl.addTab(tabId, tabOpt, contOpt);
+
+		var tabIdx = tabControl.getTabIndex(tabId);
+		tabControl.setSelectedTabIndex(tabIdx);
+	};
+
+	// 텝 삭제
+	scwin.removeSelectedTab = function(rtnValue) {
+		tabControl.deleteTab(tabControl.selectedIndex);
+		tabControl.setSelectedTabIndex(0);
+
+		if (rtnValue == "저장") {
+			com.win.alert(com.data.getMessage("com.inf.0006"));
+			scwin.fn_searEvetList(1);
+		}
+	};
+
+	scwin.pgl_pageList_onviewchange = function(info) {
+		scwin.fn_searEvetList(info.newSelectedIndex);
+	};
+
+	/**
+	 * @description : 페이지건수 onclick
+	 * @Author      : jk0649
+	 */
+	scwin.slb_pagePerCount_onchange = function() {
+		scwin.fn_searEvetList(1);
+	};
+	
+	// 새로고침
+	scwin.gridReload = function(e){
+		dlt_cmmListInqDto.setJSON(scwin.currGridData);
+	};
+	]]></script>
+		<w2:require src="/common/udc/udc_shboxToggle.xml"></w2:require>
+		<w2:require src="/common/udc/udc_shboxTableToggle.xml"></w2:require>
+	</head>
+	<body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+		<xf:group class="sub_wrapper" id="">
+			<w2:wframe class="page_header" id="" scope="true" src="../../../common/xml/wf_titleFav.xml" style=""></w2:wframe>
+			<xf:group id="" class="page_contents">
+				<xf:group class="dfbox1" id="">
+					<w2:textbox id="" label="포인트 할인" style="" tagname="h3"></w2:textbox>
+				</xf:group>
+				<xf:group class="page_contents_inner" id="" style="">
+					<xf:group class="search_box" id="" style="">
+						<xf:group class="search_area" id="grp_srchBox" style="">
+							<xf:group class="search_tbl" id="" style="">
+								<xf:group class="w2tb tb" id="" style="" tagname="table">
+									<w2:attributes>
+										<w2:summary></w2:summary>
+									</w2:attributes>
+									<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
+									<xf:group tagname="colgroup">
+										<xf:group style="width:100px;" tagname="col"></xf:group>
+										<xf:group style="" tagname="col"></xf:group>
+										<xf:group style="width:100px;" tagname="col"></xf:group>
+										<xf:group tagname="col"></xf:group>
+										<xf:group style="width:100px;" tagname="col"></xf:group>
+										<xf:group tagname="col"></xf:group>
+										<xf:group style="width:100px;" tagname="col"></xf:group>
+										<xf:group style="" tagname="col"></xf:group>
+									</xf:group>
+									<xf:group tagname="tr">
+										<xf:group class="w2tb_th" tagname="th">
+											<w2:attributes>
+												<w2:scope>row</w2:scope>
+											</w2:attributes>
+											<w2:textbox class="" id="" label="검색조건" style="" tagname="label"></w2:textbox>
+										</xf:group>
+										<xf:group class="w2tb_td" tagname="td">
+											<w2:attributes></w2:attributes>
+											<xf:select1 allOption="" appearance="minimal" chooseOption="" chooseOptionLabel="" class=""
+												direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="sbx_srchCondDivsCntn"
+												ref="data:dma_search.srchCondDivsCntn" style="" submenuSize="auto">
+												<xf:choices>
+													<xf:item>
+														<xf:label><![CDATA[혜택명]]></xf:label>
+														<xf:value><![CDATA[01]]>
+														</xf:value>
+													</xf:item>
+													<xf:item>
+														<xf:label><![CDATA[혜택코드]]></xf:label>
+														<xf:value><![CDATA[02]]>
+														</xf:value>
+													</xf:item>
+												</xf:choices>
+											</xf:select1>
+										</xf:group>
+										<xf:group class="w2tb_td" tagname="td">
+											<w2:attributes>
+												<w2:scope>row</w2:scope>
+												<w2:colspan>2</w2:colspan>
+												<w2:rowspan>1</w2:rowspan>
+											</w2:attributes>
+											<xf:input adjustMaxLength="false" id="inp_srchCondCntn" ref="data:dma_search.srchCondCntn" style="" maxlength="50"></xf:input>
+										</xf:group>
+										<xf:group class="w2tb_th" tagname="th">
+											<w2:attributes>
+												<w2:scope>row</w2:scope>
+												<w2:colspan>1</w2:colspan>
+												<w2:rowspan>1</w2:rowspan>
+											</w2:attributes>
+											<w2:textbox class="" id="" label="전시여부" style="" tagname="label"></w2:textbox>
+										</xf:group>
+										<xf:group tagname="td" class="w2tb_td">
+											<w2:attributes></w2:attributes>
+											<xf:select1 allOption="true" appearance="minimal" chooseOption="" chooseOptionLabel="" class=""
+												direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="slb_scrnEposYn" ref="data:dma_search.scrnEposYn" style="" submenuSize="auto">
+												<xf:choices>
+													<xf:item>
+														<xf:label><![CDATA[Y]]></xf:label>
+														<xf:value><![CDATA[Y]]></xf:value>
+													</xf:item>
+													<xf:item>
+														<xf:label><![CDATA[N]]></xf:label>
+														<xf:value><![CDATA[N]]></xf:value>
+													</xf:item>
+												</xf:choices>
+											</xf:select1>
+										</xf:group>
+										<xf:group class="w2tb_td" tagname="td">
+											<w2:attributes></w2:attributes>
+										</xf:group>
+									</xf:group>
+								</xf:group>
+							</xf:group>
+							<xf:group class="search_btn_box" id="">
+								<xf:group class="list-inline mt5" id="" tagname="ul">
+									<xf:group id="" style="" tagname="li">
+										<xf:trigger class="btn_df reset" id="btn_init" style="" type="button" ev:onclick="scwin.btn_init_onclick">
+											<xf:label><![CDATA[ 초기화]]></xf:label>
+										</xf:trigger>
+									</xf:group>
+									<xf:group id="" tagname="li">
+										<xf:trigger class="btn_cm" id="btn_search" style="" type="button" ev:onclick="scwin.btn_search_onclick">
+											<xf:label><![CDATA[검색]]></xf:label>
+										</xf:trigger>
+									</xf:group>
+								</xf:group>
+							</xf:group>
+						</xf:group>
+					</xf:group>
+					<xf:group class="btnbox" id="" style="">
+						<xf:group class="rta" id="">
+							<xf:trigger class="btn_cm" id="btn_reg" style="" type="button" ev:onclick="scwin.btn_reg_onclick">
+								<xf:label><![CDATA[등록]]></xf:label>
+							</xf:trigger>
+						</xf:group>
+					</xf:group>
+					<w2:tabControl alwaysDraw="false" class="wq_tbc" confirmFalseAction="new" confirmTrueAction="exist" id="tabControl" style=""
+						useConfirmMessage="false" useMoveNextTabFocus="false" useTabKeyOnly="true">
+						<w2:tabs disabled="false" id="tabs1" label="목록" style=""></w2:tabs>
+						<w2:content alwaysDraw="false" id="content1" style="">
+							<xf:group class="toggle-body" id="" style="">
+								<xf:group class="gvwbox" id="" style="">
+									<xf:group class="gvw_header" id="" style="">
+										<xf:group class="gvw_toolbar" id="" style="">
+											<xf:group class="gvw_info" id="" tagname="">
+												<w2:textbox class="" id="" label="건수 &amp;nbsp;:" style="" tagname="span"></w2:textbox>
+												<w2:textbox class="" id="ui_totalCount" label="0" style="" tagname="em" ref="data:dma_pageInfo.totalCount"></w2:textbox>
+												<w2:textbox class="" id="" label="건" style="" tagname="span"></w2:textbox>
+											</xf:group>
+											<xf:group class="gvw_length" id="" style="" tagname="">
+												<xf:group id="" tagname="label">
+													<xf:select1 allOption="" appearance="minimal" chooseOption="" class="" direction="auto" disabled="false"
+														disabledClass="w2selectbox_disabled" ev:onviewchange="scwin.slb_pagePerCount_onchange" id="slb_pagePerCount" ref="data:dma_pageInfo.rowSize" style=""
+														submenuSize="auto">
+														<xf:choices>
+															<xf:item>
+																<xf:label><![CDATA[10]]></xf:label>
+																<xf:value><![CDATA[10]]></xf:value>
+															</xf:item>
+															<xf:item>
+																<xf:label><![CDATA[20]]></xf:label>
+																<xf:value><![CDATA[20]]></xf:value>
+															</xf:item>
+															<xf:item>
+																<xf:label><![CDATA[30]]></xf:label>
+																<xf:value><![CDATA[30]]></xf:value>
+															</xf:item>
+															<xf:item>
+																<xf:label><![CDATA[50]]></xf:label>
+																<xf:value><![CDATA[50]]></xf:value>
+															</xf:item>
+															<xf:item>
+																<xf:label><![CDATA[100]]></xf:label>
+																<xf:value><![CDATA[100]]></xf:value>
+															</xf:item>
+														</xf:choices>
+													</xf:select1>
+													<w2:textbox class="" id="" label="/ page" style="" tagname="span"></w2:textbox>
+												</xf:group>
+											</xf:group>
+											<xf:group class="gvw_btn" id=""></xf:group>
+										</xf:group>
+										<xf:group class="rta" id="" style="">
+											<xf:group class="w2trigger btn_df btn_md" id="grp_group7" style="" tagname="button" ev:onclick="scwin.btn_grid_reload_onclick">
+												<w2:attributes>
+													<w2:type>button</w2:type>
+												</w2:attributes>
+												<w2:textbox id="" label="새로고침" style="" tagname="span"></w2:textbox>
+											</xf:group>
+											<xf:group class="w2trigger btn_df btn_md" id="group6" style="" tagname="button" ev:onclick="scwin.btn_delete_onclick">
+												<w2:attributes>
+													<w2:type>button</w2:type>
+												</w2:attributes>
+												<w2:textbox class="fa fa-minus" id="" label="" style="" tagname="i">
+													<w2:attributes>
+														<w2:aria-hidden>true</w2:aria-hidden>
+													</w2:attributes>
+												</w2:textbox>
+												<w2:textbox id="" label="삭제" style="" tagname="span"></w2:textbox>
+											</xf:group>
+										</xf:group>
+									</xf:group>
+									<w2:gridView autoFit="allColumn" class="wq_gvw" dataList="data:dlt_cmmListInqDto" defaultCellHeight="32"
+										ev:oncellclick="scwin.grd_main_oncellclick" focusMode="row" id="grd_main" rowNumVisible="true" rowNumHeaderValue="번호"
+										rowStatusVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true" style="height:98px;"
+										visibleRowNum="all">
+										<w2:caption id="caption1" style="" value="this is a grid caption."></w2:caption>
+										<w2:header id="header1" style="">
+											<w2:row id="row1" style="">
+												<w2:column blockSelect="false" displayMode="label" id="column7" inputType="checkbox" removeBorderStyle="false"
+													style="height:32px;" value="번호" width="50">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="column5" inputType="text" removeBorderStyle="false"
+													style="height:32px;" value="혜택 명" width="300">
+												</w2:column>
+												<w2:column removeBorderStyle="false" width="150" inputType="text" style="height:32px;" id="column23" value="혜택 코드"
+													blockSelect="false" displayMode="label">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="column3" inputType="text" removeBorderStyle="false"
+													style="height:32px;" value="전시여부" width="90">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="column1" inputType="text" removeBorderStyle="false"
+													style="height:32px;" value="전시순서" width="90" sortable="true">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="column11" inputType="text" removeBorderStyle="false"
+													style="height:32px;" value="수정일" width="90" sortable="true">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="column19" inputType="text" removeBorderStyle="false"
+													style="height:32px;" value="수정자" width="90">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="column17" inputType="text" removeBorderStyle="false"
+													style="height:32px;" value="등록일" width="90" sortable="true" sortLabel="true">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="column21" inputType="text" removeBorderStyle="false"
+													style="height:32px;" value="등록자" width="110">
+												</w2:column>
+											</w2:row>
+										</w2:header>
+										<w2:gBody id="gBody1" style="">
+											<w2:row id="row2" style="">
+												<w2:column blockSelect="false" displayMode="label" id="chk" inputType="checkbox" removeBorderStyle="false" style=""
+													width="50">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="urcBnftNm" inputType="link" removeBorderStyle="false"
+													readOnly="true" width="300" class="titleLink">
+												</w2:column>
+												<w2:column removeBorderStyle="false" width="150" inputType="text" style="height:32px" id="urcBnftMenuIdfyNm" value="" readOnly="true"
+													blockSelect="false" displayMode="label">
+												</w2:column>
+												<w2:column allOption="" applyFormat="" blockSelect="" chooseOption="" displayMode="label" displayType=""
+													editModeEvent="onclick" editType="select" id="scrnEposYn" inputType="select" ref="" removeBorderStyle="false" style="height:20px"
+													useKeywordHighlight="" value="" viewType="icon" width="90">
+													<w2:choices>
+														<w2:item>
+															<w2:label><![CDATA[Y]]></w2:label>
+															<w2:value><![CDATA[Y]]></w2:value>
+														</w2:item>
+														<w2:item>
+															<w2:label><![CDATA[N]]></w2:label>
+															<w2:value><![CDATA[N]]></w2:value>
+														</w2:item>
+													</w2:choices>
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="scrnSortOrd" inputType="text" removeBorderStyle="false"
+													readOnly="false" style="height:32px" value="" width="90">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="updDttm" inputType="text" removeBorderStyle="false"
+													readOnly="true" style="height:32px" value="" width="90">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="updIntgUserId" inputType="text" removeBorderStyle="false"
+													readOnly="true" style="height:32px" value="" width="90">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="regDttm" inputType="text" removeBorderStyle="false"
+													readOnly="true" style="height:32px" value="" width="90">
+												</w2:column>
+												<w2:column blockSelect="false" displayMode="label" id="regIntgUserId" inputType="text" removeBorderStyle="false"
+													readOnly="true" style="height:32px" value="" width="110">
+												</w2:column>
+											</w2:row>
+										</w2:gBody>
+									</w2:gridView>
+									<w2:pageList displayButtonType="display" displayFormat="#" ev:onviewchange="scwin.pgl_pageList_onviewchange"
+										id="pgl_pageList" pageSize="10" renderType="list" style="">
+									</w2:pageList>
+								</xf:group>
+								<xf:group class="btnbox" id="" style="">
+									<xf:group class="rta" id="">
+										<xf:group class="btnbox" id="" style="">
+											<xf:group class="rta" id="">
+												<xf:group class="w2trigger btn_cm" ev:onclick="scwin.btn_save_onclick" id="btn_saveConfirm" style=""
+													tagname="button">
+													<w2:attributes>
+														<w2:type>button</w2:type>
+													</w2:attributes>
+													<w2:textbox class="fa fa-check" id="" label="" style="" tagname="i"></w2:textbox>
+													<w2:textbox id="" label="저장" style="" tagname="span"></w2:textbox>
+												</xf:group>
+											</xf:group>
+										</xf:group>
+									</xf:group>
+								</xf:group>
+							</xf:group>
+
+						</w2:content>
+					</w2:tabControl>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+
+	</body>
+</html>

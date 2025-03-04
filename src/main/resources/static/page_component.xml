@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map">
+            	<w2:dataList baseNode="list" repeatNode="map" id="dataList1" saveRemovedData="true">
+            		<w2:columnInfo>
+            			<w2:column id="최신" name="최신 이름" dataType="text"></w2:column>
+            			<w2:column id="기타" name="기타 이름" dataType="text"></w2:column>
+            			<w2:column dataType="text" name="추천 이름" id="추천"></w2:column>
+            			<w2:column id="인기" name="인기 이름" dataType="text"></w2:column>
+            		</w2:columnInfo>
+            		<w2:data use="true">
+            			<w2:row>
+            				<최신><![CDATA[01]]></최신>
+            				<기타><![CDATA[001]]></기타>
+            				<추천><![CDATA[0001]]></추천>
+            				<인기><![CDATA[00001]]></인기>
+            			</w2:row>
+            			<w2:row>
+            				<최신><![CDATA[02]]></최신>
+            				<기타><![CDATA[002]]></기타>
+            				<추천><![CDATA[0002]]></추천>
+            				<인기><![CDATA[00002]]></인기>
+            			</w2:row>
+            			<w2:row>
+            				<최신><![CDATA[03]]></최신>
+            				<기타><![CDATA[003]]></기타>
+            				<추천><![CDATA[0003]]></추천>
+            				<인기><![CDATA[00003]]></인기>
+            			</w2:row>
+            		</w2:data>
+            	</w2:dataList>
+            </w2:dataCollection>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+scwin.onpageload = function() {
+    category.setValue(selectCategory.getValue());
+
+    var curDate = $p.getCurrentServerDate("yyyyMMddHHmmss"); // default: yyyyMMdd
+
+    startDate.setValue(curDate);
+	
+};
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_wrapper" id="" style="">
+    		<w2:wframe class="page_header" id="" scope="true" src="../../../common/xml/wf_titleFav.xml" style=""></w2:wframe>
+    		<xf:group class="page_contents" id="" style="">
+    			<xf:group class="page_contents_inner" id="" style="">
+    				<xf:group class="tbc_box" id="" style="">
+    					<w2:tabControl alwaysDraw="false" class="wq_tbc" confirmFalseAction="new" confirmTrueAction="exist" id="" style=""
+    						useConfirmMessage="false" useMoveNextTabFocus="false" useTabKeyOnly="true">
+    						<w2:tabs disabled="false" id="tabs1" label="부가서비스 관리" style=""></w2:tabs>
+    						<w2:tabs disabled="false" id="tabs2" label="카테고리 관리" style=""></w2:tabs>
+    						<w2:content alwaysDraw="true" id="content1" style="">
+    							<w2:wframe id="" src="/web/uhdc/smem/pm/smemPmProdMgmt_tab.xml?urcEntpSvcCd=IN" style=""></w2:wframe>
+    						</w2:content>
+    						<w2:content alwaysDraw="false" id="content2" style="">
+    							<w2:wframe id="" src="/web/uhdc/smem/pm/smemPmProdMgmt_tab.xml?urcEntpSvcCd=IT" style=""></w2:wframe>
+    						</w2:content>
+    						<w2:content alwaysDraw="false" id="content3" style="">
+    							<w2:wframe id="" src="/web/uhdc/smem/pm/smemPmProdMgmt_tab_cctv.xml?urcEntpSvcCd=CT" style=""></w2:wframe>
+    						</w2:content>
+    						<w2:content alwaysDraw="false" id="content4" style="">
+    							<w2:wframe id="" src="/web/uhdc/smem/pm/smemPmProdMgmt_tab.xml?urcEntpSvcCd=TV" style=""></w2:wframe>
+    						</w2:content>
+    					</w2:tabControl>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+
+    	<xf:group id="" style="margin-top: 20px; margin-bottom: 20px;">
+    		<w2:textbox id="" label="부가서비스 등록" style="" tagname="h1"></w2:textbox>
+    	</xf:group>
+    	<xf:group id="" style="" tagname="section">
+    		<xf:group class="tbbox" id="" style="">
+    			<xf:group class="w2tb tb" id="" style=";width:100%;" tagname="table">
+    				<w2:attributes>
+    					<w2:summary></w2:summary>
+    				</w2:attributes>
+    				<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
+    				<xf:group tagname="colgroup">
+    					<xf:group style="width:19.46%;" tagname="col"></xf:group>
+    					<xf:group tagname="col"></xf:group>
+    					<xf:group style="width:19.5%;" tagname="col"></xf:group>
+    					<xf:group style="" tagname="col"></xf:group>
+    				</xf:group>
+    				<w2:textbox id="" label="기본 필수 정보" style="" tagname="h3"></w2:textbox>
+    				<xf:group style="" tagname="tr">
+
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="카테고리 매핑" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input id="category" style="position:static; top:151px; left:194px; width:144px; height:21px; "
+    							placeholder="부가서비스">
+    						</xf:input>
+    						<xf:select1 id="selectCategory" chooseOption="true"
+    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto" allOption=""
+    							disabled="false" direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled" ref="" chooseOptionLabel="선택">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[영상/음악]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[부가서비스]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    					<xf:group class="w2tb_th" tagname="th" style="text-align:right;">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="상품 유형" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes></w2:attributes>
+    						<xf:select1 id="" chooseOption="" style="position:static; top:153px; left:566px; width:148px; height:21px; "
+    							submenuSize="auto" allOption="" disabled="false" direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled"
+    							ref="">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[일반]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[유독]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr">
+    					<xf:group class="w2tb_th" tagname="th" style="text-align:right;">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="제공 형태" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select appearance="full" class="" cols="" id="" ref="data:dma_Items.itntBnnrAplyYn"
+    							renderType="checkboxgroup" rows="1" selectedindex="-1" style="">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[유료]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select>
+    						<xf:select appearance="full" class="ml20" cols="" id="" ref="data:dma_Items.iptvBnnrAplyYn"
+    							renderType="checkboxgroup" rows="" selectedindex="-1" style="">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[무료]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    	<br></br>
+    	<xf:group id="" style="" tagname="section">
+
+    		<xf:group class="tbbox" id="" style="">
+    			<xf:group class="w2tb tb" id="" style="" tagname="table">
+    				<w2:attributes>
+    					<w2:summary></w2:summary>
+    				</w2:attributes>
+    				<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
+    				<xf:group tagname="colgroup">
+    					<xf:group style="width:19.49%;" tagname="col"></xf:group>
+    					<xf:group tagname="col"></xf:group>
+    					<xf:group tagname="col" style="width:19.5%;"></xf:group>
+    					<xf:group style="" tagname="col"></xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="상위 상품 코드" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="ibx_mmTadvFixAmt10"
+    							maxByteLength="10" maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    						<xf:group class="ly_form wa" id="">
+    							<xf:group id=""></xf:group>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						코드
+    						<w2:attributes></w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td" style="">
+    						<w2:attributes></w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:60.99%;">
+    						</xf:input>
+    						<xf:trigger ev:onclick="scwin.btn_edisRecv_onclick"
+    							style="width:100px;height:20px;background-color:#7b558d;font-size:9pt;font-weight:600;color:#FFFFFF;" id="trigger1" type="button"
+    							class="btn_in">
+    							<xf:label><![CDATA[U-Cube 조회]]></xf:label>
+    						</xf:trigger>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						유독&amp;nbsp;코드
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt10" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group class="w2tb_th" tagname="th" style="text-align:right;">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="부가서비스명" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes></w2:attributes>
+
+    						<xf:group class="info tip" id="" style="" tagname="span">
+    							<w2:textbox class="fa fa-info-circle" id="" label="" style="" tagname="i"></w2:textbox>
+
+    						</xf:group>
+
+    						<xf:input adjustMaxLength="false" class="wd-full req" ev:oneditkeyup="" ev:onkeyup="" id="inp_urcSohoPrvsNm"
+    							mandatory="true" maxlength="40" name="inp_urcSohoPrvsNm" placeholder="" ref="data:dma_Items.urcSohoPrvsNm" style="">
+    						</xf:input>
+    						<w2:textbox class="" id="" label="최대 40자" style="" tagname="p"></w2:textbox>
+
+    					</xf:group>
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						기본료(원)
+    						<w2:attributes></w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes></w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt20" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:90%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						원가
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt40" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						고객부담금&amp;nbsp;가격
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt30" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group class="w2tb_th" tagname="th" style="text-align:right;">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox id="" label="전시 부가서비스명" style="" tagname="label">
+    							<w2:textbox id="" label="" style=""></w2:textbox>
+    						</w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-600" id="" maxlength="100" placeholder=""
+    							ref="data:dma_entpSppsBasDto.ttipCntn" style="text-align:left;">
+    						</xf:input>
+    						<xf:group class="info tip" id="" style="" tagname="span">
+    							<w2:textbox class="fa fa-info-circle" id="" label="" style="" tagname="i"></w2:textbox>
+
+    						</xf:group>
+    						<w2:textbox class="" id="" label="최대 50자" style=";width:60px;" tagname="p"></w2:textbox>
+    					</xf:group>
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						부가세&amp;nbsp;여부
+    						<w2:attributes></w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes></w2:attributes>
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    							selectedIndex="-1" style="width: 150px;height: 21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						부가세&amp;nbsp;여부(요금&amp;nbsp;부가&amp;nbsp;설명)
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt50" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						부가서비스&amp;nbsp;설명(HTML&amp;nbsp;등록&amp;nbsp;가능)
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt60" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						서브문구(HTML&amp;nbsp;등록&amp;nbsp;가능)
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt70" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						자세히보기&amp;nbsp;URL(전사&amp;nbsp;홈페이지)
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt80" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:29.22%;">
+    						</xf:input>
+    						<xf:select selectedindex="-1" id="" appearance="full"
+    							style="position:static;top:578px;left:491px;width:64px;height:21px;" cols="" rows="" ref="">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[새창]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select>
+
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="text-align:right;">
+    					<xf:group class="w2tb_th" tagname="th" style="text-align:right;">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="부가서비스 전시여부" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td" style="text-align:left;">
+    						<w2:attributes>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    							selectedIndex="-1" style="width: 150px;height: 21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						부가서비스&amp;nbsp;사용여부
+    						<w2:attributes></w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td" style="text-align:left;">
+    						<w2:attributes></w2:attributes>
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    							selectedIndex="-1" style="width: 150px;height: 21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						온라인신청&amp;nbsp;가능여부
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td" style=";width:4px;">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    							selectedIndex="-1" style="width: 150px;height: 21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						온라인설정&amp;nbsp;가능여부
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    							selectedIndex="-1" style="width: 150px;height: 21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						온라인해지&amp;nbsp;가능여부
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select1 appearance="full" id="" mandatory="true" ref="data:dma_Items.eposYn" rows="" selectedIndex="-1"
+    							style="width: 150px;height: 21px;" cols="2">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						플래그(*최대&amp;nbsp;3개&amp;nbsp;노출)
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td" style="">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select appearance="full" class="" cols="" id="" ref="data:dma_Items.itntBnnrAplyYn"
+    							renderType="checkboxgroup" rows="1" selectedindex="-1" style="">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[최신]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select>
+    						<xf:select appearance="full" class="ml20" cols="" id="" ref="data:dma_Items.iptvBnnrAplyYn"
+    							renderType="checkboxgroup" rows="" selectedindex="-1" style="">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[추천]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select>
+    						<xf:select appearance="full" class="ml20" cols="" id="" ref="data:dma_Items.voipBnnrAplyYn"
+    							renderType="checkboxgroup" rows="" selectedindex="-1" style="">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[인기]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select>
+    						<xf:select appearance="full" class="ml20" cols="" id="" ref="data:dma_Items.cctvBnnrAplyYn"
+    							renderType="checkboxgroup" rows="" selectedindex="-1" style="">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[기타]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						안드로이드
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+
+    						<xf:group id="">
+    							<w2:textbox class="" id="" label="URL" style=";width:30%;" tagname="p"></w2:textbox>
+    							<xf:input ref="data:dma_entpSppsBasDto.ttipCntn" maxlength="100" adjustMaxLength="false"
+    								style="text-align:left;" id="" placeholder="" class="wd-600">
+    							</xf:input>
+    						</xf:group>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						IOS
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td" style="">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="" label="URL" style="" tagname="p"></w2:textbox>
+    						<xf:input adjustMaxLength="false" class="wd-600" id="" maxlength="100" placeholder=""
+    							ref="data:dma_entpSppsBasDto.ttipCntn" style="text-align:left;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						Windows
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="" label="URL" style=";width:30%;" tagname="p"></w2:textbox>
+    						<xf:input adjustMaxLength="false" class="wd-600" id="" maxlength="100" placeholder=""
+    							ref="data:dma_entpSppsBasDto.ttipCntn" style="text-align:left;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						Mac
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td" style="">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="" label="URL" style=";width:30%;" tagname="p"></w2:textbox>
+    						<xf:input adjustMaxLength="false" class="wd-600" id="" maxlength="100" placeholder=""
+    							ref="data:dma_entpSppsBasDto.ttipCntn" style="text-align:left;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						가입버튼&amp;nbsp;연결&amp;nbsp;링크
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="" label="URL" style=";width:30%;" tagname="p"></w2:textbox>
+    						<xf:input adjustMaxLength="false" class="wd-600" id="" maxlength="100" placeholder=""
+    							ref="data:dma_entpSppsBasDto.ttipCntn" style="text-align:left;">
+    						</xf:input>
+    						<xf:select appearance="full" cols="" id="" ref="" rows="" selectedindex="-1"
+    							style="position:static;top:578px;left:491px;width:64px;height:21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[새창]]></xf:label>
+    									<xf:value><![CDATA[]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						신청&amp;nbsp;공통팝업&amp;nbsp;삽입문구(HTML&amp;nbsp;가능)
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt90" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						해지&amp;nbsp;공통팝업&amp;nbsp;삽입문구(HTML&amp;nbsp;가능)
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt100" maxByteLength="10"
+    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						해지&amp;nbsp;공통팝업&amp;nbsp;동의&amp;nbsp;체크박스&amp;nbsp;노출
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    							selectedIndex="-1" style="width: 150px;height: 21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						혜택&amp;nbsp;사용여부
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    							selectedIndex="-1" style="width: 150px;height: 21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="text-align:right;">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						판매기간
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td" style="text-align:left;">
+    						<w2:attributes></w2:attributes>
+    						<w2:inputCalendar id="startDate" style="position:static; top:1329px; left:241px; width:150px; height:23px; "
+    							calendarValueType="yearMonthDate">
+    						</w2:inputCalendar>
+    						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" id=""
+    							style="position:static; top:1329px; left:241px; width:150px; height:23px; ">
+    						</w2:inputCalendar>
+    					</xf:group>
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						혜택&amp;nbsp;판매여부
+    						<w2:attributes></w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td" style="text-align:left;">
+    						<w2:attributes></w2:attributes>
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    							selectedIndex="-1" style="width: 150px;height: 21px;">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[Y]]></xf:label>
+    									<xf:value><![CDATA[Y]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[N]]></xf:label>
+    									<xf:value><![CDATA[N]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" class="w2tb_th" style="text-align:right;">
+    						혜택&amp;nbsp;안내문구
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>3</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input adjustMaxLength="false" class="wd-600" id="" maxlength="100" placeholder=""
+    							ref="data:dma_entpSppsBasDto.ttipCntn" style="text-align:left;">
+    						</xf:input>
+    						<w2:textbox class="" id="" label="최대 N자" style=";width:60px;" tagname="p"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    	<xf:group id="" style="" tagname="section">
+    		<xf:group class="tbbox" id="" style="">
+    			<xf:group class="w2tb tb" id="" style="" tagname="table">
+    				<w2:attributes>
+    					<w2:summary></w2:summary>
+    				</w2:attributes>
+    				<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
+    				<xf:group tagname="colgroup">
+    					<xf:group style="width:15.00%;" tagname="col"></xf:group>
+    					<xf:group tagname="col"></xf:group>
+    					<xf:group style="width:15%;" tagname="col"></xf:group>
+    					<xf:group style="" tagname="col"></xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="" id="" label="최종수정일" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox id="" label="최종수정일" ref="data:dma_entpSppsBasDto.dataUpdDttm" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_th" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="" id="" label="최종수정자" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes></w2:attributes>
+    						<w2:textbox id="" label="최종수정자" ref="data:dma_entpSppsBasDto.dataMfpnId" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr">
+    					<xf:group class="w2tb_th" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="" id="" label="최초등록일" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes></w2:attributes>
+    						<w2:textbox id="" label="최초등록일" ref="data:dma_entpSppsBasDto.dataInptDttm" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_th" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="" id="" label="최초등록자" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" tagname="td">
+    						<w2:attributes></w2:attributes>
+    						<w2:textbox id="" label="최초등록자" ref="data:dma_entpSppsBasDto.dataInpsId" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+
+    		</xf:group>
+    	</xf:group>
+    	<xf:group class="btnbox" id="" style=""></xf:group>
+
+
+
+
+
+    	<xf:select1 id="" selectedIndex="-1" appearance="full" style="position:static; top:1296px; left:620px; width:150px; height:21px; "
+    		cols="" rows="1" ref="">
+    		<xf:choices>
+    			<xf:itemset nodeset="data:dataList1">
+    				<xf:label ref="최신"></xf:label>
+    				<xf:value ref="최신"></xf:value>
+    			</xf:itemset>
+    		</xf:choices>
+    	</xf:select1>
+    	<xf:select selectedindex="-1" id="" appearance="full" style="position:static;top:1216px;left:540px;width:255px;height:21px;" cols=""
+    		rows="1" ref="">
+    		<xf:choices>
+    			<xf:itemset nodeset="data:dataList1">
+    				<xf:label ref="최신"></xf:label>
+    				<xf:value ref="기타"></xf:value>
+    			</xf:itemset>
+    		</xf:choices>
+    	</xf:select>
+    </body>
+</html>

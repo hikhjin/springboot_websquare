@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+        	<xf:instance>
+        		<data xmlns="" />
+        	</xf:instance>
+        	<w2:dataCollection baseNode="map">
+        		<w2:dataMap baseNode="map" id="dma_banner">
+        			<w2:keyInfo>
+        				<w2:key id="urcChrgCalrBnnrNo" name="배너ID" dataType="number"></w2:key>
+        				<w2:key id="pcEposYn" name="PC노출여부" dataType="text"></w2:key>
+        				<w2:key id="pcBnnrImgeFileUrl" name="PC배너파일전체경로" dataType="text"></w2:key>
+        				<w2:key id="pcBnnrImgeFilePlcyCntn" name="PC배너파일정책" dataType="text"></w2:key>
+        				<w2:key id="pcBnnrImgeFilePathNm" name="PC배너파일경로" dataType="text"></w2:key>
+        				<w2:key id="pcBnnrImgeFileNm" name="PC배너파일명" dataType="text"></w2:key>
+        				<w2:key id="pcBnnrImgeOcpyFileNm" name="PC배너원본파일명" dataType="text"></w2:key>
+        				<w2:key id="pcBnnrAltrTxtCntn" name="PC배너대체텍스트내용" dataType="text"></w2:key>
+        				<w2:key id="pcBnnrLinkUrl" name="PC배너URL" dataType="text"></w2:key>
+        				<w2:key id="mblEposYn" name="MO노출여부" dataType="text"></w2:key>
+        				<w2:key id="mblBnnrImgeFileUrl" name="MO배너파일전체경로" dataType="text"></w2:key>
+        				<w2:key id="mblBnnrImgeFilePlcyCntn" name="MO배너파일정책" dataType="text"></w2:key>
+        				<w2:key id="mblBnnrImgeFilePathNm" name="MO배너파일경로" dataType="text"></w2:key>
+        				<w2:key id="mblBnnrImgeFileNm" name="MO배너파일명" dataType="text"></w2:key>
+        				<w2:key id="mblBnnrImgeOcpyFileNm" name="MO배너원본파일명" dataType="text"></w2:key>
+        				<w2:key id="mblBnnrAltrTxtCntn" name="MO배너대체텍스트" dataType="text"></w2:key>
+        				<w2:key id="mblBnnrLinkUrl" name="MO배너URL" dataType="text"></w2:key>
+        				<w2:key id="dataInpsId" name="name18" dataType="text"></w2:key>
+        				<w2:key id="dataInptDttm" name="name19" dataType="text"></w2:key>
+        				<w2:key id="dataInptPgmId" name="name20" dataType="text"></w2:key>
+        				<w2:key id="dataMfpnId" name="name21" dataType="text"></w2:key>
+        				<w2:key id="dataUpdDttm" name="name22" dataType="text"></w2:key>
+        				<w2:key id="dataUpdPgmId" name="name23" dataType="text"></w2:key>
+        			</w2:keyInfo>
+        		</w2:dataMap>
+        	</w2:dataCollection>
+        	<w2:workflowCollection></w2:workflowCollection>
+        	<xf:submission id="sbm_srchBanner" ref="" target="data:json,dma_banner" action="/uhdc/bo/entp/chcaban/banner/v1/banner-info" method="get" mediatype="application/json"
+        		encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="조회중.." singleMode="true"
+        		ev:submit="" ev:submitdone="scwin.sbm_srchBanner_submitdone" ev:submiterror="" abortTrigger="true">
+        	</xf:submission>
+        	<xf:submission id="sbm_bannerUpd" ref="data:json,dma_banner" target="" action="/uhdc/bo/entp/chcaban/banner/v1/banner-mod"
+        		method="put" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
+        		mode="asynchronous" processMsg="저장중" ev:submit="" ev:submitdone="scwin.sbm_banner_submitdone" ev:submiterror=""
+        		abortTrigger="" singleMode="true">
+        	</xf:submission>
+        	<xf:submission id="sbm_bannerReg" ref='data:json,dma_banner' target="" action="/uhdc/bo/entp/chcaban/banner/v1/banner-reg" method="post" mediatype="application/json" encoding="UTF-8" instance=""
+        		replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="저장중" ev:submit="" ev:submitdone="scwin.sbm_banner_submitdone" ev:submiterror=""
+        		abortTrigger="" singleMode="true">
+        	</xf:submission>        	
+        </xf:model>
+        <script type="text/javascript" lazy="false"><![CDATA[
+
+	const IMG_POLICY = "public-img";
+    const IMG_SUBPATH = "uhdc/entp/ct/evet";
+
+        
+	scwin.onpageload = function() {
+		
+		grp_fileNmPc.visible(false);
+		tbx_fileNmPc.setValue("");			
+
+		grp_fileNmMo.visible(false);
+		tbx_fileNmMo.setValue("");			
+		
+		grp_updInfo.hide();
+		
+		scwin.fn_srchBanner();
+			
+	};
+	
+	scwin.onpageunload = function() {
+		
+	};
+	
+	
+	scwin.fn_srchBanner = function() {
+	
+		dma_banner.setArray( [] );
+		com.sbm.execute(sbm_srchBanner, {}, gcm.SERVICE_LIST.ENTP);
+		
+	};
+		
+
+	scwin.sbm_srchBanner_submitdone = function(e) {
+		
+		//수정인 경우
+		if (!com.util.isEmpty(dma_banner.get( "urcChrgCalrBnnrNo" ))) {
+			
+			grp_updInfo.show("");
+			
+			inp_ocpyFileNmPc.setValue( dma_banner.get("pcBnnrImgeOcpyFileNm") );
+			inp_upldFileNmPc.setValue( dma_banner.get("pcBnnrImgeFileNm") );
+			inp_fileUrlAddrPc.setValue( dma_banner.get("pcBnnrImgeFileUrl") );
+			
+			grp_fileNmPc.visible(true);
+			tbx_fileNmPc.setValue(dma_banner.get("pcBnnrImgeOcpyFileNm"));
+			
+			inp_ocpyFileNmMo.setValue( dma_banner.get("mblBnnrImgeOcpyFileNm") );
+			inp_upldFileNmMo.setValue( dma_banner.get("mblBnnrImgeFileNm") );
+			inp_fileUrlAddrMo.setValue( dma_banner.get("mblBnnrImgeFileUrl") );
+
+			grp_fileNmMo.visible(true);
+			tbx_fileNmMo.setValue(dma_banner.get("mblBnnrImgeOcpyFileNm"));
+		
+		}
+		
+		dma_banner.initRowStatus();
+		
+	};
+	
+	//미리보기
+	scwin.btn_preview_onclick = function(e){
+		
+		var url = "/web/uhdc/cmm/cmmPreImagePopup.xml";
+		//var src = gcm.SERVICE_LIST.SYCM;
+		//var src = gcm.CONTEXT_PATH;
+			
+		var btnIdxPc = this.getID().indexOf("btn_previewImgPc");
+		var btnIdxMo = this.getID().indexOf("btn_previewImgMo");
+		
+		var path = "";
+		if(btnIdxPc > -1)	path = dma_banner.get("pcBnnrImgeFileUrl");
+		if(btnIdxMo > -1)	path = dma_banner.get("mblBnnrImgeFileUrl");
+		
+		
+		var data = {
+					//src : src+path
+					src : path
+					};
+		var options = { id : "previewImg",
+						popupName : "이미지 미리보기",
+						modal : true,
+						width : 802,
+						height: 402,
+						type : "wframePopup"
+						};
+						
+		if (!com.util.isEmpty(path)) {
+			com.win.openPopup(url, options, data);
+		} else {
+			com.win.alert("이미지를 등록해주세요.");
+			return false;			
+		}						
+	
+	}
+	
+	scwin.btn_fileUpload_onclick = function(e) {
+			
+		var url = "/web/uhdc/cmm/cmmFileSingleUploadPopup.xml";
+		
+		// KV관리
+		var btnIdx1_0_0 = this.getID().indexOf("btn_fileUploadPc");
+		var btnIdx1_0_1 = this.getID().indexOf("btn_fileUploadMo");
+		
+		var callbackFn = "";
+
+		// KV 콜백
+		if(btnIdx1_0_0 > -1) callbackFn = "scwin.popupCallBackPc";
+		if(btnIdx1_0_1 > -1) callbackFn = "scwin.popupCallBackMo";
+
+		var data = { "type" :"insert",
+		             "policy" : IMG_POLICY,
+		             "subPath" : IMG_SUBPATH,
+		             "callbackFn" : callbackFn };
+
+		var options = { id : "insertPopup",
+						popupName : "파일등록",
+						modal : true,
+						width : 700,
+						height: 250,
+						type : "wframePopup"
+						};
+
+		 com.win.openPopup(url, options, data);			
+		
+	};
+	
+	
+	// 이미지 업로드 버튼 callback
+	scwin.popupCallBackPc = function(retObj) {
+		
+		if (retObj.status == "S") {
+			
+			//console.log("retObj>>>>>>>>>>>>>>>>>>>>>"+JSON.stringify(retObj));
+
+			if(!scwin.fn_imgFileChk(retObj.fileName)) return;
+			com.win.toast(com.data.getMessage("com.inf.0008"));
+						
+			dma_banner.set( "pcBnnrImgeFileUrl" , retObj.physFilePathAddr );	//PC배너파일전체경로
+			dma_banner.set( "pcBnnrImgeFilePlcyCntn" , retObj.policy );	//PC배너파일정책
+			dma_banner.set( "pcBnnrImgeFilePathNm" , retObj.uiUrl );	//PC배너파일경로
+			dma_banner.set( "pcBnnrImgeFileNm" , retObj.fileName );	//PC배너파일명
+			dma_banner.set( "pcBnnrImgeOcpyFileNm" , retObj.fileOrginName );	//PC배너원본파일명
+
+			inp_ocpyFileNmPc.setValue( retObj.fileOrginName );
+			inp_upldFileNmPc.setValue( retObj.fileName );
+			inp_fileUrlAddrPc.setValue( retObj.uiUrl );
+
+			grp_fileNmPc.visible(true);
+			tbx_fileNmPc.setValue(retObj.fileOrginName);
+			
+		} else {
+			com.win.alert(retObj.message);
+		}
+	}	
+	
+	
+
+	// 이미지 업로드 버튼 callback
+	scwin.popupCallBackMo = function(retObj) {
+		
+		if (retObj.status == "S") {
+			
+			if(!scwin.fn_imgFileChk(retObj.fileName)) return;
+			com.win.toast(com.data.getMessage("com.inf.0008"));
+						
+			dma_banner.set( "mblBnnrImgeFileUrl" , retObj.physFilePathAddr );	//PC배너파일전체경로
+			dma_banner.set( "mblBnnrImgeFilePlcyCntn" , retObj.policy );	//PC배너파일정책
+			dma_banner.set( "mblBnnrImgeFilePathNm" , retObj.uiUrl );	//PC배너파일경로
+			dma_banner.set( "mblBnnrImgeFileNm" , retObj.fileName );	//PC배너파일명
+			dma_banner.set( "mblBnnrImgeOcpyFileNm" , retObj.fileOrginName );	//PC배너원본파일명
+			
+			inp_ocpyFileNmMo.setValue( retObj.fileOrginName );
+			inp_upldFileNmMo.setValue( retObj.fileName );
+			inp_fileUrlAddrMo.setValue( retObj.uiUrl );
+
+			grp_fileNmMo.visible(true);
+			tbx_fileNmMo.setValue(retObj.fileOrginName);
+
+		} else {
+			com.win.alert(retObj.message);
+		}
+	}		
+	
+	
+	// 이미지 파일 체크
+	scwin.fn_imgFileChk = function(sFileNm) {
+		var fileNm = sFileNm;
+		var fileExt = "";
+		
+		if(!com.util.isEmpty(fileNm)) fileExt = fileNm.toLowerCase().substring(fileNm.indexOf(".")+1);
+		
+		if(fileExt != "png" && fileExt != "bmp" && fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif"){
+			com.win.alert(com.data.getMessage("com.inf.0013", "이미지 파일"));
+			return false;
+		}	
+		
+		return true;
+	}	
+	
+		
+	// 파일 삭제 클릭
+	scwin.btn_fileNm_onclick = function(e) {
+		
+		var btnIdxPc = this.getID().indexOf("btn_fileNmPc");
+		var btnIdxMo = this.getID().indexOf("btn_fileNmMo");
+		var idx;
+		
+		if(btnIdxPc > -1)
+		{
+			grp_fileNmPc.visible(false);
+			tbx_fileNmPc.setValue("");
+			
+			dma_banner.set( "pcBnnrImgeFileUrl" , "" );			//PC배너파일전체경로
+			dma_banner.set( "pcBnnrImgeFilePlcyCntn" , "" );	//PC배너파일정책
+			dma_banner.set( "pcBnnrImgeFilePathNm" , "" );		//PC배너파일경로
+			dma_banner.set( "pcBnnrImgeFileNm" , "" );			//PC배너파일명
+			dma_banner.set( "pcBnnrImgeOcpyFileNm" , "" );		//PC배너원본파일명			
+			
+		} else if(btnIdxMo > -1){
+			
+			grp_fileNmMo.visible(false);
+			tbx_fileNmMo.setValue("");
+			
+			dma_banner.set( "mblBnnrImgeFileUrl" , "" );		//PC배너파일전체경로
+			dma_banner.set( "mblBnnrImgeFilePlcyCntn" , "" );	//PC배너파일정책
+			dma_banner.set( "mblBnnrImgeFilePathNm" , "" );		//PC배너파일경로
+			dma_banner.set( "mblBnnrImgeFileNm" , "" );			//PC배너파일명
+			dma_banner.set( "mblBnnrImgeOcpyFileNm" , "" );		//PC배너원본파일명
+			
+		}
+
+	};	 
+			
+	
+	
+	
+	scwin.btn_save_onclick = function(e) {
+		
+		var arrIdx = dma_banner.getModifiedIndex();
+		//console.log("arrIdx>>>>>>>"+arrIdx);
+		if(arrIdx == 0){
+			//변경된 데이터가 없습니다
+			com.win.alert("com.alt.0010");
+			return false;
+		}
+		
+		
+		if(com.util.isEmpty(dma_banner.get("pcEposYn"))){
+			//{0}은(는) 필수 입력 항목입니다.
+			com.win.alert(com.data.getMessage("com.alt.0013", "PC노출여부"), function(){ 
+				rad_pcEposYn.focus();
+				return false; 
+			}); 
+			return false;
+		}
+		
+		if(com.util.isEmpty(dma_banner.get("pcBnnrImgeOcpyFileNm"))){
+			//{0}은(는) 필수 입력 항목입니다.
+			com.win.alert(com.data.getMessage("com.alt.0013", "PC 이미지"), function(){ 
+				return false; 
+			}); 
+			return false;
+		}
+		
+		
+		if(com.util.isEmpty(dma_banner.get("pcBnnrAltrTxtCntn"))){
+			//{0}은(는) 필수 입력 항목입니다.
+			com.win.alert(com.data.getMessage("com.alt.0013", "PC 대체텍스트(alt)"), function(){ 
+				inp_pcBnnrAltrTxtCntn.focus();
+				return false; 
+			}); 
+			return false;
+		}
+		
+		
+
+		if(com.util.isEmpty(dma_banner.get("mblEposYn"))){
+			//{0}은(는) 필수 입력 항목입니다.
+			com.win.alert(com.data.getMessage("com.alt.0013", "MW 노출 여부"), function(){ 
+				rad_mblEposYn.focus();
+				return false; 
+			}); 
+			return false;
+		}		
+		
+		
+		if(com.util.isEmpty(dma_banner.get("mblBnnrImgeOcpyFileNm"))){		
+			//{0}은(는) 필수 입력 항목입니다.
+			com.win.alert(com.data.getMessage("com.alt.0013", "mobile 이미지"), function(){ 
+				return false; 
+			}); 
+			return false;
+		}			
+
+		
+		if(com.util.isEmpty(dma_banner.get("mblBnnrAltrTxtCntn"))){
+			//{0}은(는) 필수 입력 항목입니다.
+			com.win.alert(com.data.getMessage("com.alt.0013", "mobile 대체텍스트(alt)"), function(){ 
+				inp_mblBnnrAltrTxtCntn.focus();
+				return false; 
+			}); 
+			return false;
+		}
+		
+
+		com.win.confirm(com.data.getMessage("com.cfm.0001"), function(result) {
+		 	if (result.clickValue) {
+				if(com.util.isEmpty(dma_banner.get("urcChrgCalrBnnrNo"))){	
+					com.sbm.execute(sbm_bannerReg, {}, gcm.SERVICE_LIST.ENTP);			
+				} else {
+					com.sbm.execute(sbm_bannerUpd, {}, gcm.SERVICE_LIST.ENTP);
+				}	
+		 	}
+		});				
+					
+	};
+
+	scwin.sbm_banner_submitdone = function(e) {
+		
+		if (e.responseText == "0") {						
+		com.win.alert(com.data.getMessage("error.systemError"));						
+		} else {						
+			com.util.setTimeout(function(){scwin.fn_srchBanner();}, {delay:200});					
+			com.win.toast(com.data.getMessage("com.inf.0010", "1"));					
+		}		
+					
+	};
+	
+	]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+    	<xf:group class="sub_wrapper" id="">
+    		<w2:wframe class="page_header" id="" scope="true" src="../../../common/xml/wf_titleFav.xml" style=""></w2:wframe>
+    		<xf:group class="page_contents" id="">
+    			<xf:group class="page_contents_inner" id="" style="">
+    				<w2:tabControl alwaysDraw="false" class="wq_tbc" confirmFalseAction="new" confirmTrueAction="exist" id="tab_main"
+    					style="" useConfirmMessage="false" useMoveNextTabFocus="false" useTabKeyOnly="true">
+    					<w2:tabs class="" disabled="false" id="tabs1" label="기업 상품 요금 알아보기" style=""></w2:tabs>
+    					<w2:content alwaysDraw="false" id="content1" src="" style="">
+    						<xf:group class="info tip" id="" style="" tagname="span">
+    							<w2:textbox class="fa fa-info-circle" id="" label="" style="" tagname="i"></w2:textbox>
+    							<w2:textbox class="" id="" label="기업 상품 요금 알아보기 내 배너를 관리하는 화면입니다." style="" tagname="p"></w2:textbox>
+    						</xf:group>
+    						<xf:group id="" style="" tagname="section">
+    							<xf:group class="tbbox" id="" style="">
+    								<xf:group class="w2tb tb" id="grp_input" style="" tagname="table">
+    									<w2:attributes>
+    										<w2:summary></w2:summary>
+    									</w2:attributes>
+    									<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
+    									<xf:group tagname="colgroup">
+    										<xf:group style="width:15%;" tagname="col"></xf:group>
+    										<xf:group style="" tagname="col"></xf:group>
+    										<xf:group style="width:15%;" tagname="col"></xf:group>
+    										<xf:group style="" tagname="col"></xf:group>
+    									</xf:group>
+    									<xf:group style="" tagname="tr">
+    										<xf:group class="w2tb_th" style="" tagname="th">
+    											<w2:attributes>
+    												<w2:scope>row</w2:scope>
+    											</w2:attributes>
+    											<w2:textbox class="req" id="" label="PC 노출 여부" style="" tagname="label"></w2:textbox>
+    										</xf:group>
+    										<xf:group class="w2tb_td" style="" tagname="td">
+    											<w2:attributes>
+    												<w2:colspan>3</w2:colspan>
+    												<w2:rowspan>1</w2:rowspan>
+    											</w2:attributes>
+    											<xf:select1 appearance="full" cols="" id="rad_pcEposYn" ref="data:dma_banner.pcEposYn"
+    												renderType="radiogroup" rows="" selectedIndex="-1" style="">
+    												<xf:choices>
+    													<xf:item>
+    														<xf:label><![CDATA[Y]]></xf:label>
+    														<xf:value><![CDATA[Y]]></xf:value>
+    													</xf:item>
+    													<xf:item>
+    														<xf:label><![CDATA[N]]></xf:label>
+    														<xf:value><![CDATA[N]]></xf:value>
+    													</xf:item>
+    												</xf:choices>
+    											</xf:select1>
+    										</xf:group>
+    									</xf:group>
+    									<xf:group style="" tagname="tr">
+    										<xf:group class="w2tb_th" style="" tagname="th">
+    											<w2:attributes>
+    												<w2:scope>row</w2:scope>
+    											</w2:attributes>
+    											<w2:textbox class="req" id="" label="PC 이미지" style="" tagname="label"></w2:textbox>
+    										</xf:group>
+    										<xf:group class="w2tb_td" style="" tagname="td">
+    											<xf:group class="tb_ly wauto" id="" style="">
+    												<xf:group class="cell " id="">
+    													<xf:group class="w2trigger btn_df btn_md" style="" tagname="button">
+    														<w2:attributes>
+    															<w2:type>button</w2:type>
+    														</w2:attributes>
+    														<w2:textbox class="fa fa-plus" label="" style="" tagname="i">
+    															<w2:attributes>
+    																<w2:aria-hidden>true</w2:aria-hidden>
+    															</w2:attributes>
+    														</w2:textbox>
+    														<w2:textbox ev:onclick="scwin.btn_fileUpload_onclick" id="btn_fileUploadPc"
+    															label="파일찾기" style="" tagname="span">
+    														</w2:textbox>
+    														<xf:input id="inp_ocpyFileNmPc" style="display:none;"></xf:input>
+    														<xf:input id="inp_upldFileNmPc" style="display:none;"></xf:input>
+    														<xf:input id="inp_fileUrlAddrPc" style="display:none;"></xf:input>
+    													</xf:group>
+    												</xf:group>
+    												<xf:group class="search_people" id="grp_fileNmPc" style="" tagname="ul">
+    													<xf:group id="" style="" tagname="li" toolTip="">
+    														<w2:textbox class="" id="tbx_fileNmPc" label="" ref="" style=""
+    															tagname="span">
+    														</w2:textbox>
+    														<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_fileNm_onclick"
+    															id="btn_fileNmPc" style="" type="button">
+    															<xf:label><![CDATA[삭제]]></xf:label>
+    														</xf:trigger>
+    													</xf:group>
+    												</xf:group>
+    												<xf:trigger class="btn_in" id="btn_previewImgPc" style="" type="button" ev:onclick="scwin.btn_preview_onclick">
+    													<xf:label><![CDATA[미리보기]]></xf:label>
+    												</xf:trigger>
+    											</xf:group>
+    										</xf:group>
+    										<xf:group class="w2tb_th" tagname="th">
+    											<w2:attributes>
+    												<w2:scope>row</w2:scope>
+    											</w2:attributes>
+    											<w2:textbox class="req" id="" label="대체텍스트(alt)" style="" tagname="label"></w2:textbox>
+    										</xf:group>
+    										<xf:group class="w2tb_td" tagname="td">
+    											<w2:attributes></w2:attributes>
+    											<xf:input adjustMaxLength="false" class="wd-full" id="inp_pcBnnrAltrTxtCntn" placeholder=""
+    												style="" ref="data:dma_banner.pcBnnrAltrTxtCntn" maxByteLength="200" maxlength="200">
+    											</xf:input>
+    										</xf:group>
+    									</xf:group>
+    									<xf:group style="" tagname="tr">
+    										<xf:group class="w2tb_th" style="" tagname="th">
+    											<w2:attributes>
+    												<w2:scope>row</w2:scope>
+    											</w2:attributes>
+    											<w2:textbox id="" label="URL" style="" tagname="label"></w2:textbox>
+    										</xf:group>
+    										<xf:group class="w2tb_td" style="" tagname="td">
+    											<w2:attributes>
+    												<w2:colspan>3</w2:colspan>
+    												<w2:rowspan>1</w2:rowspan>
+    											</w2:attributes>
+    											<xf:input adjustMaxLength="false" class="wd-full" id="inp_pcBnnrLinkUrl" placeholder=""
+    												style="" ref="data:dma_banner.pcBnnrLinkUrl" maxByteLength="500" maxlength="500">
+    											</xf:input>
+    										</xf:group>
+    									</xf:group>
+    									<xf:group style="" tagname="tr">
+    										<xf:group class="w2tb_th" style="" tagname="th">
+    											<w2:attributes>
+    												<w2:scope>row</w2:scope>
+    											</w2:attributes>
+    											<w2:textbox class="req" id="" label="MW 노출 여부" style="" tagname="label"></w2:textbox>
+    										</xf:group>
+    										<xf:group class="w2tb_td" style="" tagname="td">
+    											<w2:attributes>
+    												<w2:colspan>3</w2:colspan>
+    												<w2:rowspan>1</w2:rowspan>
+    											</w2:attributes>
+    											<xf:select1 appearance="full" cols="" id="rad_mblEposYn" ref="data:dma_banner.mblEposYn"
+    												renderType="radiogroup" rows="" selectedIndex="-1" style="">
+    												<xf:choices>
+    													<xf:item>
+    														<xf:label><![CDATA[Y]]></xf:label>
+    														<xf:value><![CDATA[Y]]></xf:value>
+    													</xf:item>
+    													<xf:item>
+    														<xf:label><![CDATA[N]]></xf:label>
+    														<xf:value><![CDATA[N]]></xf:value>
+    													</xf:item>
+    												</xf:choices>
+    											</xf:select1>
+    										</xf:group>
+    									</xf:group>
+    									<xf:group style="" tagname="tr">
+    										<xf:group class="w2tb_th" style="" tagname="th">
+    											<w2:attributes>
+    												<w2:scope>row</w2:scope>
+    											</w2:attributes>
+    											<w2:textbox class="req" id="" label="mobile 이미지" style="" tagname="label"></w2:textbox>
+    										</xf:group>
+    										<xf:group class="w2tb_td" style="" tagname="td">
+    											<xf:group class="tb_ly wauto" id="" style="">
+    												<xf:group class="cell " id="">
+    													<xf:group class="w2trigger btn_df btn_md" style="" tagname="button">
+    														<w2:attributes>
+    															<w2:type>button</w2:type>
+    														</w2:attributes>
+    														<w2:textbox class="fa fa-plus" label="" style="" tagname="i">
+    															<w2:attributes>
+    																<w2:aria-hidden>true</w2:aria-hidden>
+    															</w2:attributes>
+    														</w2:textbox>
+    														<w2:textbox ev:onclick="scwin.btn_fileUpload_onclick" id="btn_fileUploadMo"
+    															label="파일찾기" style="" tagname="span">
+    														</w2:textbox>
+    														<xf:input id="inp_ocpyFileNmMo" style="display:none;"></xf:input>
+    														<xf:input id="inp_upldFileNmMo" style="display:none;"></xf:input>
+    														<xf:input id="inp_fileUrlAddrMo" style="display:none;"></xf:input>
+    													</xf:group>
+    												</xf:group>
+    												<xf:group class="search_people" id="grp_fileNmMo" style="" tagname="ul">
+    													<xf:group id="" style="" tagname="li" toolTip="">
+    														<w2:textbox class="" id="tbx_fileNmMo" label="" ref="" style=""
+    															tagname="span">
+    														</w2:textbox>
+    														<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_fileNm_onclick"
+    															id="btn_fileNmMo" style="" type="button">
+    															<xf:label><![CDATA[삭제]]></xf:label>
+    														</xf:trigger>
+    													</xf:group>
+    												</xf:group>
+    												<xf:trigger class="btn_in" id="btn_previewImgMo" style="" type="button" ev:onclick="scwin.btn_preview_onclick">
+    													<xf:label><![CDATA[미리보기]]></xf:label>
+    												</xf:trigger>
+    											</xf:group>
+    										</xf:group>
+    										<xf:group class="w2tb_th" tagname="th">
+    											<w2:attributes>
+    												<w2:scope>row</w2:scope>
+    											</w2:attributes>
+    											<w2:textbox class="req" id="" label="대체텍스트(alt)" style="" tagname="label"></w2:textbox>
+    										</xf:group>
+    										<xf:group class="w2tb_td" tagname="td">
+    											<w2:attributes></w2:attributes>
+    											<xf:input adjustMaxLength="false" class="wd-full" id="inp_mblBnnrAltrTxtCntn" placeholder=""
+    												style="" ref="data:dma_banner.mblBnnrAltrTxtCntn" maxByteLength="200" maxlength="200">
+    											</xf:input>
+    										</xf:group>
+    									</xf:group>
+    									<xf:group style="" tagname="tr">
+    										<xf:group class="w2tb_th" style="" tagname="th">
+    											<w2:attributes>
+    												<w2:scope>row</w2:scope>
+    											</w2:attributes>
+    											<w2:textbox id="" label="URL" style="" tagname="label"></w2:textbox>
+    										</xf:group>
+    										<xf:group class="w2tb_td" style="" tagname="td">
+    											<w2:attributes>
+    												<w2:colspan>3</w2:colspan>
+    												<w2:rowspan>1</w2:rowspan>
+    											</w2:attributes>
+    											<xf:input adjustMaxLength="false" class="wd-full" id="inp_mblBnnrLinkUrl" placeholder=""
+    												style="" ref="data:dma_banner.mblBnnrLinkUrl" maxByteLength="500" maxlength="500">
+    											</xf:input>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    							</xf:group>
+    							<xf:group id="grp_updInfo" style="" tagname="section" class="mt20">
+    								<xf:group class="tbbox" id="" style="">
+    									<xf:group class="w2tb tb" id="" style="" tagname="table">
+    										<w2:attributes>
+    											<w2:summary></w2:summary>
+    										</w2:attributes>
+    										<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
+    										<xf:group tagname="colgroup">
+    											<xf:group style="width:15.00%;" tagname="col"></xf:group>
+    											<xf:group tagname="col"></xf:group>
+    											<xf:group style="width:15%;" tagname="col"></xf:group>
+    											<xf:group style="" tagname="col"></xf:group>
+    										</xf:group>
+    										<xf:group style="" tagname="tr">
+    											<xf:group class="w2tb_th" style="" tagname="th">
+    												<w2:attributes>
+    													<w2:scope>row</w2:scope>
+    												</w2:attributes>
+    												<w2:textbox class="" id="" label="최종수정일" style="" tagname="label"></w2:textbox>
+    											</xf:group>
+    											<xf:group class="w2tb_td" style="" tagname="td">
+    												<w2:attributes>
+    													<w2:colspan>1</w2:colspan>
+    													<w2:rowspan>1</w2:rowspan>
+    												</w2:attributes>
+    												<w2:textbox id="" label="수정일" ref="data:dma_banner.dataUpdDttm" style=""
+    													tagname="label">
+    												</w2:textbox>
+    											</xf:group>
+    											<xf:group class="w2tb_th" tagname="th">
+    												<w2:attributes>
+    													<w2:scope>row</w2:scope>
+    												</w2:attributes>
+    												<w2:textbox class="" id="" label="최종수정자" style="" tagname="label"></w2:textbox>
+    											</xf:group>
+    											<xf:group class="w2tb_td" tagname="td">
+    												<w2:attributes></w2:attributes>
+    												<w2:textbox class="" displayFormatter="" id="" label="수정자"
+    													ref="data:dma_banner.dataMfpnId" style="" tagname="label">
+    												</w2:textbox>
+    											</xf:group>
+    										</xf:group>
+    										<xf:group tagname="tr">
+    											<xf:group class="w2tb_th" tagname="th">
+    												<w2:attributes>
+    													<w2:scope>row</w2:scope>
+    												</w2:attributes>
+    												<w2:textbox class="" id="" label="최초등록일" style="" tagname="label"></w2:textbox>
+    											</xf:group>
+    											<xf:group class="w2tb_td" tagname="td">
+    												<w2:attributes></w2:attributes>
+    												<w2:textbox class="" id="" label="등록일" ref="data:dma_banner.dataInptDttm" style=""
+    													tagname="label">
+    												</w2:textbox>
+    											</xf:group>
+    											<xf:group class="w2tb_th" tagname="th">
+    												<w2:attributes>
+    													<w2:scope>row</w2:scope>
+    												</w2:attributes>
+    												<w2:textbox class="" id="" label="최초등록자" style="" tagname="label"></w2:textbox>
+    											</xf:group>
+    											<xf:group class="w2tb_td" tagname="td">
+    												<w2:attributes></w2:attributes>
+    												<w2:textbox class="" displayFormatter="" id="" label="등록자"
+    													ref="data:dma_banner.dataInpsId" style="" tagname="label">
+    												</w2:textbox>
+    											</xf:group>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    							</xf:group>
+    							<xf:group class="btnbox" id="" style="">
+    								<xf:group class="rta" id="">
+    									<xf:group class="w2trigger btn_cm" id="" style="" tagname="button">
+    										<w2:attributes>
+    											<w2:type>button</w2:type>
+    										</w2:attributes>
+    										<w2:textbox class="fa fa-check" id="" label="" style="" tagname="i">
+    											<w2:attributes>
+    												<w2:aria-hidden>true</w2:aria-hidden>
+    											</w2:attributes>
+    										</w2:textbox>
+    										<w2:textbox ev:onclick="scwin.btn_save_onclick" id="btn_save" label="저장" style=""
+    											tagname="span">
+    										</w2:textbox>
+    									</xf:group>
+    								</xf:group>
+    							</xf:group>
+    						</xf:group>
+    					</w2:content>
+    				</w2:tabControl>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>
