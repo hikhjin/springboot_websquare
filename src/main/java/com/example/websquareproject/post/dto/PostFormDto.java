@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PostFormDto {
     private int categoryId;
-    private int displayOrder; // 전체 데이터 개수 + 1 (디폴트)
+    private int displayOrder;
     private int type; // 구분(일반/공지)
     private String isDisplayed; // 전시 여부 Y/N
     private String displayStart;
