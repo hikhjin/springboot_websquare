@@ -40,16 +40,20 @@
         <if test="periodType != null and periodType != '' and startDate != null and endDate != null">
             <choose>
                 <when test="periodType == '전시시작일시'">
-                    AND p.display_start BETWEEN #{startDate} AND #{endDate}
+                    AND p.display_start BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
                 </when>
                 <when test="periodType == '전시종료일시'">
-                    AND p.display_end BETWEEN #{startDate} AND #{endDate}
+                    AND p.display_end BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
                 </when>
                 <when test="periodType == '수정일시'">
-                    AND p.updated_at BETWEEN #{startDate} AND #{endDate}
+                    AND p.display_end BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
                 </when>
                 <when test="periodType == '등록일시'">
-                    AND p.created_at BETWEEN #{startDate} AND #{endDate}
+                    AND p.display_end BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
                 </when>
             </choose>
         </if>
@@ -88,7 +92,7 @@
                 WHEN p.display_order IS NULL THEN 1  -- display_order가 NULL이면 맨 뒤로 보냄
                 ELSE 0
             END,
-            p.display_order ASC,  -- display_order가 있는 경우 오름차순 정렬
+            p.display_order,  -- display_order가 있는 경우 오름차순 정렬
             p.created_at DESC      -- 같은 순서일 경우 최신 등록일 순으로 정렬
         LIMIT #{size} OFFSET #{offset}
     </select>
