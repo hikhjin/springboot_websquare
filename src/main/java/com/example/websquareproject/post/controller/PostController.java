@@ -2,14 +2,14 @@ package com.example.websquareproject.post.controller;
 
 import com.example.websquareproject.post.dto.PostListDto;
 import com.example.websquareproject.post.dto.PostFormDto;
-import com.example.websquareproject.post.dto.postDeleteDto;
+import com.example.websquareproject.post.dto.PostDeleteDto;
+import com.example.websquareproject.post.dto.PostOrderListDto;
 import com.example.websquareproject.post.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -32,15 +32,20 @@ public class PostController {
 
     // 게시글 삭제
     @DeleteMapping("")
-    public ResponseEntity<String> deletePosts(@RequestBody postDeleteDto postDeleteDto) {
+    public ResponseEntity<String> deletePosts(@RequestBody PostDeleteDto postDeleteDto) {
         postService.deletePosts(postDeleteDto);
         return ResponseEntity.ok("Success");
     }
 
     // 게시글 전시 순서 변경
+    @PutMapping("/display-order")
+    public ResponseEntity<String> updatePosts(@RequestBody PostOrderListDto postOrderListDto) {
+        postService.updateDisplayOrder(postOrderListDto);
+        return ResponseEntity.ok("Success");
+    }
 
 
-    // 게시글 전체 조회
+    // 게시글 조회
     @GetMapping("")
     public ResponseEntity<List<PostListDto>> getPosts(
             @RequestParam(required = false) String category1,

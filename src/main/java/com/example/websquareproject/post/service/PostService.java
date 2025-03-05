@@ -1,7 +1,8 @@
 package com.example.websquareproject.post.service;
 
 import com.example.websquareproject.post.dto.PostListDto;
-import com.example.websquareproject.post.dto.postDeleteDto;
+import com.example.websquareproject.post.dto.PostDeleteDto;
+import com.example.websquareproject.post.dto.PostOrderListDto;
 import com.example.websquareproject.post.mapper.PostMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,11 +28,16 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePosts(postDeleteDto postDeleteDto) {
+    public void deletePosts(PostDeleteDto postDeleteDto) {
         List<Integer> postIds = postDeleteDto.getPostId();
         if (!postIds.isEmpty() || postIds != null) {
             postMapper.deletePosts(postIds);
         }
+    }
+
+    @Transactional
+    public void updateDisplayOrder(PostOrderListDto postOrderListDto) {
+        postMapper.updateDisplayOrder(postOrderListDto);
     }
 
 }

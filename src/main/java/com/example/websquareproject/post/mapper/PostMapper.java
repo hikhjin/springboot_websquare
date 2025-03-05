@@ -1,6 +1,7 @@
 package com.example.websquareproject.post.mapper;
 
 import com.example.websquareproject.post.dto.PostListDto;
+import com.example.websquareproject.post.dto.PostOrderListDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,5 +21,7 @@ public interface PostMapper {
                                @Param("offset") int offset);
 
     void deletePosts(@Param("postIds") List<Integer> postIds);
+
+    void updateDisplayOrder(PostOrderListDto postOrderList);
 
 }

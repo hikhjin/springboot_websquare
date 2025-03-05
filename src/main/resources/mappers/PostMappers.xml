@@ -5,10 +5,24 @@
 <mapper namespace="com.example.websquareproject.post.mapper.PostMapper">
     <delete id="deletePosts">
         DELETE FROM POST WHERE post_id IN
-               <foreach item="postId" collection="postIds" open="(" separator="," close=")">
+               <foreach collection="postIds" item="postId" open="(" separator="," close=")">
                    #{postId}
                </foreach>
     </delete>
+
+    <update id="updateDisplayOrder">
+        UPDATE POST
+        SET display_order =
+        CASE post_id
+        <foreach collection="postOrderList" item="displayOrder">
+            WHEN #{displayOrder.postId} THEN #{displayOrder.displayOrder}
+        </foreach>
+        END
+        WHERE post_id IN
+        <foreach collection="postOrderList" item="displayOrder" open="(" separator="," close=")">
+            #{displayOrder.postId}
+        </foreach>
+    </update>
 
     <select id="getPosts" resultType="com.example.websquareproject.post.dto.PostListDto">
         SELECT
