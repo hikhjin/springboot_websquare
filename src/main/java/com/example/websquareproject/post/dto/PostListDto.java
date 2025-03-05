@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostDto {
+public class PostListDto {
     private int postId;
     private int displayOrder;
     private String type; // 구분(일반/공지)
