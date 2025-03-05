@@ -39,10 +39,10 @@
         p.title,
         p.views,
         p.is_displayed AS isDisplayed,
-        p.created_at AS createdAt,
-        p.created_by AS createdBy,
         p.updated_at AS updatedAt,
-        p.updated_by AS updatedBy
+        p.updated_by AS updatedBy,
+        p.created_at AS createdAt,
+        p.created_by AS createdBy
         FROM POST p
         LEFT JOIN CATEGORY child_category ON child_category.category_id = p.category_id
         LEFT JOIN CATEGORY parent_category ON parent_category.category_id = child_category.parent_id

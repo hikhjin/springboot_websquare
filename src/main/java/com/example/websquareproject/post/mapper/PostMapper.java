@@ -20,7 +20,7 @@ public interface PostMapper {
                                @Param("size") int size,
                                @Param("offset") int offset);
 
-    void deletePosts(@Param("postIds") List<Integer> postIds);
+    void deletePosts(List<Integer> postIds);
 
     void updateDisplayOrder(PostOrderListDto postOrderList);
 

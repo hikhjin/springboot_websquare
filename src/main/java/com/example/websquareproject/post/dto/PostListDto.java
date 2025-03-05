@@ -16,8 +16,8 @@ public class PostListDto {
     private String title;
     private int views;
     private String isDisplayed; // 전시 여부 Y/N
-    private String createdAt;
-    private String createdBy;
     private String updatedAt;
     private String updatedBy;
+    private String createdAt;
+    private String createdBy;
 }
