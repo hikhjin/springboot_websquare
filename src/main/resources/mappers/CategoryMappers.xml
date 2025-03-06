@@ -5,12 +5,6 @@
 <mapper namespace="com.example.websquareproject.category.mapper.CategoryMapper">
 
     <select id="getCategories" resultType="com.example.websquareproject.category.dto.CategoryNameDto">
-        <if test="depth == 1">
-            SELECT category_name AS categoryName FROM CATEGORY WHERE parent_id IS NULL
-        </if>
-
-        <if test="depth == 2">
-            SELECT category_name AS categoryName FROM CATEGORY WHERE parent_id IS NOT NULL
-        </if>
+    SELECT category_name AS categoryName FROM CATEGORY WHERE parent_id IS NULL
     </select>
 </mapper>

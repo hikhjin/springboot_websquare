@@ -7,5 +7,5 @@ import java.util.List;
 
 @Mapper
 public interface CategoryMapper {
-    List<CategoryNameDto> getCategories(int depth);
+    List<CategoryNameDto> getCategories();
 }
