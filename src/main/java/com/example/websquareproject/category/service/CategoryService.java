@@ -23,9 +23,8 @@ public class CategoryService {
 //        return ResponseEntity.ok(categories);
         List<CategoryNameDto> categories = categoryMapper.getCategories();
 
-        // JSON 형식을 맞추기 위해 "categoryList" 키를 가진 Map 생성
         Map<String, List<CategoryNameDto>> response = new HashMap<>();
-        response.put("categoryList", categories);
+        response.put("dlt_categoryList", categories);
 
         return ResponseEntity.ok(response);
     }

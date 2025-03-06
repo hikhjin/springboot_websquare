@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -47,7 +48,7 @@ public class PostController {
 
     // 게시글 조회
     @GetMapping("")
-    public ResponseEntity<List<PostListDto>> getPosts(
+    public ResponseEntity<Map<String, List<PostListDto>>> getPosts(
             @RequestParam(required = false) String category1,
             @RequestParam(required = false) String category2,
             @RequestParam(required = false) String periodType, // (전체, 전시시작일시, 전시종료일시, 수정일시, 등록일시)
@@ -56,8 +57,8 @@ public class PostController {
             @RequestParam(required = false) String isDisplayed, // (전체, Y, N)
             @RequestParam(required = false) String searchType, // (전체, 등록자, 수정자, 내용, 제목)
             @RequestParam(required = false) String keyword,
-            @RequestParam int size,
-            @RequestParam int page) {
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "1") int page) {
 
         return postService.getPosts(category1, category2, periodType, startDate, endDate, isDisplayed, searchType, keyword, size, page);
     }
