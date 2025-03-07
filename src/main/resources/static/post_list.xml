@@ -67,28 +67,41 @@
         				<w2:key id="rowSize" name="name7" dataType="text"></w2:key>
         			</w2:keyInfo>
         		</w2:dataMap>
-        		<w2:dataList baseNode="list" repeatNode="map" id="dlt_categoryList" saveRemovedData="true">
+        		<w2:dataList baseNode="list" repeatNode="map" id="dlt_categoryList1d" saveRemovedData="true">
         			<w2:columnInfo>
+        				<w2:column id="categoryId" name="카테고리 id" dataType="text"></w2:column>
         				<w2:column id="categoryName" name="카테고리 이름" dataType="text"></w2:column>
+
         			</w2:columnInfo>
-        			<w2:data use="false">
-        			</w2:data>
+        			<w2:data use="false"></w2:data>
         		</w2:dataList>
-        		<w2:dataMap baseNode="map" id="dma_delList">
+        		<w2:dataList baseNode="list" id="dlt_categoryList2d" repeatNode="map" saveRemovedData="true" style="">
+        			<w2:columnInfo>
+        				<w2:column dataType="text" id="categoryId" name="카테고리 id"></w2:column>
+        				<w2:column dataType="text" id="categoryName" name="카테고리 이름"></w2:column>
+        			</w2:columnInfo>
+        			<w2:data use="false"></w2:data>
+        		</w2:dataList>
+        		<w2:dataMap baseNode="map" id="dma_parentCategory">
         			<w2:keyInfo>
-        				<w2:key id="postId" name="게시글 id" dataType="text"></w2:key>
+        				<w2:key id="parentId" name="카테고리 id" dataType="text"></w2:key>
         			</w2:keyInfo>
         		</w2:dataMap>
         	</w2:dataCollection>
         	<xf:submission id="sbm_postList" ref='data:json,["dma_postParam","dma_pageInfo"]' target="data:json,dlt_postList"
         		action="http://127.0.0.1:8080/post" method="get" mediatype="application/json" encoding="UTF-8" instance="" replace=""
-        		errorHandler="" customHandler="" mode="asynchronous" processMsg="조회 중" ev:submit="" ev:submitdone="" ev:submiterror=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone="" ev:submiterror=""
         		abortTrigger="">
         	</xf:submission>
-        	<xf:submission id="sbm_categoryList1" ref="" target="data:json,dlt_categoryList" action="http://127.0.0.1:8080/category"
+        	<xf:submission id="sbm_categoryList1d" ref="" target='data:json,{"id":"dlt_categoryList1d","key":"categoryList1d"}' action="http://127.0.0.1:8080/category"
         		method="get" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
-        		mode="asynchronous" processMsg="조회 중" ev:submit="scwin.categoryList1_submit" ev:submitdone="scwin.categoryListSubmintdone"
-        		ev:submiterror="" abortTrigger="">
+        		mode="asynchronous" processMsg="" ev:submit="scwin.categoryList1_submit" ev:submitdone="scwin.categoryList1dSubmitdone"
+        		ev:submiterror="" abortTrigger="true">
+        	</xf:submission>
+        	<xf:submission abortTrigger="" action="http://127.0.0.1:8080/category/child" customHandler="" encoding="UTF-8" errorHandler=""
+        		ev:submit="" ev:submitdone="scwin.categoryListSubmintdone" ev:submiterror="" id="sbm_categoryList2d"
+        		instance="" mediatype="application/json" method="post" mode="asynchronous" processMsg="" ref='data:json,{"id":"dma_parentCategory","key":"parentCategory"}' replace=""
+        		target='data:json,{"id":"dlt_categoryList2d","key":"categoryList2d"}' style="">
         	</xf:submission>
         </xf:model>
         <w2:layoutInfo/>
@@ -96,22 +109,11 @@
         <script lazy="false" type="text/javascript"><![CDATA[
 scwin.onpageload = function() {
 	try {
-    // Submission이 존재하는지 확인
-    if ($p.getSubmission("sbm_categoryList1") == null) {
-        console.error("Submission 'sbm_categoryList1'이 정의되지 않았습니다.");
-        alert("Submission이 존재하지 않습니다.");
-    } else {
-        console.log("Submission이 존재합니다.");
-        $p.executeSubmission("sbm_categoryList1");
+    	$p.executeSubmission("sbm_categoryList1d");
         $p.executeSubmission("sbm_postList");
-        console.log("Submission 실행 완료: sbm_categories");
-    }
-
-} catch (e) {
-    console.error("Submission 실행 중 오류 발생:", e);
-    alert("오류 발생: " + e.message);
+	} catch (e) {
+	    alert("오류 발생: " + e.message);
 	}
-
 };
 
 //엑셀 다운로드
@@ -131,17 +133,21 @@ scwin.onpageload = function() {
 
 	// 	grd_excelDown.advancedExcelDownload(options);
 	// };
-scwin.categoryListSubmintdone = function(e) {
-	console.log("finish");
-
-};
-
-scwin.categoryList1_submit = function(e) {
-
+scwin.categoryList1dSubmitdone = function(e) {
+	console.log("categoryList1 done");
+	//dma_parentCategory.set("parentId", 1);	
+	//com.sbm.execute(sbm_categoryList2d, {}, "http://localhost:8080");
+	//$p.executeSubmission("sbm_categoryList2d");
 };
 
 	scwin.btn_search_onclick = function(e) {
 		$p.executeSubmission("sbm_postList");
+	};
+	
+
+	
+	scwin.type_onviewchange = function(e) {
+		$p.executeSubmission("sbm_categoryList2d");
 	};
 	]]></script>
     </head>
@@ -181,12 +187,12 @@ scwin.categoryList1_submit = function(e) {
     											<w2:rowspan>1</w2:rowspan>
     										</w2:attributes>
     										<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="전체"
-    											class="" direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="sbx_srchCondDivsCntn"
-    											ref="data:dma_postParam.category1" style="" submenuSize="auto">
+    											class="" direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="type"
+    											ref="data:dma_parentCategory.parentId" style="" submenuSize="auto" ev:onviewchange="scwin.type_onviewchange">
     											<xf:choices>
-    												<xf:itemset nodeset="data:dlt_categoryList">
+    												<xf:itemset nodeset="data:dlt_categoryList1d">
     													<xf:label ref="categoryName"></xf:label>
-    													<xf:value ref="categoryName"></xf:value>
+    													<xf:value ref="categoryId"></xf:value>
     												</xf:itemset>
     											</xf:choices>
     										</xf:select1>
@@ -204,7 +210,12 @@ scwin.categoryList1_submit = function(e) {
     										<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="전체"
     											class="" direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="slb_scrnEposYn"
     											ref="data:dma_postParam.category2" style="" submenuSize="auto">
-    											<xf:choices></xf:choices>
+    											<xf:choices>
+    												<xf:itemset nodeset="data:dlt_categoryList2d">
+    													<xf:label ref="categoryName"></xf:label>
+    													<xf:value ref="categoryId"></xf:value>
+    												</xf:itemset>
+    											</xf:choices>
     										</xf:select1>
     									</xf:group>
     								</xf:group>

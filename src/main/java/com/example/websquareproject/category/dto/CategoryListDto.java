@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryNameDto {
+public class CategoryListDto {
+    private int categoryId;
     private String categoryName;
 }

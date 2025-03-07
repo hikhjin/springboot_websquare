@@ -1,11 +1,12 @@
 package com.example.websquareproject.category.mapper;
 
-import com.example.websquareproject.category.dto.CategoryNameDto;
+import com.example.websquareproject.category.dto.CategoryListDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface CategoryMapper {
-    List<CategoryNameDto> getCategories();
+    List<CategoryListDto> getCategories1d();
+    List<CategoryListDto> getCategories2d(int parentId);
 }

@@ -4,7 +4,11 @@
 
 <mapper namespace="com.example.websquareproject.category.mapper.CategoryMapper">
 
-    <select id="getCategories" resultType="com.example.websquareproject.category.dto.CategoryNameDto">
-    SELECT category_name AS categoryName FROM CATEGORY WHERE parent_id IS NULL
+    <select id="getCategories1d" resultType="com.example.websquareproject.category.dto.CategoryListDto">
+    SELECT category_id AS categoryId, category_name AS categoryName FROM CATEGORY WHERE parent_id IS NULL
+    </select>
+
+    <select id="getCategories2d" resultType="com.example.websquareproject.category.dto.CategoryListDto">
+        SELECT category_id AS categoryId, category_name AS categoryName FROM CATEGORY WHERE parent_id = #{parentId}
     </select>
 </mapper>
