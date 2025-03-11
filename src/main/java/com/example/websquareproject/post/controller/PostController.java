@@ -61,7 +61,6 @@ public class PostController {
 //            @RequestParam(defaultValue = "1") int page) {
 //
 //        try {
-//            // ✅ 요청 파라미터를 Map으로 변환
 //            Map<String, Object> requestParams = new HashMap<>();
 //            requestParams.put("category1", category1);
 //            requestParams.put("category2", category2);
@@ -74,7 +73,6 @@ public class PostController {
 //            requestParams.put("size", size);
 //            requestParams.put("page", page);
 //
-//            // ✅ JSON 형식으로 변환하여 로그 출력
 //            String jsonParams = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(requestParams);
 //            log.info("📌 [GET /posts] Request Params:\n{}", jsonParams);
 //        } catch (Exception e) {
@@ -85,7 +83,7 @@ public class PostController {
 //    }
 
     @PostMapping("")
-    public ResponseEntity<Map<String, List<PostListDto>>> getPosts(@RequestBody(required = false) PostParamDto postParamDto) {
+    public ResponseEntity<Map<String, Object>> getPosts(@RequestBody(required = false) PostParamDto postParamDto) {
         if (postParamDto == null || postParamDto.getPostParam() == null) {
             postParamDto = new PostParamDto(new PostParam());
         }
@@ -100,6 +98,23 @@ public class PostController {
                 (postParam.getPage() != null) ? postParam.getPage() : 1    // 기본 page=1
         );
     }
+
+//    @PostMapping("/totalCount")
+//    public ResponseEntity<Map<String, List<PostListDto>>> getTotalCount(@RequestBody(required = false) PostParamDto postParamDto) {
+//        if (postParamDto == null || postParamDto.getPostParam() == null) {
+//            postParamDto = new PostParamDto(new PostParam());
+//        }
+//
+//        PostParam postParam = postParamDto.getPostParam();
+//
+//        return postService.getPosts(
+//                postParam.getCategory1(), postParam.getCategory2(), postParam.getPeriodType(),
+//                postParam.getStartDate(), postParam.getEndDate(), postParam.getIsDisplayed(),
+//                postParam.getSearchType(), postParam.getKeyword(),
+//                (postParam.getSize() != null) ? postParam.getSize() : 5,  // 기본 size=5
+//                (postParam.getPage() != null) ? postParam.getPage() : 1    // 기본 page=1
+//        );
+//    }
 
 
 

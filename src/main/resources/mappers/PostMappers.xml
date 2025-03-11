@@ -114,6 +114,74 @@
             LIMIT #{size} OFFSET #{offset}
     </select>
 
+    <select id="getPostsCount" resultType="int">
+        SELECT COUNT(*)
+        FROM POST p
+        LEFT JOIN CATEGORY child_category ON child_category.category_id = p.category_id
+        LEFT JOIN CATEGORY parent_category ON parent_category.category_id = child_category.parent_id
+        WHERE 1=1
+
+        <if test="category1 != null and category1 != ''">
+            AND (parent_category.category_id = #{category1} OR child_category.category_id = #{category1})
+        </if>
+
+        <if test="category2 != null and category2 != ''">
+            AND child_category.category_id = #{category2}
+        </if>
+
+        <!-- 기간 검색 -->
+        <if test="periodType != null and periodType != '' and startDate != null and endDate != null">
+            <choose>
+                <when test="'전시시작일시'.equals(periodType)">
+                    AND p.display_start BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
+                </when>
+                <when test="'전시종료일시'.equals(periodType)">
+                    AND p.display_end BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
+                </when>
+                <when test="'수정일시'.equals(periodType)">
+                    AND p.updated_at BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
+                </when>
+                <when test="'등록일시'.equals(periodType)">
+                    AND p.created_at BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
+                </when>
+            </choose>
+        </if>
+
+        <!-- 전시 여부 -->
+        <if test="isDisplayed != null and isDisplayed != '' and isDisplayed != '전체'">
+            AND p.is_displayed = #{isDisplayed}
+        </if>
+
+        <!-- 검색 조건 -->
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="'등록자'.equals(searchType)">
+                    AND p.created_by LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="'수정자'.equals(searchType)">
+                    AND p.updated_by LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="'내용'.equals(searchType)">
+                    AND p.content LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="'제목'.equals(searchType)">
+                    AND p.title LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <otherwise>
+                    AND (p.title LIKE CONCAT('%', #{keyword}, '%')
+                    OR p.content LIKE CONCAT('%', #{keyword}, '%')
+                    OR p.created_by LIKE CONCAT('%', #{keyword}, '%')
+                    OR p.updated_by LIKE CONCAT('%', #{keyword}, '%'))
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+
+
 
 
 </mapper>
