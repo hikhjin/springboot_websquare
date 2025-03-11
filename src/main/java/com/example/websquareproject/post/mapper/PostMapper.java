@@ -9,8 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface PostMapper {
-    List<PostListDto> getPosts(@Param("category1") String category1,
-                               @Param("category2") String category2,
+    List<PostListDto> getPosts(@Param("category1") Integer category1,
+                               @Param("category2") Integer category2,
                                @Param("periodType") String periodType,
                                @Param("startDate") String startDate,
                                @Param("endDate") String endDate,

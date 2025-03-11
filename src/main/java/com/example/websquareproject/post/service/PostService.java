@@ -1,6 +1,5 @@
 package com.example.websquareproject.post.service;
 
-import com.example.websquareproject.category.dto.CategoryNameDto;
 import com.example.websquareproject.post.dto.PostListDto;
 import com.example.websquareproject.post.dto.PostDeleteDto;
 import com.example.websquareproject.post.dto.PostOrderListDto;
@@ -26,13 +25,12 @@ public class PostService {
                                                                    String endDate, String isDisplayed, String searchType, String keyword,
                                                                    int size, int page) {
         int offset = (page - 1) * size;
-        List<PostListDto> posts = postMapper.getPosts(category1, category2, periodType, startDate, endDate, isDisplayed, searchType, keyword, size, offset);
 
+        List<PostListDto> posts = postMapper.getPosts(safeParseInt(category1), safeParseInt(category2), periodType, startDate, endDate, isDisplayed, searchType, keyword, size, offset);
         Map<String, List<PostListDto>> response = new HashMap<>();
-        response.put("dlt_postList", posts);
+        response.put("postList", posts);
 
         return ResponseEntity.ok(response);
-//        return ResponseEntity.ok(posts);
     }
 
     @Transactional
@@ -48,4 +46,11 @@ public class PostService {
         postMapper.updateDisplayOrder(postOrderListDto);
     }
 
+    private Integer safeParseInt(String value) {
+        try {
+            return (value != null && !value.trim().isEmpty()) ? Integer.parseInt(value) : null;
+        } catch (NumberFormatException e) {
+            return null; // 변환 실패 시 null 반환
+        }
+    }
 }
