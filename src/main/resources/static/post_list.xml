@@ -113,9 +113,14 @@
         		ref='data:json,{"id":"dma_parentCategory","key":"parentCategory"}' replace=""
         		target='data:json,{"id":"dlt_categoryList2d","key":"categoryList2d"}' style="">
         	</xf:submission>
-        	<xf:submission id="sbm_deletePostList" ref='data:json,{"id":"dma_deleteList","key":"deleteList"}' target="" action="http://127.0.0.1:8080/post"
-        		method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
-        		mode="asynchronous" processMsg="" ev:submit="scwin.sbm_deletePostList_submit" ev:submitdone="scwin.sbm_deletePostList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
+        	<xf:submission id="sbm_deletePostList" ref='data:json,{"id":"dma_deleteList","key":"deleteList"}' target=""
+        		action="http://127.0.0.1:8080/post" method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_deletePostList_submit"
+        		ev:submitdone="scwin.sbm_deletePostList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
+        	</xf:submission>
+        	<xf:submission id="sbm_updatePostList" ref='data:json,{"id":"dlt_postList","key":"postList"}' target="" action="http://127.0.0.1:8080/post" method="put"
+        		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
+        		processMsg="" ev:submit="" ev:submitdone="scwin.sbm_updatePostList_submitdone" ev:submiterror="" abortTrigger="">
         	</xf:submission>
         </xf:model>
         <w2:layoutInfo/>
@@ -213,41 +218,6 @@ scwin.onpageunload = function() {
 		scwin.fn_search(info.newSelectedIndex);
 	};
 	
-	/**
-	 * @description : 삭제 버튼 onclick
-	 */
-	scwin.btn_delete_onclick = function(e) {
-		if (!scwin.isChangeCheckGrid([grd_main], "chocYn")) {
-			return com.win.alert(com.data.getMessage("com.inf.0004"));	//삭제할 대상을 먼저 선택해 주세요
-		}else{
-			com.win.confirm(com.data.getMessage("com.cfm.0003"), function(
-					result) {
-				if (result.clickValue) {
-					dlt_delEvapList.removeAll();
-					dlt_delEvapList.setJSON(dlt_evetPlusRcmdList.getUpdatedJSON(),	false);
-					dlt_delEvapList.modifyAllStatus('U');
-					for (var i = 0; i < dlt_delEvapList.getRowCount(); i++) {
-						dlt_delEvapList.setCellData(i, "delYn", "Y");
-					}
-					if (dlt_delEvapList.getRowCount() > 0) {
-						com.sbm.execute("sbm_deleteEvetPlusRcmd", {}, gcm.SERVICE_LIST.EVET);
-					}
-				}
-			});
-		}
-	};
-
-	/**
-	 * @description : 삭제 서브미션 callback
-	 * @Author      : jk0649
-	 */
-	scwin.sbm_deleteEvetPlusRcmd_submitdone = function(e) {
-		if (e.responseStatusCode == 200) {
-			com.win.alert(com.data.getMessage("com.inf.0005"));
-			scwin.fn_searEvetPlusRcmdList(1);
-		}
-	};
-	
 	//삭제 클릭
 	scwin.btn_delete_onclick = function(e) {
 		var checkColArr = dlt_postList.getMatchedIndex("check","1");
@@ -262,21 +232,36 @@ scwin.onpageunload = function() {
 		var postIdList = [];
 		for (var i = 0; i < oList.length; i++) {
 			postIdList[i] = oList[i].postId;
-			console.log(postIdList[i]);
 		}
 
 		dma_deleteList.set("postIdList", postIdList);
-		console.log(dma_deleteList.get("postIdList"));
 	};
 	
 	scwin.sbm_deletePostList_submitdone = function(e) {
-		if (e.responseText == "0") {
+			if (e.responseStatusCode != "200" || e.responseJSON == "0") {
 			console.log(e);
 		} else {
 			scwin.fn_search(1);
 		}
 	};
 
+	
+	scwin.sbm_updatePostList_submitdone = function(e) {
+		if (e.responseStatusCode != "200" || e.responseJSON == "0") {
+			console.log(e);
+		} else {
+			scwin.fn_search(1);
+		}
+	};
+	
+	scwin.btn_save_onclick = function(e) {
+		try{
+			$p.executeSubmission("sbm_updatePostList");
+		} catch(e) {
+			console.log(e);
+		}
+		
+	};
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
@@ -643,7 +628,7 @@ scwin.onpageunload = function() {
     											<w2:column removeBorderStyle="false" width="50" inputType="text" style="height:32px"
     												id="rowNum" value="" blockSelect="false" displayMode="label" customFormatter="scwin.gridNoFormat">
     											</w2:column>
-    											<w2:column removeBorderStyle="false" width="64" inputType="text" readOnly="true"
+    											<w2:column removeBorderStyle="false" width="64" inputType="text" readOnly="false"
     												id="displayOrder" class="titleLink" blockSelect="false" displayMode="label">
     											</w2:column>
     											<w2:column removeBorderStyle="false" width="59" inputType="text" readOnly="true"

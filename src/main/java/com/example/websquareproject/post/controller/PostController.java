@@ -39,10 +39,10 @@ public class PostController {
         return ResponseEntity.ok("Success");
     }
 
-    // 게시글 전시 순서 변경
-    @PutMapping("/display-order")
-    public ResponseEntity<String> updatePosts(@RequestBody PostOrderListDto postOrderListDto) {
-        postService.updateDisplayOrder(postOrderListDto);
+    // 게시글 변경사항 저장(전시 순서)
+    @PutMapping("")
+    public ResponseEntity<String> updatePosts(@RequestBody PostUpdateListDto postUpdateListDto) {
+        postService.updatePosts(postUpdateListDto.getPostList());
         return ResponseEntity.ok("Success");
     }
 

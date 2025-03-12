@@ -1,10 +1,8 @@
 package com.example.websquareproject.post.service;
 
 import com.example.websquareproject.post.dto.PostListDto;
-import com.example.websquareproject.post.dto.PostDeleteDto;
-import com.example.websquareproject.post.dto.PostOrderListDto;
-import com.example.websquareproject.post.dto.PostParam;
 import com.example.websquareproject.post.mapper.PostMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class PostService {
 
@@ -40,14 +39,6 @@ public class PostService {
 
         return ResponseEntity.ok(response);
     }
-//
-//    public Map<String, Object> getPostsCount(PostParam postParam) {
-//        int totalCount = postMapper.getPostsCount(postParm);
-//
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("totalCount", totalCount);
-//        return response;
-//    }
 
     @Transactional
     public void deletePosts(List<Integer> postIdList) {
@@ -55,8 +46,8 @@ public class PostService {
     }
 
     @Transactional
-    public void updateDisplayOrder(PostOrderListDto postOrderListDto) {
-        postMapper.updateDisplayOrder(postOrderListDto);
+    public void updatePosts(List<PostListDto> postListDto) {
+        postMapper.updatePosts(postListDto);
     }
 
     private Integer safeParseInt(String value) {

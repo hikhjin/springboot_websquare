@@ -10,19 +10,20 @@
                </foreach>
     </delete>
 
-    <update id="updateDisplayOrder">
+    <update id="updatePosts">
         UPDATE POST
         SET display_order =
         CASE post_id
-        <foreach collection="postOrderList" item="displayOrder">
-            WHEN #{displayOrder.postId} THEN #{displayOrder.displayOrder}
+        <foreach collection="postListDto" item="post">
+            WHEN #{post.postId} THEN #{post.displayOrder}
         </foreach>
         END
         WHERE post_id IN
-        <foreach collection="postOrderList" item="displayOrder" open="(" separator="," close=")">
-            #{displayOrder.postId}
+        <foreach collection="postListDto" item="post" open="(" separator="," close=")">
+            #{post.postId}
         </foreach>
     </update>
+
 
     <select id="getPosts" resultType="com.example.websquareproject.post.dto.PostListDto">
         SELECT
