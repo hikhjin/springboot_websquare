@@ -33,8 +33,6 @@ public class PostController {
     // 게시글 삭제
     @DeleteMapping("")
     public ResponseEntity<String> deletePosts(@RequestBody PostDeleteDto postDeleteDto) {
-        System.out.println(postDeleteDto.toString());
-
         postService.deletePosts(postDeleteDto.getPostIdList());
         return ResponseEntity.ok("Success");
     }

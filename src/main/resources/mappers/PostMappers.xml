@@ -72,11 +72,11 @@
                         AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
                     </when>
                     <when test="'수정일시'.equals(periodType)">
-                        AND p.display_end BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                        AND p.updated_at BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
                         AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
                     </when>
                     <when test="'등록일시'.equals(periodType)">
-                        AND p.display_end BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                        AND p.created_at BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
                         AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
                     </when>
                 </choose>

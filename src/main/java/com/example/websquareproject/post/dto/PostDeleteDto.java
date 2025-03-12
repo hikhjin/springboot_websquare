@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.util.List;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDeleteDto {
