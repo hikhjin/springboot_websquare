@@ -23,11 +23,6 @@
         				<w2:column id="createdBy" name="등록자" dataType="text"></w2:column>
         				<w2:column id="updatedAt" name="수정일시" dataType="text"></w2:column>
         				<w2:column id="updatedBy" name="수정자" dataType="text"></w2:column>
-
-
-
-
-
         				<w2:column id="postId" name="게시글 id" dataType="text"></w2:column>
         			</w2:columnInfo>
         			<w2:data use="false">
@@ -120,7 +115,7 @@
         	</xf:submission>
         	<xf:submission id="sbm_updatePostList" ref='data:json,{"id":"dlt_postList","key":"postList"}' target="" action="http://127.0.0.1:8080/post" method="put"
         		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
-        		processMsg="" ev:submit="" ev:submitdone="scwin.sbm_updatePostList_submitdone" ev:submiterror="" abortTrigger="">
+        		processMsg="" ev:submit="scwin.sbm_updatePostList_submit" ev:submitdone="scwin.sbm_updatePostList_submitdone" ev:submiterror="" abortTrigger="">
         	</xf:submission>
         </xf:model>
         <w2:layoutInfo/>
@@ -245,7 +240,6 @@ scwin.onpageunload = function() {
 		}
 	};
 
-	
 	scwin.sbm_updatePostList_submitdone = function(e) {
 		if (e.responseStatusCode != "200" || e.responseJSON == "0") {
 			console.log(e);
@@ -253,15 +247,36 @@ scwin.onpageunload = function() {
 			scwin.fn_search(1);
 		}
 	};
+
 	
 	scwin.btn_save_onclick = function(e) {
-		try{
-			$p.executeSubmission("sbm_updatePostList");
-		} catch(e) {
-			console.log(e);
-		}
+		var modifiedList = dlt_postList.getModifiedIndex();
+		var categorySet = new Set();
+
+	    for (var i = 0; i < modifiedList.length; i++) {
+	        var category2 = dlt_postList.getCellData(modifiedList[i], "category2");
+	        var displayOrder = dlt_postList.getCellData(modifiedList[i], "displayOrder");
+	        
+	        // displayOrder 값이 음수이거나 숫자가 아닐 경우
+	        if (isNaN(displayOrder) || parseInt(displayOrder) < 0) {
+	            alert("전시 순서는 0 이상의 숫자여야 합니다.");
+	            scwin.fn_search(dma_pageInfo.get("pageNo"));
+	            return;
+	        }
+	        categorySet.add(category2);
+	    }
+	    
+	    // category2 값이 서로 다르면 alert 창 띄우기
+	    if (categorySet.size > 1) {
+	        alert("서로 다른 카테고리 2d 값이 포함되어 있습니다."); 
+	        scwin.fn_search(dma_pageInfo.get("pageNo"));
+	        return;
+	    }
+	    
+	    $p.executeSubmission("sbm_updatePostList");
 		
 	};
+	
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
@@ -450,8 +465,8 @@ scwin.onpageunload = function() {
     											<w2:colspan>3</w2:colspan>
     											<w2:rowspan>1</w2:rowspan>
     										</w2:attributes>
-    										<xf:input adjustMaxLength="false" id="keyword" maxlength="50"
-    											ref="data:dma_postParam.keyword" style="">
+    										<xf:input adjustMaxLength="false" id="keyword" maxlength="50" ref="data:dma_postParam.keyword"
+    											style="">
     										</xf:input>
     									</xf:group>
     								</xf:group>
@@ -459,27 +474,24 @@ scwin.onpageunload = function() {
     						</xf:group>
     						<xf:group class="search_btn_box" id="">
     							<xf:group class="list-inline mt5" id="" tagname="ul">
-    								<xf:group id="" style="" tagname="li">
-    									<xf:trigger class="btn_df reset" ev:onclick="scwin.btn_init_onclick" id="btn_init" style=""
-    										type="button">
-    										<xf:label><![CDATA[ 초기화]]></xf:label>
-    									</xf:trigger>
-    									
-    								</xf:group>
-    								<xf:group id="" tagname="li">
+    							</xf:group>
+    							<xf:group id="" tagname="" style="text-align:center;">
+    								<xf:trigger class="btn_df reset" ev:onclick="scwin.btn_init_onclick" id="btn_init" style="margin-right: 10px"
+    									type="button">
+    									<xf:label><![CDATA[ 초기화]]></xf:label>
+    								</xf:trigger>
+    								<xf:trigger class="btn_cm" ev:onclick="scwin.btn_search_onclick" id="btn_search"
+    									style="" type="button">
+    									<xf:label><![CDATA[검색]]></xf:label>
+    								</xf:trigger>
 
-    									<xf:trigger class="btn_cm" ev:onclick="scwin.btn_search_onclick" id="btn_search" style=""
-    										type="button">
-    										<xf:label><![CDATA[검색]]></xf:label>
-    									</xf:trigger>
-    								</xf:group>
     							</xf:group>
     						</xf:group>
     					</xf:group>
     				</xf:group>
     				<xf:group class="btnbox" id="" style="">
-    					<xf:group class="rta" id="">
-    						<xf:trigger class="btn_cm" ev:onclick="scwin.btn_reg_onclick" id="btn_reg" style="" type="button">
+    					<xf:group class="rta" id="" style="text-align:right;">
+    						<xf:trigger class="btn_cm" ev:onclick="scwin.btn_reg_onclick" id="btn_reg" style="padding-right: 10px;padding-left: 10px;" type="button">
     							<xf:label><![CDATA[등록]]></xf:label>
     						</xf:trigger>
     					</xf:group>
@@ -494,16 +506,8 @@ scwin.onpageunload = function() {
     									<xf:group class="gvw_toolbar" id="" style="">
     										<xf:group class="gvw_info" id="" tagname="">
     											<w2:textbox class="" id="" label="건수 &amp;nbsp;:" style="" tagname="span"></w2:textbox>
-    											<w2:textbox class="" id="tbx_total" label="0" ref=""
-    												style="" tagname="em">
-    											</w2:textbox>
-    											<w2:textbox class="" id="" label="건" style="" tagname="span"></w2:textbox>
-    										</xf:group>
-    										<xf:group class="gvw_length" id="" style="" tagname="">
-    											<xf:group id="" tagname="label">
-    												<xf:select1 allOption="" appearance="minimal" chooseOption="" class="" direction="auto"
-    													disabled="false" disabledClass="w2selectbox_disabled" ev:onviewchange="scwin.slb_pagePerCount_onchange"
-    													id="rowSize" ref="data:dma_pageInfo.rowSize" style="" submenuSize="auto" ev:onchange="scwin.slb_pagePerCount_onchange">
+    											<w2:textbox class="" id="tbx_total" label="0" ref="" style="" tagname="em"></w2:textbox>
+    											<w2:textbox class="" id="" label="건" style="" tagname="span"></w2:textbox><xf:select1 submenuSize="auto" ref="data:dma_pageInfo.rowSize" appearance="minimal" disabledClass="w2selectbox_disabled" chooseOption="" style="width:54px;height:21px;" disabled="false" id="rowSize" allOption="" direction="auto" ev:onchange="scwin.slb_pagePerCount_onchange">
     													<xf:choices>
     														<xf:item>
     															<xf:label><![CDATA[5]]></xf:label>
@@ -526,15 +530,19 @@ scwin.onpageunload = function() {
     															<xf:value><![CDATA[50]]></xf:value>
     														</xf:item>
     													</xf:choices>
-    												</xf:select1>
-    												<w2:textbox class="" id="" label="/ page" style="" tagname="span"></w2:textbox>
+    													
+    												</xf:select1><w2:textbox tagname="span" style="" id="" label=" / page" class=""></w2:textbox>
+    										</xf:group>
+    										<xf:group class="gvw_length" id="" style="" tagname="">
+    											<xf:group id="" tagname="label">
     											</xf:group>
     										</xf:group>
+    										
     										<xf:group class="gvw_btn" id=""></xf:group>
     									</xf:group>
-    									<xf:group class="rta" id="" style="">
+    									<xf:group class="rta" id="" style="text-align:right;">
     										<xf:group class="w2trigger btn_df btn_md" ev:onclick="scwin.btn_delete_onclick" id="group6"
-    											style="" tagname="button">
+    											style="margin-right: 10px" tagname="button">
     											<w2:attributes>
     												<w2:type>button</w2:type>
     											</w2:attributes>
@@ -545,7 +553,7 @@ scwin.onpageunload = function() {
     											</w2:textbox>
     											<w2:textbox id="" label="선택 삭제" style="" tagname="span"></w2:textbox>
     										</xf:group>
-    										<xf:group class="w2trigger btn_cm" ev:onclick="scwin.btn_save_onclick" id="group7" style=""
+    										<xf:group class="w2trigger btn_cm" ev:onclick="scwin.btn_save_onclick" id="group7" style="margin-right: 10px"
     											tagname="button">
     											<w2:attributes>
     												<w2:type>button</w2:type>
@@ -569,6 +577,7 @@ scwin.onpageunload = function() {
     										</xf:group>
     									</xf:group>
     								</xf:group>
+    								<br></br>
     								<w2:gridView autoFit="allColumn" class="wq_gvw" dataList="data:dlt_postList" defaultCellHeight="32"
     									ev:oncellclick="scwin.grd_main_oncellclick" focusMode="row" id="grd_main" rowNumHeaderValue="번호" rowNumVisible="false"
     									rowStatusVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true" style="height:98px;"
@@ -670,7 +679,7 @@ scwin.onpageunload = function() {
     									</w2:gBody>
     								</w2:gridView>
     								<w2:pageList displayButtonType="display" displayFormat="#"
-    									ev:onviewchange="scwin.pgl_pageList_onviewchange" id="pgl_pageList" pageSize="10" renderType="list" style="">
+    									ev:onviewchange="scwin.pgl_pageList_onviewchange" id="pgl_pageList" pageSize="10" renderType="list" style="text-align:center;">
     								</w2:pageList>
     							</xf:group>
     						</xf:group>
