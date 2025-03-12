@@ -28,6 +28,7 @@
 
 
 
+        				<w2:column id="postId" name="게시글 id" dataType="text"></w2:column>
         			</w2:columnInfo>
         			<w2:data use="false">
         				<w2:row>
@@ -89,40 +90,39 @@
         				<w2:key id="totalCount" name="전체 건수" dataType="text"></w2:key>
         			</w2:keyInfo>
         		</w2:dataMap>
-        		<w2:dataMap baseNode="map" id="dlt_deleteList">
+        		<w2:dataMap baseNode="map" id="dma_deleteList">
         			<w2:keyInfo>
-        				<w2:key id="postId" name="게시글 id" dataType="text"></w2:key>
+        				<w2:key id="postIdList" name="게시글 id" dataType="text"></w2:key>
         			</w2:keyInfo>
         		</w2:dataMap>
         	</w2:dataCollection>
-        	<xf:submission id="sbm_postList" ref='data:json,{"id":"dma_postParam","key":"postParam"}' target='data:json,[{"id":"dlt_postList","key":"postList"},{"id":"dma_totalCount","key":"totalCount"}]'
+        	<xf:submission id="sbm_postList" ref='data:json,{"id":"dma_postParam","key":"postParam"}'
+        		target='data:json,[{"id":"dlt_postList","key":"postList"},{"id":"dma_totalCount","key":"totalCount"}]'
         		action="http://127.0.0.1:8080/post" method="post" mediatype="application/json" encoding="UTF-8" instance="" replace=""
-        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_postList_submit" ev:submitdone="scwin.sbm_postList_submitdone" ev:submiterror=""
-        		abortTrigger="">
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_postList_submit"
+        		ev:submitdone="scwin.sbm_postList_submitdone" ev:submiterror="" abortTrigger="">
         	</xf:submission>
-        	<xf:submission id="sbm_categoryList1d" ref="" target='data:json,{"id":"dlt_categoryList1d","key":"categoryList1d"}' action="http://127.0.0.1:8080/category"
-        		method="get" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
-        		mode="asynchronous" processMsg="" ev:submit="scwin.categoryList1_submit" ev:submitdone=""
+        	<xf:submission id="sbm_categoryList1d" ref="" target='data:json,{"id":"dlt_categoryList1d","key":"categoryList1d"}'
+        		action="http://127.0.0.1:8080/category" method="get" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.categoryList1_submit" ev:submitdone=""
         		ev:submiterror="" abortTrigger="true">
         	</xf:submission>
         	<xf:submission abortTrigger="" action="http://127.0.0.1:8080/category/child" customHandler="" encoding="UTF-8" errorHandler=""
-        		ev:submit="" ev:submitdone="scwin.category2ListSubmintdone" ev:submiterror="" id="sbm_categoryList2d"
-        		instance="" mediatype="application/json" method="post" mode="asynchronous" processMsg="" ref='data:json,{"id":"dma_parentCategory","key":"parentCategory"}' replace=""
+        		ev:submit="" ev:submitdone="scwin.category2ListSubmintdone" ev:submiterror="" id="sbm_categoryList2d" instance=""
+        		mediatype="application/json" method="post" mode="asynchronous" processMsg=""
+        		ref='data:json,{"id":"dma_parentCategory","key":"parentCategory"}' replace=""
         		target='data:json,{"id":"dlt_categoryList2d","key":"categoryList2d"}' style="">
+        	</xf:submission>
+        	<xf:submission id="sbm_deletePostList" ref='data:json,{"id":"dma_deleteList","key":"deleteList"}' target="" action="http://127.0.0.1:8080/post"
+        		method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
+        		mode="asynchronous" processMsg="" ev:submit="scwin.sbm_deletePostList_submit" ev:submitdone="scwin.sbm_deletePostList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
         	</xf:submission>
         </xf:model>
         <w2:layoutInfo/>
         <w2:publicInfo method=""/>
         <script lazy="false" type="text/javascript"><![CDATA[
 scwin.onpageload = function() {
-	try {
-		dma_pageInfo.set("pageNo", 1);
-		dma_pageInfo.set("rowSize", 5);
-    	$p.executeSubmission("sbm_categoryList1d");
-        $p.executeSubmission("sbm_postList");
-	} catch (e) {
-	    alert("오류 발생: " + e.message);
-	}
+	scwin.fn_pageInit();
 };
 
 scwin.onpageunload = function() {
@@ -158,16 +158,19 @@ scwin.onpageunload = function() {
     return rowSize * (pageNo - 1) + rowIdx + 1;
 };
 
-	scwin.btn_search_onclick = function(e) { // 게시글 검색
+	// 게시글 검색
+	scwin.btn_search_onclick = function(e) {
 		scwin.fn_search(1);
 	};
 	
-	scwin.btn_init_onclick = function(e) { // 초기화
+	// 초기화 버튼 클릭
+	scwin.btn_init_onclick = function(e) {
 		parentId.setValue("");
 		dma_postParam.setEmptyValue();
 	};
 	
-	scwin.parentId_onchange = function() { // 카테고리 1d 변경될 때마다 2d 조회
+	// 카테고리 1d 변경될 때마다 2d 조회
+	scwin.parentId_onchange = function() {
 		$p.executeSubmission("sbm_categoryList2d");
 	};
 	
@@ -184,18 +187,23 @@ scwin.onpageunload = function() {
 		
 		$p.executeSubmission("sbm_postList");
 	};
+	
+	// 목록 초기화
+	scwin.fn_pageInit = function() {
+		dma_pageInfo.set("pageNo", 1);
+		dma_pageInfo.set("rowSize", 5);
+    	$p.executeSubmission("sbm_categoryList1d");
+        $p.executeSubmission("sbm_postList");
+	};
 
 	
 	scwin.sbm_postList_submitdone = function(e) {
 		dma_pageInfo.set("totalPage", Math.ceil(dma_totalCount.get("totalCount") / dma_pageInfo.get("rowSize")));
-		//console.log(dma_pageInfo.get("totalPage"));
 		tbx_total.setValue(dma_totalCount.get("totalCount"));
 		var pglFlag = true;
 		if ("1" == dma_pageInfo.get("pageNo")) {
 			pglFlag = false;
 		}
-
-		console.log(dma_pageInfo.get("totalPage"));
 		pgl_pageList.setCount(dma_pageInfo.get("totalPage"), pglFlag);
 		pgl_pageList.setSelectedIndex(dma_pageInfo.get("pageNo"));
 	};
@@ -204,6 +212,71 @@ scwin.onpageunload = function() {
 	scwin.pgl_pageList_onviewchange = function(info) {
 		scwin.fn_search(info.newSelectedIndex);
 	};
+	
+	/**
+	 * @description : 삭제 버튼 onclick
+	 */
+	scwin.btn_delete_onclick = function(e) {
+		if (!scwin.isChangeCheckGrid([grd_main], "chocYn")) {
+			return com.win.alert(com.data.getMessage("com.inf.0004"));	//삭제할 대상을 먼저 선택해 주세요
+		}else{
+			com.win.confirm(com.data.getMessage("com.cfm.0003"), function(
+					result) {
+				if (result.clickValue) {
+					dlt_delEvapList.removeAll();
+					dlt_delEvapList.setJSON(dlt_evetPlusRcmdList.getUpdatedJSON(),	false);
+					dlt_delEvapList.modifyAllStatus('U');
+					for (var i = 0; i < dlt_delEvapList.getRowCount(); i++) {
+						dlt_delEvapList.setCellData(i, "delYn", "Y");
+					}
+					if (dlt_delEvapList.getRowCount() > 0) {
+						com.sbm.execute("sbm_deleteEvetPlusRcmd", {}, gcm.SERVICE_LIST.EVET);
+					}
+				}
+			});
+		}
+	};
+
+	/**
+	 * @description : 삭제 서브미션 callback
+	 * @Author      : jk0649
+	 */
+	scwin.sbm_deleteEvetPlusRcmd_submitdone = function(e) {
+		if (e.responseStatusCode == 200) {
+			com.win.alert(com.data.getMessage("com.inf.0005"));
+			scwin.fn_searEvetPlusRcmdList(1);
+		}
+	};
+	
+	//삭제 클릭
+	scwin.btn_delete_onclick = function(e) {
+		var checkColArr = dlt_postList.getMatchedIndex("check","1");
+		if (checkColArr.length == 0) {
+			alert("선택된 행이 없습니다.");
+		}
+		$p.executeSubmission("sbm_deletePostList");
+	};
+	
+	scwin.sbm_deletePostList_submit = function(result) {
+		var oList = dlt_postList.getMatchedJSON("check", "1");
+		var postIdList = [];
+		for (var i = 0; i < oList.length; i++) {
+			postIdList[i] = oList[i].postId;
+			console.log(postIdList[i]);
+		}
+
+		dma_deleteList.set("postIdList", postIdList);
+		console.log(dma_deleteList.get("postIdList"));
+	};
+	
+	scwin.sbm_deletePostList_submitdone = function(e) {
+		if (e.responseText == "0") {
+			console.log(e);
+		} else {
+			scwin.fn_search(1);
+		}
+	};
+
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
@@ -557,6 +630,9 @@ scwin.onpageunload = function() {
     											<w2:column sortLabel="true" removeBorderStyle="false" width="90" inputType="text"
     												style="height:32px;" id="column17" sortable="true" value="수정자" blockSelect="false" displayMode="label">
     											</w2:column>
+    											<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:32px;"
+    												id="postId" value="게시글 id" blockSelect="false" displayMode="label" hidden="true">
+    											</w2:column>
     										</w2:row>
     									</w2:header>
     									<w2:gBody id="gBody1" style="">
@@ -601,6 +677,9 @@ scwin.onpageunload = function() {
     											</w2:column>
     											<w2:column removeBorderStyle="false" width="90" inputType="text" readOnly="true"
     												style="height:32px" id="updatedBy" blockSelect="false" displayMode="label">
+    											</w2:column>
+    											<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:32px"
+    												id="postId" value="" blockSelect="false" displayMode="label" hidden="false">
     											</w2:column>
     										</w2:row>
     									</w2:gBody>

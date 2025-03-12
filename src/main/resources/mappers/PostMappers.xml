@@ -28,7 +28,10 @@
         SELECT
         p.post_id AS postId,
         p.display_order AS displayOrder,
-        p.type,
+        CASE
+        WHEN p.type = 0 THEN '공지'
+        WHEN p.type = 1 THEN '일반'
+        END AS type,
         -- 카테고리 1d: category_id가 부모일 경우 그대로 사용, 자식일 경우 부모 이름 가져오기
         COALESCE(parent_category.category_name, child_category.category_name) AS category1,
         -- 카테고리 2d: category_id가 자식일 때만 가져오기

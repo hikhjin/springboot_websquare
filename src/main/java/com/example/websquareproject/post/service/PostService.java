@@ -50,11 +50,8 @@ public class PostService {
 //    }
 
     @Transactional
-    public void deletePosts(PostDeleteDto postDeleteDto) {
-        List<Integer> postIds = postDeleteDto.getPostId();
-        if (!postIds.isEmpty() || postIds != null) {
-            postMapper.deletePosts(postIds);
-        }
+    public void deletePosts(List<Integer> postIdList) {
+        postMapper.deletePosts(postIdList);
     }
 
     @Transactional
