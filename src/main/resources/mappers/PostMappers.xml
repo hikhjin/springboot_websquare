@@ -185,6 +185,115 @@
         </if>
     </select>
 
+    <select id="getExcelList" resultType="com.example.websquareproject.post.dto.ExcelListDto">
+        SELECT
+        --p.post_id AS postId,
+        p.display_order AS displayOrder,
+        CASE
+        WHEN p.type = 0 THEN '공지'
+        WHEN p.type = 1 THEN '일반'
+        END AS type,
+        -- 카테고리 1d: category_id가 부모일 경우 그대로 사용, 자식일 경우 부모 이름 가져오기
+        COALESCE(parent_category.category_name, child_category.category_name) AS category1,
+        -- 카테고리 2d: category_id가 자식일 때만 가져오기
+        CASE
+        WHEN child_category.parent_id IS NOT NULL THEN child_category.category_name
+        ELSE NULL
+        END AS category2,
+        p.title,
+        p.views,
+        p.is_displayed AS isDisplayed,
+        p.display_start AS displayStart,
+        p.display_end AS displayEnd,
+        p.content,
+        p.pc_image_url AS pcImageUrl,
+        p.pc_image_alt_text AS pcImageAltText,
+        p.mobile_image_url AS mobileImageUrl,
+        p.mobile_image_alt_text AS mobileImageAltText,
+        -- 한 게시글에 여러 개의 미디어 콘텐츠를 포함할 수 있도록 GROUP_CONCAT 사용
+        GROUP_CONCAT(DISTINCT sm.source_media_content ORDER BY sm.source_media_id SEPARATOR ', ') AS sourceMediaList,
+        -- 한 게시글에 여러 개의 여행지를 포함할 수 있도록 GROUP_CONCAT 사용
+        GROUP_CONCAT(DISTINCT tp.travel_place_name ORDER BY tp.travel_place_id SEPARATOR ', ') AS travelPlaceList,
+        p.attachment_url AS attachmentUrl,
+        p.updated_at AS updatedAt,
+        p.updated_by AS updatedBy,
+        p.created_at AS createdAt,
+        p.created_by AS createdBy
+        FROM POST p
+        LEFT JOIN CATEGORY child_category ON child_category.category_id = p.category_id
+        LEFT JOIN CATEGORY parent_category ON parent_category.category_id = child_category.parent_id
+        LEFT JOIN POST_TRAVEL_PLACE ptp ON ptp.post_id = p.post_id
+        LEFT JOIN TRAVEL_PLACE tp ON tp.travel_place_id = ptp.travel_place_id
+        LEFT JOIN SOURCE_MEDIA sm ON sm.post_id = p.post_id
+        WHERE 1=1
+
+        <if test="category1 != null and category1 != ''">
+            AND (parent_category.category_id = #{category1} OR child_category.category_id = #{category1})
+        </if>
+
+        <if test="category2 != null and category2 != ''">
+            AND child_category.category_id = #{category2}
+        </if>
+
+        <!-- 기간 검색 -->
+        <if test="periodType != null and periodType != '' and startDate != null and endDate != null">
+            <choose>
+                <when test="'전시시작일시'.equals(periodType)">
+                    AND p.display_start BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
+                </when>
+                <when test="'전시종료일시'.equals(periodType)">
+                    AND p.display_end BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
+                </when>
+                <when test="'수정일시'.equals(periodType)">
+                    AND p.updated_at BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
+                </when>
+                <when test="'등록일시'.equals(periodType)">
+                    AND p.created_at BETWEEN STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+                    AND STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
+                </when>
+            </choose>
+        </if>
+
+        <!-- 전시 여부 -->
+        <if test="isDisplayed != null and isDisplayed != '' and isDisplayed != '전체'">
+            AND p.is_displayed = #{isDisplayed}
+        </if>
+
+        <!-- 검색 조건 -->
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="'등록자'.equals(searchType)">
+                    AND p.created_by LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="'수정자'.equals(searchType)">
+                    AND p.updated_by LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="'내용'.equals(searchType)">
+                    AND p.content LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="'제목'.equals(searchType)">
+                    AND p.title LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <otherwise>
+                    AND (p.title LIKE CONCAT('%', #{keyword}, '%')
+                    OR p.content LIKE CONCAT('%', #{keyword}, '%')
+                    OR p.created_by LIKE CONCAT('%', #{keyword}, '%')
+                    OR p.updated_by LIKE CONCAT('%', #{keyword}, '%'))
+                </otherwise>
+            </choose>
+        </if>
+
+        GROUP BY p.display_order, p.type, category1, category2, p.title, p.views, p.is_displayed,
+        p.updated_at, p.updated_by, p.created_at, p.created_by
+
+        ORDER BY
+        p.display_order IS NULL ASC,  -- NULL이면 맨 뒤로 정렬
+        p.display_order,  -- display_order가 있는 경우 오름차순 정렬
+        p.created_at DESC      -- 같은 순서일 경우 최신 등록일 순으로 정렬
+    </select>
 
 
 

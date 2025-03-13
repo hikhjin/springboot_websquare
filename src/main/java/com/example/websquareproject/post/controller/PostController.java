@@ -3,7 +3,9 @@ package com.example.websquareproject.post.controller;
 import com.example.websquareproject.post.dto.*;
 import com.example.websquareproject.post.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,7 @@ import java.util.Map;
 public class PostController {
 
     private final PostService postService;
-    private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환을 위한 ObjectMapper
+    //private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환을 위한 ObjectMapper
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -61,6 +63,37 @@ public class PostController {
                 (postParam.getPage() != null) ? postParam.getPage() : 1    // 기본 page=1
         );
     }
+
+    // 게시글 엑셀 저장
+//    @PostMapping("/excel")
+//    public ResponseEntity<Map<String, Object>> getExcel(@RequestBody(required = false) PostParamDto postParamDto) {
+//        if (postParamDto == null || postParamDto.getPostParam() == null) {
+//            postParamDto = new PostParamDto(new PostParam());
+//        }
+//
+//        PostParam postParam = postParamDto.getPostParam();
+//
+//        return postService.getExcelList(
+//                postParam.getCategory1(), postParam.getCategory2(), postParam.getPeriodType(),
+//                postParam.getStartDate(), postParam.getEndDate(), postParam.getIsDisplayed(),
+//                postParam.getSearchType(), postParam.getKeyword()
+//        );
+//    }
+    @PostMapping("/excel")
+    public void downloadExcel(HttpServletResponse response,
+                              @RequestParam(required = false) String category1,
+                              @RequestParam(required = false) String category2,
+                              @RequestParam(required = false) String periodType,
+                              @RequestParam(required = false) String startDate,
+                              @RequestParam(required = false) String endDate,
+                              @RequestParam(required = false) String isDisplayed,
+                              @RequestParam(required = false) String searchType,
+                              @RequestParam(required = false) String keyword) {
+        postService.getExcelFile(
+                category1, category2, periodType, startDate, endDate, isDisplayed, searchType, keyword, response
+        );
+    }
+
 
 
 
