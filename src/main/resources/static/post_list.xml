@@ -353,23 +353,6 @@ scwin.onpageunload = function() {
 	
 	};
 	
-	scwin.sbm_excelDownload_submitdone = function(e) {
-		console.log("엑셀 다운로드 완료"); // 응답 데이터 로그
-    	//console.log("sbm_excelDownload_submitdone 실행됨");
-		//var options = {
-	 		    //fileName:           "게시글 목록.xls",
-	 		    //type:               "1",
-	 		    //startRowIndex:      0,
-	 		    //startColumnIndex:   0,
-	 		    //headerColor:        "#CDCDCD",
-	 		    //showProcess:        true
-	 		//};
-	 		
-	 	//console.log("엑셀 다운로드 실행:", options);
-    	//grd_excelDown.advancedExcelDownload(options);
-	 	
-	};
-	
 	// 달력 숨기기
 	scwin.periodType_onviewchange = function(info) {
 		scwin.fn_showHide(info.newValue);

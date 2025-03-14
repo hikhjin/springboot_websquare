@@ -64,21 +64,6 @@ public class PostController {
         );
     }
 
-    // 게시글 엑셀 저장
-//    @PostMapping("/excel")
-//    public ResponseEntity<Map<String, Object>> getExcel(@RequestBody(required = false) PostParamDto postParamDto) {
-//        if (postParamDto == null || postParamDto.getPostParam() == null) {
-//            postParamDto = new PostParamDto(new PostParam());
-//        }
-//
-//        PostParam postParam = postParamDto.getPostParam();
-//
-//        return postService.getExcelList(
-//                postParam.getCategory1(), postParam.getCategory2(), postParam.getPeriodType(),
-//                postParam.getStartDate(), postParam.getEndDate(), postParam.getIsDisplayed(),
-//                postParam.getSearchType(), postParam.getKeyword()
-//        );
-//    }
     @PostMapping("/excel")
     public void downloadExcel(HttpServletResponse response,
                               @RequestParam(required = false) String category1,
@@ -93,14 +78,5 @@ public class PostController {
                 category1, category2, periodType, startDate, endDate, isDisplayed, searchType, keyword, response
         );
     }
-
-
-
-
-    // 게시글 - 여행지 장소 등록
-
-    // 게시글 - 여행지 장소 수정
-
-    // 게시글 - 여행지 장소 삭제
 
 }
