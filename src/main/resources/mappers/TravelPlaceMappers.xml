@@ -3,8 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.websquareproject.travelPlace.mapper.TravelPlaceMapper">
+    <delete id="deletePlaces">
+        DELETE FROM TRAVEL_PLACE WHERE travel_place_id IN
+        <foreach collection="travelPlaceIds" item="travelPlaceId" open="(" separator="," close=")">
+            #{travelPlaceId}
+        </foreach>
+    </delete>
 
-<select id="getTravelPlaces" resultType="com.example.websquareproject.travelPlace.dto.TravelPlaceListDto">
+    <select id="getTravelPlaces" resultType="com.example.websquareproject.travelPlace.dto.TravelPlaceListDto">
     SELECT travel_place_name AS travelPlaceName, created_at AS createdAt, created_by AS createdBy, updated_at AS updatedAt, updated_by AS updatedBy, travel_place_id AS travelPlaceId FROM TRAVEL_PLACE;
 </select>
 

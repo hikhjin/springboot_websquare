@@ -141,7 +141,7 @@
         	<xf:submission id="sbm_updatePostList" ref='data:json,{"id":"dlt_postList","key":"postList"}' target=""
         		action="http://127.0.0.1:8080/post" method="put" mediatype="application/json" encoding="UTF-8" instance="" replace=""
         		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_updatePostList_submit"
-        		ev:submitdone="scwin.sbm_updatePostList_submitdone" ev:submiterror="" abortTrigger="">
+        		ev:submitdone="scwin.sbm_updatePostList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
         	</xf:submission>
         	<xf:submission id="sbm_excelDownload" ref='data:json,{"id":"dma_postParam","key":"postParam"}'
         		target='' action="http://127.0.0.1:8080/post/excel" method="post"
@@ -233,6 +233,7 @@ scwin.onpageunload = function() {
 		var checkColArr = dlt_postList.getMatchedIndex("check","1");
 		if (checkColArr.length == 0) {
 			alert("선택된 행이 없습니다.");
+			return;
 		}
 		$p.executeSubmission("sbm_deletePostList");
 	};

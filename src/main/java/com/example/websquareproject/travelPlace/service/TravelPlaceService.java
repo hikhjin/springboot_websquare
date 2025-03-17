@@ -6,6 +6,7 @@ import com.example.websquareproject.travelPlace.mapper.TravelPlaceMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,5 +29,10 @@ public class TravelPlaceService {
         response.put("travelPlaceList", travelPlaceList);
 
         return ResponseEntity.ok(response);
+    }
+
+    @Transactional
+    public void deletePlaces(List<Integer> travelPlaceIdList) {
+        travelPlaceMapper.deletePlaces(travelPlaceIdList);
     }
 }
