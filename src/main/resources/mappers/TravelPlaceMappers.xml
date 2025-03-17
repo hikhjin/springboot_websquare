@@ -3,6 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.websquareproject.travelPlace.mapper.TravelPlaceMapper">
+    <update id="updatePlaces">
+        UPDATE TRAVEL_PLACE
+        SET travel_place_name =
+        CASE travel_place_id
+        <foreach collection="travelPlaceListDto" item="travelPlace">
+            WHEN #{travelPlace.travelPlaceId} THEN #{travelPlace.travelPlaceName}
+        </foreach>
+        END
+        WHERE travel_place_id IN
+        <foreach collection="travelPlaceListDto" item="travelPlace" open="(" separator="," close=")">
+            #{travelPlace.travelPlaceId}
+        </foreach>
+    </update>
+
     <delete id="deletePlaces">
         DELETE FROM TRAVEL_PLACE WHERE travel_place_id IN
         <foreach collection="travelPlaceIds" item="travelPlaceId" open="(" separator="," close=")">

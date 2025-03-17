@@ -34,9 +34,14 @@
         		abortTrigger="">
         	</xf:submission>
         	<xf:submission id="sbm_deleteTravelPlaceList" ref='data:json,{"id":"dma_deleteList","key":"deleteList"}' target=""
-        		action="http://127.0.0.1:8080/travelPlace" method="delete" mediatype="application/json" encoding="UTF-8" instance=""
-        		replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_deleteTravelPlaceList_submit" ev:submitdone="scwin.sbm_deleteTravelPlaceList_submitdone" ev:submiterror=""
-        		abortTrigger="" singleMode="true">
+        		action="http://127.0.0.1:8080/travelPlace" method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_deleteTravelPlaceList_submit"
+        		ev:submitdone="scwin.sbm_deleteTravelPlaceList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
+        	</xf:submission>
+        	<xf:submission id="sbm_updateTravelPlaceList" ref='data:json,{"id":"dlt_travelPlaceList","key":"travelPlaceList"}' target=""
+        		action="http://127.0.0.1:8080/travelPlace" method="put" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone="" ev:submiterror=""
+        		abortTrigger="">
         	</xf:submission>
         </xf:model>
         <script type="text/javascript" lazy="false"><![CDATA[
@@ -89,6 +94,27 @@
 		}
 		
 	};
+	
+	scwin.btn_save_onclick = function(e) {
+		var modifiedList = dlt_travelPlaceList.getModifiedIndex();
+		
+		if (modifiedList.length < 1) {
+		    alert("변경할 내용이 없습니다.");
+		    return;
+		}
+
+	    for (var i = 0; i < modifiedList.length; i++) {
+	        var travelPlaceName = dlt_travelPlaceList.getCellData(modifiedList[i], "travelPlaceName");
+	        // name 값이 문자열 형태가 아닐 경우
+	        if (/^\d+$/.test(travelPlaceName)) {
+	            alert("장소 이름은 문자열 형태여야 합니다.");
+	            $p.executeSubmission("sbm_travelPlaceList");
+	            return;
+	        }
+	    }
+	    $p.executeSubmission("sbm_updateTravelPlaceList");
+	    $p.executeSubmission("sbm_travelPlaceList");
+	};
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
@@ -128,17 +154,17 @@
     					blockSelect="false" displayMode="label" customFormatter="scwin.gridNoFormat">
     				</w2:column>
     				<w2:column width="70" id="travelPlaceName"></w2:column>
-    				<w2:column width="70" id="createdAt" inputType="calendar" calendarValueType="yearMonthDateTimeSec"></w2:column>
-    				<w2:column width="70" id="createdBy"></w2:column>
-    				<w2:column width="70" id="updatedAt" inputType="calendar"></w2:column>
-    				<w2:column width="70" id="updatedBy"></w2:column>
-    				<w2:column width="70" id="travelPlaceId"></w2:column>
+    				<w2:column width="70" id="createdAt" inputType="calendar" calendarValueType="yearMonthDateTimeSec" readOnly="true"></w2:column>
+    				<w2:column width="70" id="createdBy" readOnly="true"></w2:column>
+    				<w2:column width="70" id="updatedAt" inputType="calendar" calendarValueType="yearMonthDateTimeSec" readOnly="true"></w2:column>
+    				<w2:column width="70" id="updatedBy" readOnly="true"></w2:column>
+    				<w2:column width="70" id="travelPlaceId" readOnly="true"></w2:column>
     			</w2:row>
     		</w2:gBody>
     	</w2:gridView>
     	<br></br>
     	<xf:group id="" style="text-align:right;">
-    		<xf:trigger id="" style="width:94px;height:23px;margin-right: 10px" type="button">
+    		<xf:trigger id="btn_save" style="width:94px;height:23px;margin-right: 10px" type="button" ev:onclick="scwin.btn_save_onclick">
     			<xf:label><![CDATA[ 변경사항 저장 ]]></xf:label>
     		</xf:trigger>
     		<xf:trigger id="" style="width: 80px;height: 23px;margin-right: 10px;" type="button">

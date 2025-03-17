@@ -1,5 +1,6 @@
 package com.example.websquareproject.travelPlace.mapper;
 
+import com.example.websquareproject.post.dto.PostListDto;
 import com.example.websquareproject.travelPlace.dto.TravelPlaceListDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,4 +10,5 @@ import java.util.List;
 public interface TravelPlaceMapper {
     List<TravelPlaceListDto> getTravelPlaces();
     void deletePlaces(List<Integer> travelPlaceIds);
+    void updatePlaces(List<TravelPlaceListDto> travelPlaceListDto);
 }

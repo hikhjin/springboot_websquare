@@ -1,6 +1,7 @@
 package com.example.websquareproject.travelPlace.service;
 
 
+import com.example.websquareproject.post.dto.PostListDto;
 import com.example.websquareproject.travelPlace.dto.TravelPlaceListDto;
 import com.example.websquareproject.travelPlace.mapper.TravelPlaceMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -34,5 +35,10 @@ public class TravelPlaceService {
     @Transactional
     public void deletePlaces(List<Integer> travelPlaceIdList) {
         travelPlaceMapper.deletePlaces(travelPlaceIdList);
+    }
+
+    @Transactional
+    public void updatePlaces(List<TravelPlaceListDto> travelPlaceListDto) {
+        travelPlaceMapper.updatePlaces(travelPlaceListDto);
     }
 }
