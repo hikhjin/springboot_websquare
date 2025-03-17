@@ -26,6 +26,11 @@
         				<w2:key id="travelPlaceIdList" name="장소 id" dataType="text"></w2:key>
         			</w2:keyInfo>
         		</w2:dataMap>
+        		<w2:dataMap baseNode="map" id="dma_updateList">
+        			<w2:keyInfo>
+        				<w2:key id="key1" name="name1" dataType="text"></w2:key>
+        			</w2:keyInfo>
+        		</w2:dataMap>
         	</w2:dataCollection>
         	<w2:workflowCollection></w2:workflowCollection>
         	<xf:submission id="sbm_travelPlaceList" ref="" target='data:json,{"id":"dlt_travelPlaceList","key":"travelPlaceList"}'
@@ -40,7 +45,7 @@
         	</xf:submission>
         	<xf:submission id="sbm_updateTravelPlaceList" ref='data:json,{"id":"dlt_travelPlaceList","key":"travelPlaceList"}' target=""
         		action="http://127.0.0.1:8080/travelPlace" method="put" mediatype="application/json" encoding="UTF-8" instance="" replace=""
-        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone="" ev:submiterror=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_updateTravelPlaceList_submit" ev:submitdone="" ev:submiterror=""
         		abortTrigger="">
         	</xf:submission>
         </xf:model>
@@ -48,6 +53,8 @@
         
 	scwin.onpageload = function() {
 		$p.executeSubmission("sbm_travelPlaceList");
+		dlt_travelPlaceList.setColumnDefaultValue("createdBy", "hikhjin"); 
+		dlt_travelPlaceList.setColumnDefaultValue("updatedBy", "hikhjin"); 
 	};
 	
 	scwin.onpageunload = function() {
@@ -61,18 +68,25 @@
 	
 	//장소 추가
 	scwin.btn_add_travelPlace_onclick = function(e) {
-		
+		dlt_travelPlaceList.insertRow();
 	};
-	
 	
 	//선택 삭제
 	scwin.btn_del_onclick = function(e) {
-		var checkColArr = dlt_travelPlaceList.getMatchedIndex("check","1");
-		if (checkColArr.length == 0) {
+		var checkRowArr = dlt_travelPlaceList.getMatchedIndex("check","1");
+		if (checkRowArr.length == 0) {
 			alert("선택된 행이 없습니다.");
 			return;
 		}
-		$p.executeSubmission("sbm_deleteTravelPlaceList");
+		
+		for (var i = 0; i < checkRowArr.length; i++) {
+			dlt_travelPlaceList.deleteRow(checkRowArr[i]);
+			console.log(checkRowArr[i]);
+			grd_main.setRowVisible(checkRowArr[i], false);
+			console.log("Dd");
+		}
+		//dlt_travelPlaceList.removeRows(checkRowArr);
+		//$p.executeSubmission("sbm_deleteTravelPlaceList");
 	};
 	
 	scwin.sbm_deleteTravelPlaceList_submit = function(e) {
@@ -97,23 +111,29 @@
 	
 	scwin.btn_save_onclick = function(e) {
 		var modifiedList = dlt_travelPlaceList.getModifiedIndex();
-		
-		if (modifiedList.length < 1) {
-		    alert("변경할 내용이 없습니다.");
-		    return;
-		}
+		console.log(modifiedList);
+		//if (modifiedList.length < 1) {
+		    //alert("변경할 내용이 없습니다.");
+		    //return;
+		//}
 
 	    for (var i = 0; i < modifiedList.length; i++) {
 	        var travelPlaceName = dlt_travelPlaceList.getCellData(modifiedList[i], "travelPlaceName");
-	        // name 값이 문자열 형태가 아닐 경우
+	        // travelPlaceName 값이 문자열 형태가 아닐 경우
 	        if (/^\d+$/.test(travelPlaceName)) {
 	            alert("장소 이름은 문자열 형태여야 합니다.");
 	            $p.executeSubmission("sbm_travelPlaceList");
 	            return;
 	        }
+	        dlt_travelPlaceList.setCellData(modifiedList[i], "updatedBy", "hikhjin");
 	    }
 	    $p.executeSubmission("sbm_updateTravelPlaceList");
 	    $p.executeSubmission("sbm_travelPlaceList");
+	};
+	
+	
+	scwin.btn_reg_onclick = function(e) {
+		
 	};
 	]]></script>
     </head>
@@ -167,7 +187,7 @@
     		<xf:trigger id="btn_save" style="width:94px;height:23px;margin-right: 10px" type="button" ev:onclick="scwin.btn_save_onclick">
     			<xf:label><![CDATA[ 변경사항 저장 ]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger id="" style="width: 80px;height: 23px;margin-right: 10px;" type="button">
+    		<xf:trigger id="btn_reg" style="width: 80px;height: 23px;margin-right: 10px;" type="button" ev:onclick="scwin.btn_reg_onclick">
     			<xf:label><![CDATA[등록]]></xf:label>
     		</xf:trigger>
     	</xf:group>

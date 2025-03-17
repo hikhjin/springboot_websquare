@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -33,12 +34,32 @@ public class TravelPlaceService {
     }
 
     @Transactional
-    public void deletePlaces(List<Integer> travelPlaceIdList) {
-        travelPlaceMapper.deletePlaces(travelPlaceIdList);
-    }
-
-    @Transactional
     public void updatePlaces(List<TravelPlaceListDto> travelPlaceListDto) {
-        travelPlaceMapper.updatePlaces(travelPlaceListDto);
+        // 새로 추가할 데이터 (rowStatus == "C")
+        List<TravelPlaceListDto> insertList = travelPlaceListDto.stream()
+                .filter(place -> "C".equals(place.getRowStatus()))
+                .collect(Collectors.toList());
+
+        // 업데이트할 데이터 (rowStatus == "U")
+        List<TravelPlaceListDto> updateList = travelPlaceListDto.stream()
+                .filter(place -> "U".equals(place.getRowStatus()))
+                .collect(Collectors.toList());
+
+        List<TravelPlaceListDto> deleteList = travelPlaceListDto.stream()
+                .filter(place -> "D".equals(place.getRowStatus()))
+                .collect(Collectors.toList());
+
+
+        if (!insertList.isEmpty()) {
+            travelPlaceMapper.insertPlaces(insertList);
+        }
+
+        if (!updateList.isEmpty()) {
+            travelPlaceMapper.updatePlaces(updateList);
+        }
+
+        if (!deleteList.isEmpty()) {
+            travelPlaceMapper.deletePlaces(deleteList);
+        }
     }
 }

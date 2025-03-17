@@ -14,4 +14,5 @@ public class TravelPlaceListDto {
     private String updatedAt;
     private String updatedBy;
     private int travelPlaceId;
+    private String rowStatus;
 }

@@ -30,17 +30,10 @@ public class TravelPlaceController {
 
     // 여행지 장소 등록
 
-    // 여행지 장소 수정
+    // 여행지 장소 수정, 삭제, 추가
     @PutMapping("")
     public ResponseEntity<String> updatePlaces(@RequestBody TravelPlaceUpdateListDto travelPlaceUpdateListDto) {
         travelPlaceService.updatePlaces(travelPlaceUpdateListDto.getTravelPlaceList());
-        return ResponseEntity.ok("Success");
-    }
-
-    // 여행지 장소 삭제
-    @DeleteMapping("")
-    public ResponseEntity<String> deletePlaces(@RequestBody TravelPlaceDeleteDto travelPlaceDeleteDto) {
-        travelPlaceService.deletePlaces(travelPlaceDeleteDto.getTravelPlaceIdList());
         return ResponseEntity.ok("Success");
     }
 
