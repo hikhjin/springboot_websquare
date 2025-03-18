@@ -21,11 +21,6 @@
         				<w2:column dataType="text" id="travelPlaceId" name="장소 id"></w2:column>
         			</w2:columnInfo>
         		</w2:dataList>
-        		<w2:dataMap baseNode="map" id="dma_deleteList">
-        			<w2:keyInfo>
-        				<w2:key id="travelPlaceIdList" name="장소 id" dataType="text"></w2:key>
-        			</w2:keyInfo>
-        		</w2:dataMap>
         		<w2:dataMap baseNode="map" id="dma_updateList">
         			<w2:keyInfo>
         				<w2:key id="key1" name="name1" dataType="text"></w2:key>
@@ -37,11 +32,6 @@
         		action="http://127.0.0.1:8080/travelPlace" method="get" mediatype="application/json" encoding="UTF-8" instance="" replace=""
         		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone="" ev:submiterror=""
         		abortTrigger="">
-        	</xf:submission>
-        	<xf:submission id="sbm_deleteTravelPlaceList" ref='data:json,{"id":"dma_deleteList","key":"deleteList"}' target=""
-        		action="http://127.0.0.1:8080/travelPlace" method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace=""
-        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_deleteTravelPlaceList_submit"
-        		ev:submitdone="scwin.sbm_deleteTravelPlaceList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
         	</xf:submission>
         	<xf:submission id="sbm_updateTravelPlaceList" ref='data:json,{"id":"dlt_travelPlaceList","key":"travelPlaceList"}' target=""
         		action="http://127.0.0.1:8080/travelPlace" method="put" mediatype="application/json" encoding="UTF-8" instance="" replace=""
@@ -81,12 +71,8 @@
 		
 		for (var i = 0; i < checkRowArr.length; i++) {
 			dlt_travelPlaceList.deleteRow(checkRowArr[i]);
-			console.log(checkRowArr[i]);
 			grd_main.setRowVisible(checkRowArr[i], false);
-			console.log("Dd");
 		}
-		//dlt_travelPlaceList.removeRows(checkRowArr);
-		//$p.executeSubmission("sbm_deleteTravelPlaceList");
 	};
 	
 	scwin.sbm_deleteTravelPlaceList_submit = function(e) {
@@ -94,7 +80,7 @@
 		var travelPlaceIdList = [];
 		for (var i = 0; i < oList.length; i++) {
 			travelPlaceIdList[i] = oList[i].travelPlaceId;
-			console.log(travelPlaceIdList[i]);
+			//console.log(travelPlaceIdList[i]);
 		}
 
 		dma_deleteList.set("travelPlaceIdList", travelPlaceIdList);
@@ -133,8 +119,27 @@
 	
 	
 	scwin.btn_reg_onclick = function(e) {
+		var dataArr = dlt_travelPlaceList.getModifiedIndex();
+		//if (dataArr.length > 0) {
+			//alert("등록 전 변경사항 저장 버튼을 눌러주세요.");
+			//return;
+		//}
+		// dataArr의 인덱스에 해당하는 데이터들을 부모에게 넘겨줌.
+	    var modifiedData = [];
+	    for (var i = 0; i < dataArr.length; i++) {
+	        modifiedData.push(dlt_travelPlaceList.getRowJSON(dataArr[i]));
+	        //console.log(modifiedData[i]);
+	    }
+		$p.parent().scwin.travelPlace_popup_callBack(modifiedData);
+		//var callbackFn = $p.getParameter("callbackFn");
+		//var callBackParam = {"data": JSON.stringify(dlt_travelPlaceList.getMatchedIndex("check","1"))};
+		//callBackParam.name = "추천여행지 콜백파라미터";
+		console.log("ddddd");
 		
+		$p.parent().$p.closePopup("addPopup");
 	};
+
+	
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
@@ -187,7 +192,8 @@
     		<xf:trigger id="btn_save" style="width:94px;height:23px;margin-right: 10px" type="button" ev:onclick="scwin.btn_save_onclick">
     			<xf:label><![CDATA[ 변경사항 저장 ]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger id="btn_reg" style="width: 80px;height: 23px;margin-right: 10px;" type="button" ev:onclick="scwin.btn_reg_onclick">
+    		<xf:trigger id="btn_reg" style="width: 80px;height: 23px;margin-right: 10px;" type="button"
+    			ev:onclick="scwin.btn_reg_onclick">
     			<xf:label><![CDATA[등록]]></xf:label>
     		</xf:trigger>
     	</xf:group>

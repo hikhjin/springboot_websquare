@@ -7,28 +7,183 @@
         <w2:buildDate/>
         <w2:MSA/>
         <xf:model>
-            <w2:dataCollection baseNode="map"></w2:dataCollection>
-            <w2:workflowCollection/>
+        	<w2:dataCollection baseNode="map">
+        		<w2:dataMap baseNode="map" id="dma_postForm">
+        			<w2:keyInfo>
+        				<w2:key id="type" name="구분" dataType="text"></w2:key>
+        				<w2:key id="category1" name="카테고리1" dataType="text"></w2:key>
+        				<w2:key id="category2" name="카테고리2" dataType="text"></w2:key>
+        				<w2:key id="title" name="제목" dataType="text"></w2:key>
+        				<w2:key id="isDisplayed" name="전시여부" dataType="text"></w2:key>
+        				<w2:key id="startDate" name="전시시작일시" dataType="text"></w2:key>
+        				<w2:key id="endDate" name="전시종료일시" dataType="text"></w2:key>
+        				<w2:key id="content" name="내용" dataType="text"></w2:key>
+        				<w2:key id="travelPlace1" name="추천여행지1" dataType="text"></w2:key>
+        				<w2:key id="travelPlace2" name="추천여행지2" dataType="text"></w2:key>
+        				<w2:key id="travelPlace3" name="추천여행지3" dataType="text"></w2:key>
+        				<w2:key id="travelPlace4" name="추천여행지4" dataType="text"></w2:key>
+        				<w2:key id="travelPlace5" name="추천여행지5" dataType="text"></w2:key>
+        				<w2:key id="pcImageUrl" name="pc이미지 경로" dataType="text"></w2:key>
+        				<w2:key id="pcImageAltText" name="pc 이미지 대체텍스트" dataType="text"></w2:key>
+        				<w2:key id="moblieImageUrl" name="모바일 이미지 경로" dataType="text"></w2:key>
+        				<w2:key id="mobileImageAltText" name="모바일 이미지 대체텍스트" dataType="text"></w2:key>
+        				<w2:key id="attachmentUrl" name="첨부파일 경로" dataType="text"></w2:key>
+        				<w2:key id="sourceMedia1" name="name19" dataType="text"></w2:key>
+        				<w2:key id="sourceMedia2" name="name20" dataType="text"></w2:key>
+        				<w2:key id="sourceMedia3" name="name21" dataType="text"></w2:key>
+        			</w2:keyInfo>
+        		</w2:dataMap>
+        		<w2:dataList baseNode="list" id="dlt_categoryList1d" repeatNode="map" saveRemovedData="true" style="">
+        			<w2:columnInfo>
+        				<w2:column dataType="text" id="categoryId" name="카테고리 id"></w2:column>
+        				<w2:column dataType="text" id="categoryName" name="카테고리 이름"></w2:column>
+        			</w2:columnInfo>
+        			<w2:data use="false"></w2:data>
+        		</w2:dataList>
+        		<w2:dataList baseNode="list" id="dlt_categoryList2d" repeatNode="map" saveRemovedData="true" style="">
+        			<w2:columnInfo>
+        				<w2:column dataType="text" id="categoryId" name="카테고리 id"></w2:column>
+        				<w2:column dataType="text" id="categoryName" name="카테고리 이름"></w2:column>
+        			</w2:columnInfo>
+        			<w2:data use="false"></w2:data>
+        		</w2:dataList>
+        		<w2:dataMap baseNode="map" id="dma_parentCategory" style="">
+        			<w2:keyInfo>
+        				<w2:key dataType="text" id="parentId" name="카테고리 id"></w2:key>
+        			</w2:keyInfo>
+        		</w2:dataMap>
+        		<w2:dataList baseNode="map" id="dlt_travelPlaceList" style="">
+        			<w2:columnInfo>
+        				<w2:column dataType="text" id="check" name="체크여부"></w2:column>
+        				<w2:column dataType="text" id="travelPlaceName" name="장소"></w2:column>
+        				<w2:column dataType="text" id="createdAt" name="등록일시"></w2:column>
+        				<w2:column dataType="text" id="createdBy" name="등록자"></w2:column>
+        				<w2:column dataType="text" id="updatedAt" name="수정일시"></w2:column>
+        				<w2:column dataType="text" id="updatedBy" name="수정자"></w2:column>
+        				<w2:column dataType="text" id="travelPlaceId" name="장소 id"></w2:column>
+        			</w2:columnInfo>
+        		</w2:dataList>
+        	</w2:dataCollection>
+        	<w2:workflowCollection />
+        	<xf:submission id="sbm_categoryList1d" ref="" target='data:json,{"id":"dlt_categoryList1d","key":"categoryList1d"}' action="http://127.0.0.1:8080/category" method="get" mediatype="application/json" encoding="UTF-8"
+        		instance="" replace="" errorHandler="" customHandler="" mode="synchronous" processMsg="" ev:submit="" ev:submitdone=""
+        		ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        	<xf:submission id="sbm_categoryList2d" ref='data:json,{"id":"dma_parentCategory","key":"parentCategory"}' target='data:json,{"id":"dlt_categoryList2d","key":"categoryList2d"}' action="http://127.0.0.1:8080/category/child" method="post" mediatype="application/json" encoding="UTF-8"
+        		instance="" replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone=""
+        		ev:submiterror="" abortTrigger="">
+        	</xf:submission>
         </xf:model>
         <w2:layoutInfo/>
         <w2:publicInfo method=""/>
         <script lazy="false" type="text/javascript"><![CDATA[
 scwin.onpageload = function() {
-    category.setValue(selectCategory.getValue());
+    $p.executeSubmission("sbm_categoryList1d");
+	scwin.postFormInit();
+};
 
-    var curDate = $p.getCurrentServerDate("yyyyMMddHHmmss"); // default: yyyyMMdd
-
-    startDate.setValue(curDate);
+	scwin.postFormInit = function() {
+		sourceMedia.setDisabled(true);
+		travelPlace.setDisabled(true);
+	}
 	
-};
+	// 카테고리 1d 변경될 때마다 2d 조회
+	scwin.parentId_onchange = function() {
+		dma_postForm.set("category1", parentId.getValue());
+		$p.executeSubmission("sbm_categoryList2d");
+		
+		// 카테고리1d가 지식일 경우 출처매체 입력 가능
+		if (dma_postForm.get("category1") == "2") {
+			sourceMedia.setDisabled(false);
+		} else {
+			sourceMedia.setDisabled(true);
+		}
+	};
+	
+	// 카테고리2d가 여행일 경우 추천 여행지 입력 가능
+	scwin.category2_onchange = function() {
+		if (dma_postForm.get("category2") == "3") {
+			travelPlace.setDisabled(false);
+		} else {
+			travelPlace.setDisabled(true);
+		}
+	};
 
-scwin.btn_save_onclick = function(e) {
+	scwin.btn_save_onclick = function(e) {
+		// 내용
+		dma_postForm.set("content", edt_content.getHTML());	
+		
+		//출처 매체
+		for (var i = 1; i <= gnt_add.getLength(); i++) {
+			var sourceMediaIdx = "sourceMedia" + i;
+			dma_postForm.set(sourceMediaIdx, gnt_add.getChild(i-1, "input_sm").getValue());	
+		}
+	};
 
-};
+	scwin.btn_prvPcImage_onclick = function(e) {
+	
+	};
 
-scwin.btn_prvPcImage_onclick = function(e) {
-
-};]]></script>
+	// 출처 매체 추가
+	scwin.btn_add_media_onclick = function(e) {
+		var tmpIdx = gnt_add.getLength();
+		if (tmpIdx+1 > 3) {
+			alert("3개까지 추가 가능합니다.");
+			return;
+		}
+		gnt_add.insertChild();
+		
+	};
+	
+	scwin.btn_del_onclick = function(e) {
+		var tmpIdx = this.getGeneratedIndex();
+		gnt_add.removeChild(tmpIdx);
+	};
+	
+	scwin.btn_add_travelPlace_onclick = function(e) {
+		requires("uiplugin.popup")
+		var options = {
+			id : "addPopup",
+			popupName : "장소 등록",
+			type:"wframePopup",
+			modal : true,
+			width : 770,
+			height : 590
+		};
+		
+		var url = "/travelPlace_popup.xml";
+		
+		var data = {
+                    callbackFn: "scwin.travelPlace_popup_callBack"
+                };
+                
+		$p.openPopup(url, options, data);
+	};
+	
+	scwin.travelPlace_popup_callBack = function(obj) {
+		for (var i = 0; i < obj.length; i++) {
+			dlt_travelPlaceList.setRowJSON(i, obj[i]);
+			dlt_travelPlaceList.setCellData(i, "check", "0");
+		}
+	}
+	
+	//순번
+	scwin.gridNoFormat = function(str, formattedValue, rowIdx, colIdx) {
+    	return rowIdx+1;
+	};
+	
+	scwin.btn_del_travelPlace_onclick = function(e) {
+		var checkRowArr = dlt_travelPlaceList.getMatchedIndex("check","1");
+		if (checkRowArr.length == 0) {
+			alert("선택된 행이 없습니다.");
+			return;
+		}
+		
+		for (var i = 0; i < checkRowArr.length; i++) {
+			dlt_travelPlaceList.removeRow(checkRowArr[i]);
+		}
+	};
+	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload">
     	<xf:group class="sub_wrapper" id="" style="">
@@ -47,7 +202,7 @@ scwin.btn_prvPcImage_onclick = function(e) {
     				</w2:attributes>
     				<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
     				<xf:group tagname="colgroup">
-    					<xf:group style="width:19.46%;" tagname="col"></xf:group>
+    					<xf:group style="width:13.47%;" tagname="col"></xf:group>
     					<xf:group tagname="col" style="width:10%;"></xf:group>
     					<xf:group tagname="col"></xf:group>
     				</xf:group>
@@ -66,7 +221,7 @@ scwin.btn_prvPcImage_onclick = function(e) {
     						</w2:attributes>
     						<xf:select1 id="selectCategory" chooseOption=""
     							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto" allOption=""
-    							disabled="false" direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled" ref="" chooseOptionLabel="선택">
+    							disabled="false" direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled" ref="data:dma_postForm.type" chooseOptionLabel="선택">
     							<xf:choices>
     								<xf:item>
     									<xf:label><![CDATA[일반]]></xf:label>
@@ -92,32 +247,25 @@ scwin.btn_prvPcImage_onclick = function(e) {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="선택" direction="auto"
-    							disabled="false" disabledClass="w2selectbox_disabled" id="selectbox3" ref=""
-    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto">
+    						<xf:select1 allOption="" appearance="minimal" chooseOption="" chooseOptionLabel="선택" direction="auto"
+    							disabled="false" disabledClass="w2selectbox_disabled" id="parentId" ref="data:dma_parentCategory.parentId"
+    							style="position:static; top:151px; left:266px; width:148px; height:21px;text-align:left;margin-right: 10px;" submenuSize="auto"
+    							ev:onchange="scwin.parentId_onchange">
     							<xf:choices>
-    								<xf:item>
-    									<xf:label><![CDATA[영상/음악]]></xf:label>
-    									<xf:value><![CDATA[]]></xf:value>
-    								</xf:item>
-    								<xf:item>
-    									<xf:label><![CDATA[부가서비스]]></xf:label>
-    									<xf:value><![CDATA[]]></xf:value>
-    								</xf:item>
+    								<xf:itemset nodeset="data:dlt_categoryList1d">
+    									<xf:label ref="categoryName"></xf:label>
+    									<xf:value ref="categoryId"></xf:value>
+    								</xf:itemset>
     							</xf:choices>
     						</xf:select1>
     						<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="선택" direction="auto"
-    							disabled="false" disabledClass="w2selectbox_disabled" id="selectbox4" ref=""
-    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto">
+    							disabled="false" disabledClass="w2selectbox_disabled" id="category2" ref="data:dma_postForm.category2"
+    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto" ev:onchange="scwin.category2_onchange">
     							<xf:choices>
-    								<xf:item>
-    									<xf:label><![CDATA[영상/음악]]></xf:label>
-    									<xf:value><![CDATA[]]></xf:value>
-    								</xf:item>
-    								<xf:item>
-    									<xf:label><![CDATA[부가서비스]]></xf:label>
-    									<xf:value><![CDATA[]]></xf:value>
-    								</xf:item>
+    								<xf:itemset nodeset="data:dlt_categoryList2d">
+    									<xf:label ref="categoryName"></xf:label>
+    									<xf:value ref="categoryId"></xf:value>
+    								</xf:itemset>
     							</xf:choices>
     						</xf:select1>
     					</xf:group>
@@ -134,10 +282,8 @@ scwin.btn_prvPcImage_onclick = function(e) {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt" maxByteLength="10"
-    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
-    						</xf:input>
-    						<w2:textbox class="" id="" label="최대 50자" style="" tagname="p"></w2:textbox>
+    						<xf:input adjustMaxLength="false" id="" style="width:95%;height:21px;" ref="data:dma_postForm.title"></xf:input>
+    						<w2:textbox label="최대 50자" style="width: 150px;height: 23px;" id=""></w2:textbox>
     					</xf:group>
     				</xf:group>
     				<xf:group style="" tagname="tr">
@@ -152,7 +298,7 @@ scwin.btn_prvPcImage_onclick = function(e) {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_Items.eposYn" rows=""
+    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_postForm.isDisplayed" rows=""
     							selectedIndex="-1" style="width: 150px;height: 21px;">
     							<xf:choices>
     								<xf:item>
@@ -179,16 +325,16 @@ scwin.btn_prvPcImage_onclick = function(e) {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" class="wd-110" focusOnDateSelect="false"
-    							footerDiv="false" id="cal_strtDt" readOnly="" ref="data:dma_BilbBnnrFormDto.urcEposStrtDt" renderDiv="true"
-    							renderType="component" rightAlign="false" style="">
-    						</w2:inputCalendar>
-    						<w2:span id="" label="~" style=""></w2:span>
-    						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" class="wd-110" focusOnDateSelect="false"
-    							footerDiv="false" id="urcEposStrtDt" readOnly="" ref="data:dma_BilbBnnrFormDto.urcEposStrtDt" renderDiv="true"
-    							renderType="component" rightAlign="false" style="">
-    						</w2:inputCalendar>
 
+    						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" focusOnDateSelect="false" footerDiv="false"
+    							id="startDate" ref="data:dma_postForm.startDate" renderDiv="true" renderType="component" rightAlign="false"
+    							style="width:200px;height:23px;">
+    						</w2:inputCalendar>
+    						<w2:span id="wave" label=" ~ " style=""></w2:span>
+    						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" focusOnDateSelect="false" footerDiv="false"
+    							id="endDate" ref="data:dma_postForm.endDate" renderDiv="true" renderType="component" rightAlign="false"
+    							style="width:200px;height:23px;">
+    						</w2:inputCalendar>
     					</xf:group>
     				</xf:group>
     				<xf:group style="" tagname="tr">
@@ -203,10 +349,10 @@ scwin.btn_prvPcImage_onclick = function(e) {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<w2:editor id="editor6" style="height: 250px;"></w2:editor>
+    						<w2:editor id="edt_content" style="height: 250px;"></w2:editor>
     					</xf:group>
     				</xf:group>
-    				<xf:group style="" tagname="tr">
+    				<xf:group style="" tagname="tr" id="sourceMedia">
     					<xf:group class="w2tb_th" style="" tagname="th">
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
@@ -218,9 +364,22 @@ scwin.btn_prvPcImage_onclick = function(e) {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
+    						<xf:trigger class="btn_in" id="btn_add_media" style="" type="button" ev:onclick="scwin.btn_add_media_onclick">
+    							<xf:label><![CDATA[ +추가 ]]></xf:label>
+    						</xf:trigger>
+
+
+    						<w2:textbox class="" id="" label="1개 입력 필수, 최대 3개" style="" tagname="p"></w2:textbox>
+    						<w2:generator style="width:693px;height:100px;" id="gnt_add"><xf:group id="">
+    							<xf:input adjustMaxLength="false" style="width:604px;height:21px;margin-right: 10px;" id="input_sm" ref="data:dlt_sourceMediaList">
+    							</xf:input>
+    							<xf:trigger style="" id="btn_del" type="button" ev:onclick="scwin.btn_del_onclick">
+    								<xf:label><![CDATA[ -삭제 ]]></xf:label>
+    							</xf:trigger>
+    						</xf:group></w2:generator>
     					</xf:group>
     				</xf:group>
-    				<xf:group style="" tagname="tr">
+    				<xf:group style="" tagname="tr" id="travelPlace">
     					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
@@ -232,6 +391,46 @@ scwin.btn_prvPcImage_onclick = function(e) {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
+    						<xf:trigger class="btn_save" id="btn_add_travelPlace" style="margin-right: 10px;" type="button"
+    							ev:onclick="scwin.btn_add_travelPlace_onclick">
+    							<xf:label><![CDATA[ +장소등록 ]]></xf:label>
+    						</xf:trigger>
+    						<xf:trigger class="btn_del" ev:onclick="scwin.btn_del_travelPlace_onclick" id="btn_del_travelPlace" style="" type="button">
+    							<xf:label><![CDATA[ -선택삭제 ]]></xf:label>
+    						</xf:trigger>
+    						<w2:textbox class="" id="" label="최대 5개" style="" tagname="p"></w2:textbox><w2:gridView autoFit="allColumn" dataList="data:dlt_travelPlaceList" defaultCellHeight="32" focusMode="row" id="grd_main" rowNumVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true" style="height:98px;" visibleRowNum="all">
+    							<w2:caption id="caption1" style="" value="this is a grid caption."></w2:caption>
+    							<w2:header id="header1" style="">
+    								<w2:row id="row1" style="">
+    									<w2:column id="column13" inputType="checkbox" style="height:32px;" value="체크여부" width="47"></w2:column>
+    									<w2:column blockSelect="false" displayMode="label" id="column27" inputType="text" removeBorderStyle="false" style="height:32px;" value="번호" width="46">
+    									</w2:column>
+    									<w2:column id="column14" style="height:32px;" value="장소" width="70"></w2:column>
+    									<w2:column id="column15" style="height:32px;" value="등록일시" width="70"></w2:column>
+    									<w2:column id="column16" style="height:32px;" value="등록자" width="70"></w2:column>
+    									<w2:column id="column17" style="height:32px;" value="수정일시" width="70"></w2:column>
+    									<w2:column id="column18" style="height:32px;" value="수정자" width="70"></w2:column>
+    									<w2:column id="column19" style="height:32px;" value="장소 id" width="70"></w2:column>
+    								</w2:row>
+    							</w2:header>
+    							<w2:gBody id="gBody1" style="">
+    								<w2:row id="row2" style="">
+    									<w2:column id="check" inputType="checkbox" width="47"></w2:column>
+    									<w2:column blockSelect="false" customFormatter="scwin.gridNoFormat" displayMode="label" id="rowNo" inputType="text" removeBorderStyle="false" style="height:32px" value="" width="46">
+    									</w2:column>
+    									<w2:column id="travelPlaceName" width="70"></w2:column>
+    									<w2:column calendarValueType="yearMonthDateTimeSec" id="createdAt" inputType="calendar" readOnly="true" width="70">
+    									</w2:column>
+    									<w2:column id="createdBy" readOnly="true" width="70"></w2:column>
+    									<w2:column calendarValueType="yearMonthDateTimeSec" id="updatedAt" inputType="calendar" readOnly="true" width="70">
+    									</w2:column>
+    									<w2:column id="updatedBy" readOnly="true" width="70"></w2:column>
+    									<w2:column id="travelPlaceId" readOnly="true" width="70"></w2:column>
+    								</w2:row>
+    							</w2:gBody>
+    						</w2:gridView>
+    						<w2:textbox class="" id="" label="장소 등록 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다." style="" tagname="p"></w2:textbox>
+    						
     					</xf:group>
     				</xf:group>
     				<xf:group tagname="tr" style="">
@@ -252,20 +451,20 @@ scwin.btn_prvPcImage_onclick = function(e) {
     					<xf:group tagname="td" class="w2tb_td">
     						<w2:attributes></w2:attributes>
     						<xf:input adjustMaxLength="false" class="wd-130 req" id="pcIconImgeUrl" readOnly="true"
-    							ref="data:dma_snglPdInfo.pcIconImgeUrl" style="">
+    							ref="data:dma_snglPdInfo.pcIconImgeUrl" style="margin-right: 10px;width: 45%;">
     						</xf:input>
-    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="btn_pcFileUpload" style="" type="button"
+    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="btn_pcFileUpload" style="margin-right: 10px;" type="button"
     							userData3="P">
-    							<xf:label><![CDATA[+파일찾기]]></xf:label>
+    							<xf:label><![CDATA[ +파일찾기 ]]></xf:label>
     						</xf:trigger>
 
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP" style=""
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP" style="margin-right: 10px;"
     							type="button" userData3="P">
-    							<xf:label><![CDATA[-파일삭제]]></xf:label>
+    							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvPcImage_onclic" id="btn_prvMblIconImge"
-    							style="" type="button">
-    							<xf:label><![CDATA[미리보기]]></xf:label>
+    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvPcImage_onclic" id="btn_prvMblIconImge" style=""
+    							type="button">
+    							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
     					</xf:group>
     				</xf:group>
@@ -280,7 +479,7 @@ scwin.btn_prvPcImage_onclick = function(e) {
     					<xf:group tagname="td" class="w2tb_td">
     						<w2:attributes></w2:attributes>
     						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt10" maxByteLength="10"
-    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    							maxlength="10" ref="data:dma_postForm.pcImageAltText" style="text-align:left;width:95%;">
     						</xf:input>
     					</xf:group>
     				</xf:group>
@@ -302,19 +501,19 @@ scwin.btn_prvPcImage_onclick = function(e) {
     					<xf:group class="w2tb_td" tagname="td">
     						<w2:attributes></w2:attributes>
     						<xf:input adjustMaxLength="false" class="wd-130 req" id="pcIconImgeUrl10" readOnly="true"
-    							ref="data:dma_snglPdInfo.pcIconImgeUrl" style="">
+    							ref="data:dma_postForm.moblieImageUrl" style="margin-right: 10px;width: 45%;">
     						</xf:input>
-    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="btn_mobileFileUpload" style="" type="button"
+    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="btn_mobileFileUpload" style="margin-right: 10px;" type="button"
     							userData3="P">
-    							<xf:label><![CDATA[+파일찾기]]></xf:label>
+    							<xf:label><![CDATA[ +파일찾기 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM" style=""
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM" style="margin-right: 10px;"
     							type="button" userData3="P">
-    							<xf:label><![CDATA[-파일삭제]]></xf:label>
+    							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
     						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvMblIconImge_onclick" id="trigger6" style=""
     							type="button">
-    							<xf:label><![CDATA[미리보기]]></xf:label>
+    							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
 
     					</xf:group>
@@ -330,7 +529,7 @@ scwin.btn_prvPcImage_onclick = function(e) {
     					<xf:group class="w2tb_td" tagname="td">
     						<w2:attributes></w2:attributes>
     						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt20" maxByteLength="10"
-    							maxlength="10" ref="data:dma_entpSppsBasDto.mmTadvFixAmt" style="text-align:left;width:95%;">
+    							maxlength="10" ref="data:dma_postForm.mobileImageAltText" style="text-align:left;width:95%;">
     						</xf:input>
     					</xf:group>
     				</xf:group>
@@ -347,14 +546,14 @@ scwin.btn_prvPcImage_onclick = function(e) {
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
     						<xf:input adjustMaxLength="false" class="wd-130 req" id="pcIconImgeUrl20" readOnly="true"
-    							ref="data:dma_snglPdInfo.pcIconImgeUrl" style="">
+    							ref="data:dma_postForm.attachmentUrl" style="margin-right: 10px;width: 50%">
     						</xf:input>
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="trigger7" style="" type="button"
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="trigger7" style="margin-right: 10px;" type="button"
     							userData3="P">
-    							<xf:label><![CDATA[-파일삭제]]></xf:label>
+    							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
     						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="trigger8" style="" type="button" userData3="P">
-    							<xf:label><![CDATA[+파일찾기]]></xf:label>
+    							<xf:label><![CDATA[ +파일찾기 ]]></xf:label>
     						</xf:trigger>
 
     					</xf:group>
@@ -363,12 +562,14 @@ scwin.btn_prvPcImage_onclick = function(e) {
     		</xf:group>
     	</xf:group>
     	<br></br>
-    	<xf:group id="" style="" tagname="section">
-
-    		<xf:group class="tbbox" id="" style=""></xf:group>
+    	
+    	<xf:group id="" style="text-align:right;" tagname="">
+    		<xf:trigger class="btn_prev" id="btn_prev" style="margin-right: 10px;" type="button">
+    			<xf:label><![CDATA[ 미리보기 ]]></xf:label>
+    		</xf:trigger>
+    		<xf:trigger class="btn_save" ev:onclick="scwin.btn_save_onclick" id="trigger24" style="margin-right: 10px;" type="button">
+    			<xf:label><![CDATA[ 저장 ]]></xf:label>
+    		</xf:trigger>
     	</xf:group>
-    	<xf:trigger class="btn_save" ev:onclick="scwin.btn_save_onclick" id="trigger19" style="" type="button">
-    		<xf:label><![CDATA[저장]]></xf:label>
-    	</xf:trigger>
     </body>
 </html>
