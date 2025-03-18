@@ -32,10 +32,10 @@
         </foreach>
     </insert>
 
-    <delete id="deletePlaces">
+    <delete id="deleteTravelPlaces">
         DELETE FROM TRAVEL_PLACE WHERE travel_place_id IN
-        <foreach collection="travelPlaceListDto" item="travelPlace" open="(" separator="," close=")">
-            #{travelPlace.travelPlaceId}
+        <foreach collection="travelPlaceIds" item="travelPlaceId" open="(" separator="," close=")">
+            #{travelPlaceId}
         </foreach>
     </delete>
 

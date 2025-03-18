@@ -12,4 +12,5 @@ public interface TravelPlaceMapper {
     void deletePlaces(List<TravelPlaceListDto> travelPlaceListDto);
     void updatePlaces(List<TravelPlaceListDto> travelPlaceListDto);
     void insertPlaces(List<TravelPlaceListDto> travelPlaceListDto);
+    void deleteTravelPlaces(List<Integer> travelPlaceIds);
 }

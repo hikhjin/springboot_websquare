@@ -21,9 +21,9 @@
         				<w2:column dataType="text" id="travelPlaceId" name="장소 id"></w2:column>
         			</w2:columnInfo>
         		</w2:dataList>
-        		<w2:dataMap baseNode="map" id="dma_updateList">
+        		<w2:dataMap baseNode="map" id="dma_deleteList">
         			<w2:keyInfo>
-        				<w2:key id="key1" name="name1" dataType="text"></w2:key>
+        				<w2:key id="travelPlaceIdList" name="id" dataType="text"></w2:key>
         			</w2:keyInfo>
         		</w2:dataMap>
         	</w2:dataCollection>
@@ -35,8 +35,13 @@
         	</xf:submission>
         	<xf:submission id="sbm_updateTravelPlaceList" ref='data:json,{"id":"dlt_travelPlaceList","key":"travelPlaceList"}' target=""
         		action="http://127.0.0.1:8080/travelPlace" method="put" mediatype="application/json" encoding="UTF-8" instance="" replace=""
-        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_updateTravelPlaceList_submit" ev:submitdone="" ev:submiterror=""
-        		abortTrigger="">
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_updateTravelPlaceList_submit"
+        		ev:submitdone="" ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        	<xf:submission id="sbm_deleteTravelPlaceList" ref='data:json,{"id":"dma_deleteList","key":"deleteList"}' target=""
+        		action="http://127.0.0.1:8080/travelPlace" method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" singleMode="true" ev:submit="scwin.sbm_deleteTravelPlaceList_submit" ev:submitdone="scwin.sbm_deleteTravelPlaceList_submitdone"
+        		ev:submiterror="" abortTrigger="">
         	</xf:submission>
         </xf:model>
         <script type="text/javascript" lazy="false"><![CDATA[
@@ -63,28 +68,32 @@
 	
 	//선택 삭제
 	scwin.btn_del_onclick = function(e) {
-		var checkRowArr = dlt_travelPlaceList.getMatchedIndex("check","1");
-		if (checkRowArr.length == 0) {
+		var oList = dlt_travelPlaceList.getMatchedIndex("check","1");
+		if (oList.length == 0) {
 			alert("선택된 행이 없습니다.");
 			return;
 		}
 		
-		for (var i = 0; i < checkRowArr.length; i++) {
-			dlt_travelPlaceList.deleteRow(checkRowArr[i]);
-			grd_main.setRowVisible(checkRowArr[i], false);
+		var newTravelPlaceIdList = [];
+		for (var i = 0; i < oList.length; i++) {
+			newTravelPlaceIdList[i] = dlt_travelPlaceList.getCellData(oList[i], "travelPlaceId");
 		}
+		
+			// 기존 travelPlaceIdList가 존재한다면 이어 붙이기
+		    var existingList = dma_deleteList.get("travelPlaceIdList") || [];
+		    var updatedList = existingList.concat(newTravelPlaceIdList);
+			dma_deleteList.set("travelPlaceIdList", updatedList);
+			
+			scwin.initRow(oList); // 행 삭제
+			
 	};
 	
-	scwin.sbm_deleteTravelPlaceList_submit = function(e) {
-		var oList = dlt_travelPlaceList.getMatchedJSON("check", "1");
-		var travelPlaceIdList = [];
-		for (var i = 0; i < oList.length; i++) {
-			travelPlaceIdList[i] = oList[i].travelPlaceId;
-			//console.log(travelPlaceIdList[i]);
+	// 삭제된 행 그리드에서 삭제
+	scwin.initRow = function(list) {
+		for (var i = list.length - 1; i >= 0; i--) {
+		    dlt_travelPlaceList.removeRow(list[i]);
 		}
-
-		dma_deleteList.set("travelPlaceIdList", travelPlaceIdList);
-	};
+	}
 	
 	scwin.sbm_deleteTravelPlaceList_submitdone = function(e) {
 		if (e.responseStatusCode != "200" || e.responseJSON == "0") {
@@ -113,6 +122,7 @@
 	        }
 	        dlt_travelPlaceList.setCellData(modifiedList[i], "updatedBy", "hikhjin");
 	    }
+	    $p.executeSubmission("sbm_deleteTravelPlaceList");
 	    $p.executeSubmission("sbm_updateTravelPlaceList");
 	    $p.executeSubmission("sbm_travelPlaceList");
 	};
@@ -120,21 +130,20 @@
 	
 	scwin.btn_reg_onclick = function(e) {
 		var dataArr = dlt_travelPlaceList.getModifiedIndex();
-		//if (dataArr.length > 0) {
-			//alert("등록 전 변경사항 저장 버튼을 눌러주세요.");
-			//return;
-		//}
+		var parentLength = $p.parent().dlt_travelPlaceList.getRowCount();
+		
+		if (dataArr.length + parentLength > 5) {
+			alert("최대 5개까지 등록 가능합니다.");
+			return;
+		}
 		// dataArr의 인덱스에 해당하는 데이터들을 부모에게 넘겨줌.
 	    var modifiedData = [];
 	    for (var i = 0; i < dataArr.length; i++) {
 	        modifiedData.push(dlt_travelPlaceList.getRowJSON(dataArr[i]));
-	        //console.log(modifiedData[i]);
 	    }
+	    
+	    // 부모창 함수 호출
 		$p.parent().scwin.travelPlace_popup_callBack(modifiedData);
-		//var callbackFn = $p.getParameter("callbackFn");
-		//var callBackParam = {"data": JSON.stringify(dlt_travelPlaceList.getMatchedIndex("check","1"))};
-		//callBackParam.name = "추천여행지 콜백파라미터";
-		console.log("ddddd");
 		
 		$p.parent().$p.closePopup("addPopup");
 	};
@@ -155,7 +164,8 @@
     		
     	</xf:group>
     	<br></br>
-    	<w2:textbox id="" label="장소 추가, 수정, 삭제 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다." style="width:609px;height:23px;"></w2:textbox><w2:gridView id="grd_main" style="height:98px;" scrollByColumn="false" defaultCellHeight="32" scrollByColumnAdaptive="false"
+    	<w2:textbox id="" label="장소 추가, 수정, 삭제 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다." style="width:609px;height:23px;"></w2:textbox>
+    	<w2:gridView id="grd_main" style="height:98px;" scrollByColumn="false" defaultCellHeight="32" scrollByColumnAdaptive="false"
     		dataList="data:dlt_travelPlaceList" autoFit="allColumn" rowNumVisible="false" visibleRowNum="all" sortable="true" focusMode="row">
     		<w2:caption style="" id="caption1" value="this is a grid caption."></w2:caption>
     		<w2:header style="" id="header1">
@@ -169,7 +179,7 @@
     				<w2:column width="70" id="column16" value="등록자" style="height:32px;"></w2:column>
     				<w2:column width="70" id="column17" value="수정일시" style="height:32px;"></w2:column>
     				<w2:column width="70" id="column18" value="수정자" style="height:32px;"></w2:column>
-    				<w2:column width="70" id="column19" value="장소 id" style="height:32px;"></w2:column>
+    				<w2:column width="70" id="column19" value="장소 id" style="height:32px;" hidden="true"></w2:column>
     			</w2:row>
     		</w2:header>
     		<w2:gBody style="" id="gBody1">

@@ -29,7 +29,6 @@ public class TravelPlaceService {
 
         Map<String, Object> response = new HashMap<>();
         response.put("travelPlaceList", travelPlaceList);
-
         return ResponseEntity.ok(response);
     }
 
@@ -45,11 +44,6 @@ public class TravelPlaceService {
                 .filter(place -> "U".equals(place.getRowStatus()))
                 .collect(Collectors.toList());
 
-        List<TravelPlaceListDto> deleteList = travelPlaceListDto.stream()
-                .filter(place -> "D".equals(place.getRowStatus()))
-                .collect(Collectors.toList());
-
-
         if (!insertList.isEmpty()) {
             travelPlaceMapper.insertPlaces(insertList);
         }
@@ -57,9 +51,10 @@ public class TravelPlaceService {
         if (!updateList.isEmpty()) {
             travelPlaceMapper.updatePlaces(updateList);
         }
+    }
 
-        if (!deleteList.isEmpty()) {
-            travelPlaceMapper.deletePlaces(deleteList);
-        }
+    @Transactional
+    public void deleteTravelPlaces(List<Integer> travelPlaceIdList) {
+        travelPlaceMapper.deleteTravelPlaces(travelPlaceIdList);
     }
 }

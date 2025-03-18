@@ -1,7 +1,7 @@
 package com.example.websquareproject.travelPlace.controller;
 
+import com.example.websquareproject.post.dto.PostDeleteDto;
 import com.example.websquareproject.travelPlace.dto.TravelPlaceDeleteDto;
-import com.example.websquareproject.travelPlace.dto.TravelPlaceListDto;
 import com.example.websquareproject.travelPlace.dto.TravelPlaceUpdateListDto;
 import com.example.websquareproject.travelPlace.service.TravelPlaceService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,12 +28,17 @@ public class TravelPlaceController {
         return travelPlaceService.getTravelPlaces();
     }
 
-    // 여행지 장소 등록
-
-    // 여행지 장소 수정, 삭제, 추가
+    // 여행지 장소 수정, 추가
     @PutMapping("")
     public ResponseEntity<String> updatePlaces(@RequestBody TravelPlaceUpdateListDto travelPlaceUpdateListDto) {
         travelPlaceService.updatePlaces(travelPlaceUpdateListDto.getTravelPlaceList());
+        return ResponseEntity.ok("Success");
+    }
+
+    // 여행지 장소 삭제
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteTravelPlaces(@RequestBody TravelPlaceDeleteDto travelPlaceDeleteDto) {
+        travelPlaceService.deleteTravelPlaces(travelPlaceDeleteDto.getTravelPlaceIdList());
         return ResponseEntity.ok("Success");
     }
 
