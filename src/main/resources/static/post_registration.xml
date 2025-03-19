@@ -23,14 +23,25 @@
         				<w2:key id="travelPlace3" name="추천여행지3" dataType="text"></w2:key>
         				<w2:key id="travelPlace4" name="추천여행지4" dataType="text"></w2:key>
         				<w2:key id="travelPlace5" name="추천여행지5" dataType="text"></w2:key>
-        				<w2:key id="pcImageUrl" name="pc이미지 경로" dataType="text"></w2:key>
+        				<w2:key id="pcImageOriName" name="pc이미지 원본 이름" dataType="text"></w2:key>
+        				<w2:key id="pcImageUpdName" name="pc이미지 업로드이름" dataType="text"></w2:key>
         				<w2:key id="pcImageAltText" name="pc 이미지 대체텍스트" dataType="text"></w2:key>
-        				<w2:key id="moblieImageUrl" name="모바일 이미지 경로" dataType="text"></w2:key>
+        				<w2:key id="pcImageSize" name="pc이미지 사이" dataType="text"></w2:key>
+        				<w2:key id="moblieImageOriName" name="모바일 이미지 원본이름" dataType="text"></w2:key>
         				<w2:key id="mobileImageAltText" name="모바일 이미지 대체텍스트" dataType="text"></w2:key>
-        				<w2:key id="attachmentUrl" name="첨부파일 경로" dataType="text"></w2:key>
-        				<w2:key id="sourceMedia1" name="name19" dataType="text"></w2:key>
-        				<w2:key id="sourceMedia2" name="name20" dataType="text"></w2:key>
-        				<w2:key id="sourceMedia3" name="name21" dataType="text"></w2:key>
+        				<w2:key id="mobileImageUpdName" name="모바일 이미지 업로드 이름" dataType="text"></w2:key><w2:key id="mobileImageSize" name="모바일 이미지 사이즈" dataType="text"></w2:key>
+        				<w2:key id="attachmentUpdName" name="첨부파일 업로드 이름" dataType="text"></w2:key>
+        				<w2:key id="attachmentOriName" name="첨부파일 원본 이름" dataType="text"></w2:key>
+        				<w2:key id="attachmentSize" name="첨부파일 사이즈" dataType="text"></w2:key>
+        				<w2:key id="sourceMedia1" name="출처매체1" dataType="text"></w2:key>
+        				<w2:key id="sourceMedia2" name="출처매체2" dataType="text"></w2:key>
+        				<w2:key id="sourceMedia3" name="출처매체3" dataType="text"></w2:key>
+
+
+
+
+
+        				
         			</w2:keyInfo>
         		</w2:dataMap>
         		<w2:dataList baseNode="list" id="dlt_categoryList1d" repeatNode="map" saveRemovedData="true" style="">
@@ -137,7 +148,22 @@ scwin.onpageload = function() {
 			}
 		}
 		
-		
+		// 파일 업로드
+		if (upd_singleFileUpload_pc.dom.fakeinput.files[0].name != null) {
+			console.log("pc");
+			upd_singleFileUpload_pc.submit();
+		}
+		if (upd_singleFileUpload_mo.dom.fakeinput.files[0].name != null) {
+			console.log("mo");
+			upd_singleFileUpload_mo.submit();
+		}
+		if (upd_singleFileUpload_at.dom.fakeinput.files[0].name != null) {
+			console.log("at");
+			upd_singleFileUpload_at.submit();
+		}
+		//upd_singleFileUpload_pc.submit();
+		//upd_singleFileUpload_mo.submit();
+		//upd_singleFileUpload_at.submit();
 	};
 
 	scwin.btn_prvPcImage_onclick = function(e) {
@@ -203,6 +229,22 @@ scwin.onpageload = function() {
 		    dlt_travelPlaceList.removeRow(checkRowArr[i]);
 		}
 	};
+	
+	scwin.upd_singleFileUpload_pc_onInputValueChange = function(fileName) {
+		upd_singleFileUpload_pc.changeFormAction("http://localhost:8080/file/pc");
+	};
+
+	scwin.upd_singleFileUpload_mo_onInputValueChange = function(fileName) {
+		upd_singleFileUpload_mo.changeFormAction("http://localhost:8080/file/mobile");
+	};
+	
+	scwin.upd_singleFileUpload_at_onInputValueChange = function(fileName) {
+		upd_singleFileUpload_at.changeFormAction("http://localhost:8080/file/attachment");
+	};
+
+	scwin.btn_DeleteFile_onclick = function(e) {
+		
+	};
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload">
@@ -241,7 +283,8 @@ scwin.onpageload = function() {
     						</w2:attributes>
     						<xf:select1 id="selectCategory" chooseOption=""
     							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto" allOption=""
-    							disabled="false" direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled" ref="data:dma_postForm.type" chooseOptionLabel="선택">
+    							disabled="false" direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled" ref="data:dma_postForm.type"
+    							chooseOptionLabel="선택">
     							<xf:choices>
     								<xf:item>
     									<xf:label><![CDATA[일반]]></xf:label>
@@ -280,7 +323,8 @@ scwin.onpageload = function() {
     						</xf:select1>
     						<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="선택" direction="auto"
     							disabled="false" disabledClass="w2selectbox_disabled" id="category2" ref="data:dma_postForm.category2"
-    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto" ev:onchange="scwin.category2_onchange">
+    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto"
+    							ev:onchange="scwin.category2_onchange">
     							<xf:choices>
     								<xf:itemset nodeset="data:dlt_categoryList2d">
     									<xf:label ref="categoryName"></xf:label>
@@ -390,13 +434,16 @@ scwin.onpageload = function() {
 
 
     						<w2:textbox class="" id="" label="1개 입력 필수, 최대 3개" style="" tagname="p"></w2:textbox>
-    						<w2:generator style="width:693px;height:100px;" id="gnt_add"><xf:group id="">
-    							<xf:input adjustMaxLength="false" style="width:604px;height:21px;margin-right: 10px;" id="input_sm" ref="data:dlt_sourceMediaList">
-    							</xf:input>
-    							<xf:trigger style="" id="btn_del" type="button" ev:onclick="scwin.btn_del_onclick">
-    								<xf:label><![CDATA[ -삭제 ]]></xf:label>
-    							</xf:trigger>
-    						</xf:group></w2:generator>
+    						<w2:generator style="width:693px;height:100px;" id="gnt_add">
+    							<xf:group id="">
+    								<xf:input adjustMaxLength="false" style="width:604px;height:21px;margin-right: 10px;" id="input_sm"
+    									ref="data:dlt_sourceMediaList">
+    								</xf:input>
+    								<xf:trigger style="" id="btn_del" type="button" ev:onclick="scwin.btn_del_onclick">
+    									<xf:label><![CDATA[ -삭제 ]]></xf:label>
+    								</xf:trigger>
+    							</xf:group>
+    						</w2:generator>
     					</xf:group>
     				</xf:group>
     				<xf:group style="" tagname="tr" id="travelPlace">
@@ -415,7 +462,8 @@ scwin.onpageload = function() {
     							ev:onclick="scwin.btn_add_travelPlace_onclick">
     							<xf:label><![CDATA[ +장소등록 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="btn_del" ev:onclick="scwin.btn_del_travelPlace_onclick" id="btn_del_travelPlace" style="" type="button">
+    						<xf:trigger class="btn_del" ev:onclick="scwin.btn_del_travelPlace_onclick" id="btn_del_travelPlace" style=""
+    							type="button">
     							<xf:label><![CDATA[ -선택삭제 ]]></xf:label>
     						</xf:trigger>
     						<w2:textbox class="" id="" label="최대 5개" style="" tagname="p"></w2:textbox>
@@ -457,7 +505,7 @@ scwin.onpageload = function() {
     							</w2:gBody>
     						</w2:gridView>
     						<w2:textbox class="" id="" label="장소 등록 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다." style="" tagname="p"></w2:textbox>
-    						
+
     					</xf:group>
     				</xf:group>
     				<xf:group tagname="tr" style="">
@@ -477,22 +525,19 @@ scwin.onpageload = function() {
     					</xf:group>
     					<xf:group tagname="td" class="w2tb_td">
     						<w2:attributes></w2:attributes>
-    						<xf:input adjustMaxLength="false" class="wd-130 req" id="pcIconImgeUrl" readOnly="true"
-    							ref="data:dma_snglPdInfo.pcIconImgeUrl" style="margin-right: 10px;width: 45%;">
-    						</xf:input>
-    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="btn_pcFileUpload" style="margin-right: 10px;" type="button"
-    							userData3="P">
-    							<xf:label><![CDATA[ +파일찾기 ]]></xf:label>
-    						</xf:trigger>
+    						<w2:upload imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
+    							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_pc" ev:onInputValueChange="scwin.upd_singleFileUpload_pc_onInputValueChange">
+    						</w2:upload>
 
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP" style="margin-right: 10px;"
-    							type="button" userData3="P">
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP"
+    							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
     						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvPcImage_onclic" id="btn_prvMblIconImge" style=""
     							type="button">
     							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
+
     					</xf:group>
     				</xf:group>
     				<xf:group style="" tagname="tr">
@@ -527,21 +572,18 @@ scwin.onpageload = function() {
     					</xf:group>
     					<xf:group class="w2tb_td" tagname="td">
     						<w2:attributes></w2:attributes>
-    						<xf:input adjustMaxLength="false" class="wd-130 req" id="pcIconImgeUrl10" readOnly="true"
-    							ref="data:dma_postForm.moblieImageUrl" style="margin-right: 10px;width: 45%;">
-    						</xf:input>
-    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="btn_mobileFileUpload" style="margin-right: 10px;" type="button"
-    							userData3="P">
-    							<xf:label><![CDATA[ +파일찾기 ]]></xf:label>
-    						</xf:trigger>
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM" style="margin-right: 10px;"
-    							type="button" userData3="P">
+    						<w2:upload imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
+    							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_mo" ev:onInputValueChange="scwin.upd_singleFileUpload_mo_onInputValueChange">
+    						</w2:upload>
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM"
+    							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
     						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvMblIconImge_onclick" id="trigger6" style=""
     							type="button">
     							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
+
 
     					</xf:group>
     				</xf:group>
@@ -572,16 +614,15 @@ scwin.onpageload = function() {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:input adjustMaxLength="false" class="wd-130 req" id="pcIconImgeUrl20" readOnly="true"
-    							ref="data:dma_postForm.attachmentUrl" style="margin-right: 10px;width: 50%">
-    						</xf:input>
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="trigger7" style="margin-right: 10px;" type="button"
-    							userData3="P">
+    						<w2:upload id="upd_singleFileUpload_at" imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
+    							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
+    							style="width: 250px;height: 23px;margin-right: 20px;" ev:onInputValueChange="scwin.upd_singleFileUpload_at_onInputValueChange">
+    						</w2:upload>
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="trigger7"
+    							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger ev:onclick="scwin.btn_fileUpload_onclick" id="trigger8" style="" type="button" userData3="P">
-    							<xf:label><![CDATA[ +파일찾기 ]]></xf:label>
-    						</xf:trigger>
+
 
     					</xf:group>
     				</xf:group>
@@ -589,7 +630,7 @@ scwin.onpageload = function() {
     		</xf:group>
     	</xf:group>
     	<br></br>
-    	
+
     	<xf:group id="" style="text-align:right;" tagname="">
     		<xf:trigger class="btn_prev" id="btn_prev" style="margin-right: 10px;" type="button">
     			<xf:label><![CDATA[ 미리보기 ]]></xf:label>
@@ -598,5 +639,6 @@ scwin.onpageload = function() {
     			<xf:label><![CDATA[ 저장 ]]></xf:label>
     		</xf:trigger>
     	</xf:group>
+    	
     </body>
 </html>

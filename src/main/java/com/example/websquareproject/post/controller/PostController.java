@@ -30,8 +30,6 @@ public class PostController {
 //        return ResponseEntity.ok("Success");
 //    }
 
-    // 게시글 수정
-
     // 게시글 삭제
     @DeleteMapping("")
     public ResponseEntity<String> deletePosts(@RequestBody PostDeleteDto postDeleteDto) {
