@@ -149,6 +149,10 @@
 	};
 
 	
+	
+	scwin.btn_cancel_onclick = function(e) {
+		$p.parent().$p.closePopup("addPopup");
+	};
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
@@ -205,6 +209,10 @@
     		<xf:trigger id="btn_reg" style="width: 80px;height: 23px;margin-right: 10px;" type="button"
     			ev:onclick="scwin.btn_reg_onclick">
     			<xf:label><![CDATA[등록]]></xf:label>
+    		</xf:trigger>
+    		<xf:trigger class="btn_df" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel" style="width: 80px;height: 23px;margin-right: 10px;"
+    			type="button">
+    			<xf:label><![CDATA[ 닫기 ]]></xf:label>
     		</xf:trigger>
     	</xf:group>
     </body>

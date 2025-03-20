@@ -2,10 +2,8 @@ package com.example.websquareproject.post.controller;
 
 import com.example.websquareproject.post.dto.*;
 import com.example.websquareproject.post.service.PostService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

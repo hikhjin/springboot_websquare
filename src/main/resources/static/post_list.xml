@@ -120,7 +120,7 @@
         		target='data:json,[{"id":"dlt_postList","key":"postList"},{"id":"dma_totalCount","key":"totalCount"}]'
         		action="http://127.0.0.1:8080/post/list" method="post" mediatype="application/json" encoding="UTF-8" instance="" replace=""
         		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_postList_submit"
-        		ev:submitdone="scwin.sbm_postList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
+        		ev:submitdone="scwin.sbm_postList_submitdone" ev:submiterror="" abortTrigger="">
         	</xf:submission>
         	<xf:submission id="sbm_categoryList1d" ref="" target='data:json,{"id":"dlt_categoryList1d","key":"categoryList1d"}'
         		action="http://127.0.0.1:8080/category" method="get" mediatype="application/json" encoding="UTF-8" instance="" replace=""
@@ -769,7 +769,7 @@ scwin.onpageunload = function() {
     										</w2:row>
     									</w2:gBody>
     								</w2:gridView>
-    								<w2:pageList displayButtonType="display" displayFormat="#"
+    								<w2:pageList displayButtonType="auto" displayFormat="#"
     									ev:onviewchange="scwin.pgl_pageList_onviewchange" id="pgl_pageList" pageSize="10" renderType="list"
     									style="text-align:center;">
     								</w2:pageList>

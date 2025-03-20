@@ -94,9 +94,9 @@
         		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
         		processMsg="" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
         	</xf:submission>
-        	<xf:submission id="sbm_createPost" ref='data:json,{"id":"dma_postForm","key":"postForm"}' target="" action="" method="post"
+        	<xf:submission id="sbm_createPost" ref='data:json,{"id":"dma_postForm","key":"postForm"}' target="" action="http://127.0.0.1:8080/post" method="post"
         		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
-        		processMsg="" singleMode="true" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
+        		processMsg="" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="" singleMode="true">
         	</xf:submission>
         </xf:model>
         <w2:layoutInfo/>
@@ -166,26 +166,26 @@ scwin.onpageload = function() {
 		if (category2.getValue() == 3) {
 			for (var i = 1; i <= dlt_travelPlaceList.getRowCount(); i++) {
 				var travelPlaceIdx = "travelPlace" + i;
-				//console.log(travelPlaceIdx);
+				
 				dma_postForm.set(travelPlaceIdx, dlt_travelPlaceList.getCellData(i-1, "travelPlaceId"));
 			}
 		}
 		
 		// 파일 업로드
-		if (upd_singleFileUpload_pc.dom.fakeinput.files[0].name != null) {
-			console.log("pc");
-			upd_singleFileUpload_pc.submit();
-		}
-		if (upd_singleFileUpload_mo.dom.fakeinput.files[0].name != null) {
-			console.log("mo");
-			upd_singleFileUpload_mo.submit();
-		}
-		if (upd_singleFileUpload_at.dom.fakeinput.files[0].name != null) {
-			console.log("at");
-			upd_singleFileUpload_at.submit();
-		}
+		//if (upd_singleFileUpload_pc.dom.fakeinput.files[0].name != null) {
+			//console.log("pc");
+			//upd_singleFileUpload_pc.submit();
+		//}
+		//if (upd_singleFileUpload_mo.dom.fakeinput.files[0].name != null) {
+			//console.log("mo");
+			//upd_singleFileUpload_mo.submit();
+		//}
+		//if (upd_singleFileUpload_at.dom.fakeinput.files[0].name != null) {
+			//console.log("at");
+			//upd_singleFileUpload_at.submit();
+		//}
 		
-		//$p.executeSubmission("sbm_createPost");
+		$p.executeSubmission("sbm_createPost");
 		
 		
 	};
@@ -224,7 +224,7 @@ scwin.onpageload = function() {
 	};
 	
 	scwin.btn_add_travelPlace_onclick = function(e) {
-		requires("uiplugin.popup")
+		requires("uiplugin.popup");
 		var options = {
 			id : "addPopup",
 			popupName : "장소 등록",
@@ -267,16 +267,19 @@ scwin.onpageload = function() {
 		}
 	};
 	
-	// 파일 업로드 준비
+	// 파일 업로드
 	scwin.upd_singleFileUpload_onInputValueChange = function(fileName) {
 	    var targetId = this.getID();
 	
 	    if (targetId === "mf_upd_singleFileUpload_pc") {
 	        upd_singleFileUpload_pc.changeFormAction("http://localhost:8080/file/pc");
+	        upd_singleFileUpload_pc.submit();
 	    } else if (targetId === "mf_upd_singleFileUpload_mo") {
 	        upd_singleFileUpload_mo.changeFormAction("http://localhost:8080/file/mobile");
+	        upd_singleFileUpload_mo.submit();
 	    } else if (targetId === "mf_upd_singleFileUpload_at") {
 	        upd_singleFileUpload_at.changeFormAction("http://localhost:8080/file/attachment");
+	        upd_singleFileUpload_at.submit();
 	    }
 	};
 	
@@ -333,15 +336,46 @@ scwin.onpageload = function() {
             isSetAt = true;
         }
     }
-    if (isSetPc && isSetMo && isSetAt) {
-	    $p.executeSubmission("sbm_createPost");
-	   }
+    //if (isSetPc && isSetMo && isSetAt) {
+	    //$p.executeSubmission("sbm_createPost");
+	   //}
     
 });
 	
 	// 이미지 미리보기
 	scwin.btn_prvImage_onclick = function(e) {
+		var targetId = this.getID();
+		//console.log(targetId);
 		
+		var url = "/post_imgPopup.xml";
+		var path = "";
+		
+		if (targetId === "mf_btn_previewImgPc") {
+			path = dma_postForm.get("pcImageUrl");
+		} else {
+			path = dma_postForm.get("mobileImageUrl");
+		}
+		var rowJSON = {
+		  "src": path
+		};
+		var data = {
+				"type": "json",
+				  "name": "param",
+				  "data": rowJSON
+                };
+                
+        requires("uiplugin.popup");
+		var options = {
+			id : "previewImg",
+			popupName : "이미지 미리보기",
+			modal : true,
+			width : 700,
+			height: 500,
+			type : "wframePopup",
+			dataObject: data
+		};
+                
+		$p.openPopup(url, options, data);
 	};
 	
 	]]></script>
