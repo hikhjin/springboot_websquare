@@ -18,17 +18,17 @@ import java.util.Map;
 public class PostController {
 
     private final PostService postService;
-    //private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환을 위한 ObjectMapper
 
     public PostController(PostService postService) {
         this.postService = postService;
     }
 
     // 게시글 등록
-//    @PostMapping("")
-//    public ResponseEntity<String> createPost(@RequestBody PostFormDto postFormDto) {
-//        return ResponseEntity.ok("Success");
-//    }
+    @PostMapping("")
+    public ResponseEntity<String> createPost(@RequestBody PostFormDto postFormDto) {
+        postService.createPost(postFormDto);
+        return ResponseEntity.ok("Success");
+    }
 
     // 게시글 삭제
     @DeleteMapping("")
@@ -45,7 +45,7 @@ public class PostController {
     }
 
     // 게시글 조회
-    @PostMapping("")
+    @PostMapping("/list")
     public ResponseEntity<Map<String, Object>> getPosts(@RequestBody(required = false) PostParamDto postParamDto) {
         if (postParamDto == null || postParamDto.getPostParam() == null) {
             postParamDto = new PostParamDto(new PostParam());

@@ -15,23 +15,28 @@
         				<w2:key id="category2" name="카테고리2" dataType="text"></w2:key>
         				<w2:key id="title" name="제목" dataType="text"></w2:key>
         				<w2:key id="isDisplayed" name="전시여부" dataType="text"></w2:key>
-        				<w2:key id="startDate" name="전시시작일시" dataType="text"></w2:key>
-        				<w2:key id="endDate" name="전시종료일시" dataType="text"></w2:key>
+        				<w2:key id="displayStart" name="전시시작일시" dataType="text"></w2:key>
+        				<w2:key id="displayEnd" name="전시종료일시" dataType="text"></w2:key>
         				<w2:key id="content" name="내용" dataType="text"></w2:key>
         				<w2:key id="travelPlace1" name="추천여행지1" dataType="text"></w2:key>
         				<w2:key id="travelPlace2" name="추천여행지2" dataType="text"></w2:key>
         				<w2:key id="travelPlace3" name="추천여행지3" dataType="text"></w2:key>
         				<w2:key id="travelPlace4" name="추천여행지4" dataType="text"></w2:key>
         				<w2:key id="travelPlace5" name="추천여행지5" dataType="text"></w2:key>
-        				<w2:key id="pcImageOriName" name="pc이미지 원본 이름" dataType="text"></w2:key>
-        				<w2:key id="pcImageUpdName" name="pc이미지 업로드이름" dataType="text"></w2:key>
+        				<w2:key id="pcImageOriginalName" name="pc이미지 원본 이름" dataType="text"></w2:key>
+        				<w2:key id="pcImageUploadedName" name="pc이미지 업로드이름" dataType="text"></w2:key>
         				<w2:key id="pcImageAltText" name="pc 이미지 대체텍스트" dataType="text"></w2:key>
-        				<w2:key id="pcImageSize" name="pc이미지 사이" dataType="text"></w2:key>
-        				<w2:key id="moblieImageOriName" name="모바일 이미지 원본이름" dataType="text"></w2:key>
+        				<w2:key id="pcImageUrl" name="pc 이미지 url" dataType="text"></w2:key>
+        				<w2:key id="pcImageSize" name="pc이미지 사이즈" dataType="text"></w2:key>
+        				<w2:key id="mobileImageOriginalName" name="모바일 이미지 원본이름" dataType="text"></w2:key>
+        				<w2:key id="mobileImageUploadedName" name="모바일 이미지 업로드 이름" dataType="text"></w2:key>
+        				<w2:key id="mobileImageUrl" name="모바일 이미지 url" dataType="text"></w2:key>
         				<w2:key id="mobileImageAltText" name="모바일 이미지 대체텍스트" dataType="text"></w2:key>
-        				<w2:key id="mobileImageUpdName" name="모바일 이미지 업로드 이름" dataType="text"></w2:key><w2:key id="mobileImageSize" name="모바일 이미지 사이즈" dataType="text"></w2:key>
-        				<w2:key id="attachmentUpdName" name="첨부파일 업로드 이름" dataType="text"></w2:key>
-        				<w2:key id="attachmentOriName" name="첨부파일 원본 이름" dataType="text"></w2:key>
+        				<w2:key id="mobileImageSize" name="모바일 이미지 사이즈" dataType="text"></w2:key>
+        				<w2:key id="attachmentUrl" name="첨부파일 url" dataType="text"></w2:key>
+        				<w2:key id="attachmentOriginalName" name="첨부파일 원본 이름" dataType="text"></w2:key>
+        				<w2:key id="attachmentUploadedName" name="첨부파일 업로드 이름" dataType="text"></w2:key>
+
         				<w2:key id="attachmentSize" name="첨부파일 사이즈" dataType="text"></w2:key>
         				<w2:key id="sourceMedia1" name="출처매체1" dataType="text"></w2:key>
         				<w2:key id="sourceMedia2" name="출처매체2" dataType="text"></w2:key>
@@ -41,7 +46,10 @@
 
 
 
-        				
+
+
+
+
         			</w2:keyInfo>
         		</w2:dataMap>
         		<w2:dataList baseNode="list" id="dlt_categoryList1d" repeatNode="map" saveRemovedData="true" style="">
@@ -76,18 +84,28 @@
         		</w2:dataList>
         	</w2:dataCollection>
         	<w2:workflowCollection />
-        	<xf:submission id="sbm_categoryList1d" ref="" target='data:json,{"id":"dlt_categoryList1d","key":"categoryList1d"}' action="http://127.0.0.1:8080/category" method="get" mediatype="application/json" encoding="UTF-8"
-        		instance="" replace="" errorHandler="" customHandler="" mode="synchronous" processMsg="" ev:submit="" ev:submitdone=""
-        		ev:submiterror="" abortTrigger="">
+        	<xf:submission id="sbm_categoryList1d" ref="" target='data:json,{"id":"dlt_categoryList1d","key":"categoryList1d"}'
+        		action="http://127.0.0.1:8080/category" method="get" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="synchronous" processMsg="" ev:submit="" ev:submitdone="" ev:submiterror=""
+        		abortTrigger="">
         	</xf:submission>
-        	<xf:submission id="sbm_categoryList2d" ref='data:json,{"id":"dma_parentCategory","key":"parentCategory"}' target='data:json,{"id":"dlt_categoryList2d","key":"categoryList2d"}' action="http://127.0.0.1:8080/category/child" method="post" mediatype="application/json" encoding="UTF-8"
-        		instance="" replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone=""
-        		ev:submiterror="" abortTrigger="">
+        	<xf:submission id="sbm_categoryList2d" ref='data:json,{"id":"dma_parentCategory","key":"parentCategory"}'
+        		target='data:json,{"id":"dlt_categoryList2d","key":"categoryList2d"}' action="http://127.0.0.1:8080/category/child" method="post"
+        		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
+        		processMsg="" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        	<xf:submission id="sbm_createPost" ref='data:json,{"id":"dma_postForm","key":"postForm"}' target="" action="" method="post"
+        		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
+        		processMsg="" singleMode="true" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
         	</xf:submission>
         </xf:model>
         <w2:layoutInfo/>
         <w2:publicInfo method=""/>
         <script lazy="false" type="text/javascript"><![CDATA[
+var isSetPc = false;
+var isSetMo = false;
+var isSetAt = false;
+
 scwin.onpageload = function() {
     $p.executeSubmission("sbm_categoryList1d");
 	scwin.postFormInit();
@@ -121,6 +139,11 @@ scwin.onpageload = function() {
 	};
 
 	scwin.btn_save_onclick = function(e) {
+		
+		if (!scwin.is_exist_files()) { // 파일 등록 여부 확인
+			return;
+		}
+		
 		// 내용
 		dma_postForm.set("content", edt_content.getHTML());	
 		
@@ -161,14 +184,28 @@ scwin.onpageload = function() {
 			console.log("at");
 			upd_singleFileUpload_at.submit();
 		}
-		//upd_singleFileUpload_pc.submit();
-		//upd_singleFileUpload_mo.submit();
-		//upd_singleFileUpload_at.submit();
+		
+		//$p.executeSubmission("sbm_createPost");
+		
+		
 	};
-
-	scwin.btn_prvPcImage_onclick = function(e) {
 	
-	};
+	// 이미지, 등록 여부 확인
+	scwin.is_exist_files = function() {
+		
+		var isPcUploaded = upd_singleFileUpload_pc.getValue() !== "";
+	    var isMobileUploaded = upd_singleFileUpload_mo.getValue() !== "";
+	
+	    if (!isPcUploaded) {
+	        alert("PC 이미지를 등록해주세요.");
+	    }
+	
+	    if (!isMobileUploaded) {
+	        alert("Mobile 이미지를 등록해주세요.");
+	    }
+	
+	    return isPcUploaded && isMobileUploaded;
+	}
 
 	// 출처 매체 추가
 	scwin.btn_add_media_onclick = function(e) {
@@ -230,21 +267,83 @@ scwin.onpageload = function() {
 		}
 	};
 	
-	scwin.upd_singleFileUpload_pc_onInputValueChange = function(fileName) {
-		upd_singleFileUpload_pc.changeFormAction("http://localhost:8080/file/pc");
-	};
-
-	scwin.upd_singleFileUpload_mo_onInputValueChange = function(fileName) {
-		upd_singleFileUpload_mo.changeFormAction("http://localhost:8080/file/mobile");
+	// 파일 업로드 준비
+	scwin.upd_singleFileUpload_onInputValueChange = function(fileName) {
+	    var targetId = this.getID();
+	
+	    if (targetId === "mf_upd_singleFileUpload_pc") {
+	        upd_singleFileUpload_pc.changeFormAction("http://localhost:8080/file/pc");
+	    } else if (targetId === "mf_upd_singleFileUpload_mo") {
+	        upd_singleFileUpload_mo.changeFormAction("http://localhost:8080/file/mobile");
+	    } else if (targetId === "mf_upd_singleFileUpload_at") {
+	        upd_singleFileUpload_at.changeFormAction("http://localhost:8080/file/attachment");
+	    }
 	};
 	
-	scwin.upd_singleFileUpload_at_onInputValueChange = function(fileName) {
-		upd_singleFileUpload_at.changeFormAction("http://localhost:8080/file/attachment");
-	};
-
+	// 파일 삭제
 	scwin.btn_DeleteFile_onclick = function(e) {
+	
+	    if (targetId === "mf_btn_deleteFileP") {
+	        upd_singleFileUpload_pc.reset();
+	        upd_singleFileUpload_pc.dom.fakeinput.files[0].name;
+	    } else if (targetId === "mf_btn_deleteFileM") {
+	        upd_singleFileUpload_mo.reset();
+	        upd_singleFileUpload_mo.dom.fakeinput.files[0].name;
+	    } else if (targetId === "mf_btn_deleteFileA") {
+	        upd_singleFileUpload_at.reset();
+	        upd_singleFileUpload_at.dom.fakeinput.files[0].name;
+	    }
+	};
+	
+	window.addEventListener("message", function(event) {
+    if (event.data.type === "tempCallback") {
+        console.log("Received File Data:", event.data.data);
+
+        // XML 데이터를 파싱하여 UI 업데이트
+        let parser = new DOMParser();
+        let xmlDoc = parser.parseFromString(event.data.data, "text/xml");
+
+        let uploadPath = xmlDoc.getElementsByTagName("uploadPath")[0].textContent;
+        let saveFileName = xmlDoc.getElementsByTagName("saveFileName")[0].textContent;
+        let originalFileName = xmlDoc.getElementsByTagName("OriginalFileName")[0].textContent;
+        let fileSize = xmlDoc.getElementsByTagName("uploadFileSize")[0].textContent;
+
+        console.log("Upload Path:", uploadPath);
+        console.log("Saved File Name:", saveFileName);
+        console.log("Original File Name:", originalFileName);
+        console.log("File Size:", fileSize);
+        
+        if (uploadPath.startsWith("/common/images/pc/")) {
+	        dma_postForm.set("pcImageUrl", uploadPath);
+            dma_postForm.set("pcImageOriginalName", originalFileName);
+            dma_postForm.set("pcImageUploadedName", saveFileName);
+            dma_postForm.set("pcImageSize", fileSize);
+            isSetPc = true;
+        } else if (uploadPath.startsWith("/common/images/mobile/")) {
+	        dma_postForm.set("mobileImageUrl", uploadPath);
+            dma_postForm.set("mobileImageOriginalName", originalFileName);
+            dma_postForm.set("mobileImageUploadedName", saveFileName);
+            dma_postForm.set("mobileImageSize", fileSize);
+            isSetMo = true;
+        } else if (uploadPath.startsWith("/common/attachment/")) {
+	        dma_postForm.set("attachmentUrl", uploadPath);
+            dma_postForm.set("attachmentOriginalName", originalFileName);
+            dma_postForm.set("attachmentUploadedName", saveFileName);
+            dma_postForm.set("attachmentSize", fileSize);
+            isSetAt = true;
+        }
+    }
+    if (isSetPc && isSetMo && isSetAt) {
+	    $p.executeSubmission("sbm_createPost");
+	   }
+    
+});
+	
+	// 이미지 미리보기
+	scwin.btn_prvImage_onclick = function(e) {
 		
 	};
+	
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload">
@@ -391,12 +490,12 @@ scwin.onpageload = function() {
     						</w2:attributes>
 
     						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" focusOnDateSelect="false" footerDiv="false"
-    							id="startDate" ref="data:dma_postForm.startDate" renderDiv="true" renderType="component" rightAlign="false"
+    							id="startDate" ref="data:dma_postForm.displayStart" renderDiv="true" renderType="component" rightAlign="false"
     							style="width:200px;height:23px;">
     						</w2:inputCalendar>
     						<w2:span id="wave" label=" ~ " style=""></w2:span>
     						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" focusOnDateSelect="false" footerDiv="false"
-    							id="endDate" ref="data:dma_postForm.endDate" renderDiv="true" renderType="component" rightAlign="false"
+    							id="endDate" ref="data:dma_postForm.displayEnd" renderDiv="true" renderType="component" rightAlign="false"
     							style="width:200px;height:23px;">
     						</w2:inputCalendar>
     					</xf:group>
@@ -525,15 +624,15 @@ scwin.onpageload = function() {
     					</xf:group>
     					<xf:group tagname="td" class="w2tb_td">
     						<w2:attributes></w2:attributes>
-    						<w2:upload imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
-    							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_pc" ev:onInputValueChange="scwin.upd_singleFileUpload_pc_onInputValueChange">
+    						<w2:upload imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word" accept=".jpeg, .gif, .png, .jpg"
+    							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_pc" ev:onInputValueChange="scwin.upd_singleFileUpload_onInputValueChange">
     						</w2:upload>
 
     						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP"
     							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvPcImage_onclic" id="btn_prvMblIconImge" style=""
+    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgPc" style=""
     							type="button">
     							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
@@ -550,8 +649,8 @@ scwin.onpageload = function() {
     					</xf:group>
     					<xf:group tagname="td" class="w2tb_td">
     						<w2:attributes></w2:attributes>
-    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt10" maxByteLength="10"
-    							maxlength="10" ref="data:dma_postForm.pcImageAltText" style="text-align:left;width:95%;">
+    						<xf:input adjustMaxLength="false" class="wd-150" id="mmTadvFixAmt10" maxByteLength="20"
+    							maxlength="20" ref="data:dma_postForm.pcImageAltText" style="text-align:left;width:95%;">
     						</xf:input>
     					</xf:group>
     				</xf:group>
@@ -572,14 +671,14 @@ scwin.onpageload = function() {
     					</xf:group>
     					<xf:group class="w2tb_td" tagname="td">
     						<w2:attributes></w2:attributes>
-    						<w2:upload imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
-    							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_mo" ev:onInputValueChange="scwin.upd_singleFileUpload_mo_onInputValueChange">
+    						<w2:upload imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word" accept=".jpeg, .gif, .png, .jpg"
+    							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_mo" ev:onInputValueChange="scwin.upd_singleFileUpload_onInputValueChange">
     						</w2:upload>
     						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM"
     							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvMblIconImge_onclick" id="trigger6" style=""
+    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgMo" style=""
     							type="button">
     							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
@@ -597,8 +696,8 @@ scwin.onpageload = function() {
     					</xf:group>
     					<xf:group class="w2tb_td" tagname="td">
     						<w2:attributes></w2:attributes>
-    						<xf:input adjustMaxLength="false" class="wd-150" displayFormat="#,###" id="mmTadvFixAmt20" maxByteLength="10"
-    							maxlength="10" ref="data:dma_postForm.mobileImageAltText" style="text-align:left;width:95%;">
+    						<xf:input adjustMaxLength="false" class="wd-150" id="mmTadvFixAmt20" maxByteLength="20"
+    							maxlength="20" ref="data:dma_postForm.mobileImageAltText" style="text-align:left;width:95%;">
     						</xf:input>
     					</xf:group>
     				</xf:group>
@@ -614,14 +713,16 @@ scwin.onpageload = function() {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<w2:upload id="upd_singleFileUpload_at" imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
-    							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
-    							style="width: 250px;height: 23px;margin-right: 20px;" ev:onInputValueChange="scwin.upd_singleFileUpload_at_onInputValueChange">
+    						<w2:upload id="upd_singleFileUpload_at"
+    							imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
+    							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;"
+    							ev:onInputValueChange="scwin.upd_singleFileUpload_onInputValueChange" accept=".pdf, .docx, .csv, .txt, .xlsx">
     						</w2:upload>
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="trigger7"
+    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileA"
     							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
+    						<w2:textbox label=".pdf, .docx, .csv, .xlsx, .txt 만 가능합니다." style="width:246px;height:17px;margin-top:5px;" id=""></w2:textbox>
 
 
     					</xf:group>

@@ -1,26 +1,33 @@
 package com.example.websquareproject.post.dto;
 
-import com.example.websquareproject.travelPlace.dto.TravelPlaceListDto;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostFormDto {
-    private int categoryId;
-    private int displayOrder;
+    private int postId;
     private int type; // 구분(일반/공지)
+    private int category1;
+    private Integer category2;
+    private String title;
     private String isDisplayed; // 전시 여부 Y/N
     private String displayStart;
     private String displayEnd;
-    private String title;
     private String content;
-    private List<SourceMediaDto> SourceMedia; // 출처 매체
-    private List<TravelPlaceListDto> TravelPlace; // 추천 여행지
+    private int travelPlace1;
+    private int travelPlace2;
+    private int travelPlace3;
+    private int travelPlace4;
+    private int travelPlace5;
+    private String sourceMedia1;
+    private String sourceMedia2;
+    private String sourceMedia3;
     private String pcImageUrl;
     private String pcImageOriginalName;
     private String pcImageUploadedName;

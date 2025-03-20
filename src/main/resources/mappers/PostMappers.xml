@@ -295,6 +295,39 @@
         p.created_at DESC      -- 같은 순서일 경우 최신 등록일 순으로 정렬
     </select>
 
+    <insert id="createPost" useGeneratedKeys="true" keyProperty="postFormDto.postId">
+        INSERT INTO POST (
+            category_id, type, title, is_displayed, display_start, display_end, content,
+            pc_image_url, pc_image_original_name, pc_image_upload_name, pc_image_size, pc_image_alt_text,
+            mobile_image_url, mobile_image_original_name, mobile_image_upload_name, mobile_image_size, mobile_image_alt_text,
+            attachment_url, attachment_original_name, attachment_upload_name, attachment_size,
+            created_by, updated_by
+        ) VALUES (
+                     #{categoryId}, #{postFormDto.type}, #{postFormDto.title}, #{postFormDto.isDisplayed},
+                     STR_TO_DATE(#{postFormDto.displayStart}, '%Y%m%d%H%i%s'), STR_TO_DATE(#{postFormDto.displayEnd}, '%Y%m%d%H%i%s'),
+                     #{postFormDto.content},
+                     #{postFormDto.pcImageUrl}, #{postFormDto.pcImageOriginalName}, #{postFormDto.pcImageUploadedName}, #{postFormDto.pcImageSize}, #{postFormDto.pcImageAltText},
+                     #{postFormDto.mobileImageUrl}, #{postFormDto.mobileImageOriginalName}, #{postFormDto.mobileImageUploadedName}, #{postFormDto.mobileImageSize}, #{postFormDto.mobileImageAltText},
+                     #{postFormDto.attachmentUrl}, #{postFormDto.attachmentOriginalName}, #{postFormDto.attachmentUploadedName}, #{postFormDto.attachmentSize},
+                     #{postFormDto.createdBy}, #{postFormDto.updatedBy}
+                 )
+
+    </insert>
+
+
+    <insert id="insertPostTravelPlace">
+        INSERT INTO POST_TRAVEL_PLACE (post_id, travel_place_id, created_by, updated_by)
+        VALUES (#{postId}, #{travelPlaceId}, 'hikhjin', 'hikhjin')
+    </insert>
+
+    <insert id="insertSourceMedia">
+        INSERT INTO SOURCE_MEDIA (post_id, source_media_content, created_by, updated_by)
+        VALUES (#{postId}, #{sourceMedia}, 'hikhjin', 'hikhjin')
+    </insert>
+
+    <select id="getParentCategoryId" resultType="java.lang.Integer">
+        SELECT parent_id FROM CATEGORY WHERE category_id = #{categoryId}
+    </select>
 
 
 </mapper>

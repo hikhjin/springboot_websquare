@@ -1,9 +1,13 @@
 package com.example.websquareproject.post.mapper;
 
 import com.example.websquareproject.post.dto.ExcelListDto;
+import com.example.websquareproject.post.dto.PostFormDto;
 import com.example.websquareproject.post.dto.PostListDto;
+import com.example.websquareproject.travelPlace.dto.TravelPlaceListDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.SelectKey;
 
 import java.util.List;
 
@@ -42,5 +46,13 @@ public interface PostMapper {
     void deletePosts(List<Integer> postIds);
 
     void updatePosts(List<PostListDto> postListDto);
+
+    int createPost(@Param("postFormDto") PostFormDto postFormDto, @Param("categoryId") int categoryId);
+
+    void insertPostTravelPlace(@Param("postId") int postId, @Param("travelPlaceId") int travelPlaceId);
+
+    void insertSourceMedia(@Param("postId") int postId, @Param("sourceMedia") String sourceMedia);
+
+    Integer getParentCategoryId(@Param("categoryId") int categoryId);
 
 }

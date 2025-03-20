@@ -49,7 +49,7 @@ public class FileService {
             FileDto uploadedFile = new FileDto(
                     file.getOriginalFilename(),
                     fileName,
-                    "",  // URL 형식으로 변환
+                    "",
                     file.getSize()
             );
 

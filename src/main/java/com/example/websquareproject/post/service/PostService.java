@@ -1,8 +1,10 @@
 package com.example.websquareproject.post.service;
 
 import com.example.websquareproject.post.dto.ExcelListDto;
+import com.example.websquareproject.post.dto.PostFormDto;
 import com.example.websquareproject.post.dto.PostListDto;
 import com.example.websquareproject.post.mapper.PostMapper;
+import com.example.websquareproject.travelPlace.dto.TravelPlaceListDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,18 +57,17 @@ public class PostService {
     }
 
 
-
-    public ResponseEntity<Map<String, Object>> getExcelList(String category1, String category2, String periodType, String startDate,
-                                                        String endDate, String isDisplayed, String searchType, String keyword) {
-
-        List<ExcelListDto> posts = postMapper.getExcelList(safeParseInt(category1), safeParseInt(category2), periodType, startDate, endDate, isDisplayed, searchType, keyword);
-
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("excelList", posts);
-
-        return ResponseEntity.ok(response);
-    }
+//    public ResponseEntity<Map<String, Object>> getExcelList(String category1, String category2, String periodType, String startDate,
+//                                                        String endDate, String isDisplayed, String searchType, String keyword) {
+//
+//        List<ExcelListDto> posts = postMapper.getExcelList(safeParseInt(category1), safeParseInt(category2), periodType, startDate, endDate, isDisplayed, searchType, keyword);
+//
+//        Map<String, Object> response = new HashMap<>();
+//
+//        response.put("excelList", posts);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
     public void getExcelFile(String category1, String category2, String periodType,
                                                             String startDate, String endDate, String isDisplayed,
@@ -190,6 +192,62 @@ public class PostService {
         headerRow.createCell(20).setCellValue("등록자");
     }
 
+    @Transactional
+    public void createPost(PostFormDto postFormDto) {
+        postFormDto.setCreatedBy("hikhjin");
+        postFormDto.setUpdatedBy("hikhjin");
+        System.out.println("service");
+
+        // category2가 존재하면 category2 사용, 없으면 category1 사용
+        int categoryId = (postFormDto.getCategory2() != null) ? postFormDto.getCategory2() : postFormDto.getCategory1();
+
+        postMapper.createPost(postFormDto, categoryId);
+
+        int postId = postFormDto.getPostId();
+        System.out.println("postId: " + postId);
+
+        // 카테고리가 여행일 경우
+        if (categoryId == 3) {
+            saveTravelPlaces(postId, postFormDto);
+        }
+
+        // 지식 카테고리(category_id = 2이거나, category_id가 2의 자식)일 경우 sourceMedia 저장
+        if (categoryId == 2 || isChildCategory(categoryId, 2)) {
+            saveSourceMedia(postId, postFormDto);
+        }
+    }
+
+    private void saveTravelPlaces(int postId, PostFormDto postFormDto) {
+        List<Integer> travelPlaces = Arrays.asList(
+                postFormDto.getTravelPlace1(), postFormDto.getTravelPlace2(),
+                postFormDto.getTravelPlace3(), postFormDto.getTravelPlace4(),
+                postFormDto.getTravelPlace5()
+        );
+
+        for (Integer travelPlaceId : travelPlaces) {
+            if (travelPlaceId != 0) {
+                System.out.println("travelPlaceId: "+ travelPlaceId);
+                postMapper.insertPostTravelPlace(postId, travelPlaceId);
+            }
+        }
+    }
+
+    private void saveSourceMedia(int postId, PostFormDto postFormDto) {
+        List<String> sourceMedia = Arrays.asList(
+                postFormDto.getSourceMedia1(), postFormDto.getSourceMedia2(), postFormDto.getSourceMedia3()
+        );
+
+        for (String media : sourceMedia) {
+            if (media != null && !media.trim().isEmpty()) {
+                postMapper.insertSourceMedia(postId, media);
+            }
+        }
+    }
+
+    private boolean isChildCategory(int categoryId, int parentId) {
+        Integer parentCategory = postMapper.getParentCategoryId(categoryId);
+        return parentCategory != null && parentCategory == parentId;
+    }
 
     @Transactional
     public void deletePosts(List<Integer> postIdList) {

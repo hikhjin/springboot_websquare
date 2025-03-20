@@ -118,9 +118,9 @@
         	</w2:dataCollection>
         	<xf:submission id="sbm_postList" ref='data:json,{"id":"dma_postParam","key":"postParam"}'
         		target='data:json,[{"id":"dlt_postList","key":"postList"},{"id":"dma_totalCount","key":"totalCount"}]'
-        		action="http://127.0.0.1:8080/post" method="post" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		action="http://127.0.0.1:8080/post/list" method="post" mediatype="application/json" encoding="UTF-8" instance="" replace=""
         		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="scwin.sbm_postList_submit"
-        		ev:submitdone="scwin.sbm_postList_submitdone" ev:submiterror="" abortTrigger="">
+        		ev:submitdone="scwin.sbm_postList_submitdone" ev:submiterror="" abortTrigger="" singleMode="true">
         	</xf:submission>
         	<xf:submission id="sbm_categoryList1d" ref="" target='data:json,{"id":"dlt_categoryList1d","key":"categoryList1d"}'
         		action="http://127.0.0.1:8080/category" method="get" mediatype="application/json" encoding="UTF-8" instance="" replace=""
