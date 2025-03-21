@@ -1,7 +1,8 @@
 package com.example.websquareproject.category.controller;
 
 import com.example.websquareproject.category.dto.CategoryDto;
-import com.example.websquareproject.category.dto.ParentCategoryDto;
+import com.example.websquareproject.category.dto.DeleteCategoryDto;
+import com.example.websquareproject.category.dto.ParentCategoryListDto;
 import com.example.websquareproject.category.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class CategoryController {
     }
 
     @PostMapping("/child")
-    public ResponseEntity<Map<String, List<CategoryDto>>> getCategories(@RequestBody ParentCategoryDto parentCategoryDto) {
+    public ResponseEntity<Map<String, List<CategoryDto>>> getCategories(@RequestBody ParentCategoryListDto parentCategoryDto) {
         int parentId = parentCategoryDto.getParentCategory().getParentId();
         return categoryService.getCategories2d(parentId);
     }
@@ -42,4 +43,9 @@ public class CategoryController {
     // 카레고리 수정
 
     // 카테고리 삭제
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteCategory(@RequestBody DeleteCategoryDto parentCategoryDto) {
+        categoryService.deleteCategory(parentCategoryDto.getCategoryId());
+        return ResponseEntity.ok("Success");
+    }
 }

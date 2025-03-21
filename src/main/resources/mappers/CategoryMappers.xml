@@ -3,6 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.websquareproject.category.mapper.CategoryMapper">
+    <delete id="deleteCategory">
+        DELETE FROM CATEGORY WHERE category_id = #{categoryId}
+    </delete>
 
     <select id="getCategories1d" resultType="com.example.websquareproject.category.dto.CategoryDto">
     SELECT category_id AS categoryId, category_name AS categoryName FROM CATEGORY WHERE parent_id IS NULL

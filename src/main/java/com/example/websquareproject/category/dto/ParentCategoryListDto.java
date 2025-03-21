@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParentCategoryDto {
+public class ParentCategoryListDto {
     private CategoryFormDto parentCategory;
 }

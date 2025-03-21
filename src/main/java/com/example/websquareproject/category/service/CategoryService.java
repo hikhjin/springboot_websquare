@@ -40,4 +40,8 @@ public class CategoryService {
         List<CategoryDto> categories = categoryMapper.getCategories();
         return ResponseEntity.ok(categories);
     }
+
+    public void deleteCategory(int categoryId) {
+        categoryMapper.deleteCategory(categoryId);
+    }
 }

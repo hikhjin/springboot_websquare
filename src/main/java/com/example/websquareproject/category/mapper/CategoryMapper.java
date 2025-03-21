@@ -10,4 +10,5 @@ public interface CategoryMapper {
     List<CategoryDto> getCategories1d();
     List<CategoryDto> getCategories2d(int parentId);
     List<CategoryDto> getCategories();
+    void deleteCategory(int categoryId);
 }
