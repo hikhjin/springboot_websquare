@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+        	<w2:dataCollection baseNode="map">
+        		<w2:dataMap baseNode="map" id="dma_postForm">
+        			<w2:keyInfo>
+        				<w2:key id="type" name="구분" dataType="text"></w2:key>
+        				<w2:key id="category1" name="카테고리1" dataType="text"></w2:key>
+        				<w2:key id="category2" name="카테고리2" dataType="text"></w2:key>
+        				<w2:key id="title" name="제목" dataType="text"></w2:key>
+        				<w2:key id="isDisplayed" name="전시여부" dataType="text"></w2:key>
+        				<w2:key id="displayStart" name="전시시작일시" dataType="text"></w2:key>
+        				<w2:key id="displayEnd" name="전시종료일시" dataType="text"></w2:key>
+        				<w2:key id="content" name="내용" dataType="text"></w2:key>
+        				<w2:key id="travelPlace1" name="추천여행지1" dataType="text"></w2:key>
+        				<w2:key id="travelPlace2" name="추천여행지2" dataType="text"></w2:key>
+        				<w2:key id="travelPlace3" name="추천여행지3" dataType="text"></w2:key>
+        				<w2:key id="travelPlace4" name="추천여행지4" dataType="text"></w2:key>
+        				<w2:key id="travelPlace5" name="추천여행지5" dataType="text"></w2:key>
+        				<w2:key id="pcImageOriginalName" name="pc이미지 원본 이름" dataType="text"></w2:key>
+        				<w2:key id="pcImageUploadedName" name="pc이미지 업로드이름" dataType="text"></w2:key>
+        				<w2:key id="pcImageAltText" name="pc 이미지 대체텍스트" dataType="text"></w2:key>
+        				<w2:key id="pcImageUrl" name="pc 이미지 url" dataType="text"></w2:key>
+        				<w2:key id="pcImageSize" name="pc이미지 사이즈" dataType="text"></w2:key>
+        				<w2:key id="mobileImageOriginalName" name="모바일 이미지 원본이름" dataType="text"></w2:key>
+        				<w2:key id="mobileImageUploadedName" name="모바일 이미지 업로드 이름" dataType="text"></w2:key>
+        				<w2:key id="mobileImageUrl" name="모바일 이미지 url" dataType="text"></w2:key>
+        				<w2:key id="mobileImageAltText" name="모바일 이미지 대체텍스트" dataType="text"></w2:key>
+        				<w2:key id="mobileImageSize" name="모바일 이미지 사이즈" dataType="text"></w2:key>
+        				<w2:key id="attachmentUrl" name="첨부파일 url" dataType="text"></w2:key>
+        				<w2:key id="attachmentOriginalName" name="첨부파일 원본 이름" dataType="text"></w2:key>
+        				<w2:key id="attachmentUploadedName" name="첨부파일 업로드 이름" dataType="text"></w2:key>
+
+        				<w2:key id="attachmentSize" name="첨부파일 사이즈" dataType="text"></w2:key>
+        				<w2:key id="sourceMedia1" name="출처매체1" dataType="text"></w2:key>
+        				<w2:key id="sourceMedia2" name="출처매체2" dataType="text"></w2:key>
+        				<w2:key id="sourceMedia3" name="출처매체3" dataType="text"></w2:key>
+
+
+
+
+
+
+
+
+
+        			</w2:keyInfo>
+        		</w2:dataMap>
+        		<w2:dataList baseNode="map" id="dlt_travelPlaceList" style="">
+        			<w2:columnInfo>
+        				<w2:column dataType="text" id="check" name="체크여부"></w2:column>
+        				<w2:column dataType="text" id="travelPlaceName" name="장소"></w2:column>
+        				<w2:column dataType="text" id="createdAt" name="등록일시"></w2:column>
+        				<w2:column dataType="text" id="createdBy" name="등록자"></w2:column>
+        				<w2:column dataType="text" id="updatedAt" name="수정일시"></w2:column>
+        				<w2:column dataType="text" id="updatedBy" name="수정자"></w2:column>
+        				<w2:column dataType="text" id="travelPlaceId" name="장소 id"></w2:column>
+        			</w2:columnInfo>
+        		</w2:dataList>
+        	</w2:dataCollection>
+        	<w2:workflowCollection />
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+scwin.onpageload = function() {
+	var pr = $p.parent().dma_postForm;
+	
+	// 구분
+	var typeId = pr.get("type");
+	if (typeId == 0) {
+		type.setValue("공지");
+	} else {
+		type.setValue("일반");
+	}
+	
+	// 카테고리
+	var pcategory1 = $p.parent().parentId.getText();
+	var ccategory2 = $p.parent().category2.getText();
+	category1.setValue(pcategory1);
+	
+	if (ccategory2 === "선택") {
+		category2.setValue("");
+	} else {
+		category2.setValue("/" + ccategory2);
+	}
+	
+	if (ccategory2 === "여행") {
+		travelPlace.setDisabled(false);
+	}
+
+	// 제목
+	title.setValue(pr.get("title"));
+	
+	// 등록일시, 수정일시
+	createdAt.setValue($p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss"));
+	updatedAt.setValue($p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss"));
+	
+	// 이미지
+	var imageSrc = "http://localhost:8080" + pr.get("pcImageUrl");
+	prevImg.setSrc(imageSrc);
+	
+	// 내용
+	content.setValue($p.parent().edt_content.getHTML());
+
+	// 추천 여행지
+	console.log($p.parent().dlt_travelPlaceList.getAllJSON());
+	dlt_travelPlaceList.setJSON($p.parent().dlt_travelPlaceList.getAllJSON());
+	
+	//첨부파일
+    attachment.setValue(pr.get("attachmentOriginalName"));
+};
+
+
+	//순번
+	scwin.gridNoFormat = function(str, formattedValue, rowIdx, colIdx) {
+    	return rowIdx+1;
+	};
+	
+	scwin.btn_cancel_onclick = function(e) {
+		$p.parent().$p.closePopup("previewPost");
+	};
+	]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_wrapper" id="" style="">
+    		<w2:wframe class="page_header" id="" scope="true" src="../../../common/xml/wf_titleFav.xml" style=""></w2:wframe>
+    		<xf:group class="page_contents" id="" style=""></xf:group>
+    	</xf:group>
+
+    	<xf:group id="" style="margin-top: 20px; margin-bottom: 20px;">
+
+    	</xf:group>
+    	<xf:group id="" style="" tagname="section">
+    		<xf:group class="tbbox" id="" style="">
+    			<xf:group class="w2tb tb" id="" style=";width:100%;" tagname="table">
+    				<w2:attributes>
+    					<w2:summary></w2:summary>
+    				</w2:attributes>
+    				<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
+    				<xf:group tagname="colgroup">
+    					<xf:group style="width:13.47%;" tagname="col"></xf:group>
+    					<xf:group tagname="col" style="width:10%;"></xf:group>
+    					<xf:group tagname="col"></xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="구분" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="type" label="일반" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="카테고리" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:group class="gvw_info" id="" tagname="" style="">
+    							<w2:textbox class="" id="category1" label="카테고리1 " style="" tagname="span"></w2:textbox>
+    							<w2:textbox class="" id="category2" label=" 카테고리2" style="" tagname="span"></w2:textbox>
+    						</xf:group>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="제목" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="title" label="제목" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="조회수" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="textbox3" label="12" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="등록자" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="textbox7" label="hikhjin" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="등록일시" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="createdAt" label="등록날짜" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="수정자" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="textbox8" label="hikhjin" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="수정일시" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>2</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="updatedAt" label="수정날짜" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="이미지" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td" id="image">
+    						<w2:attributes>
+    							<w2:colspan>5</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:image src="" style="width: 100px;height: 100px;" id="prevImg"></xf:image>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="내용" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>5</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="content" label="내용" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr" id="travelPlace">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="추천 여행지" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>5</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:gridView autoFit="allColumn" dataList="data:dlt_travelPlaceList" defaultCellHeight="32" focusMode="row"
+    							id="gridView2" rowNumVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true" style="height:98px;"
+    							visibleRowNum="all">
+    							<w2:caption id="caption1" style="" value="this is a grid caption."></w2:caption>
+    							<w2:header id="header1" style="">
+    								<w2:row id="row1" style="">
+    									<w2:column width="47" inputType="checkbox" style="height:32px;" id="column13" value="체크여부"></w2:column>
+    									<w2:column blockSelect="false" displayMode="label" id="column27" inputType="text"
+    										removeBorderStyle="false" style="height:32px;" value="번호" width="33">
+    									</w2:column>
+    									<w2:column width="70" style="height:32px;" id="column14" value="장소"></w2:column>
+    									<w2:column width="70" style="height:32px;" id="column15" value="등록일시"></w2:column>
+    									<w2:column width="70" style="height:32px;" id="column16" value="등록자"></w2:column>
+    									<w2:column width="70" style="height:32px;" id="column17" value="수정일시" hidden="true"></w2:column>
+    									<w2:column width="70" style="height:32px;" id="column18" value="수정자" hidden="true"></w2:column>
+    									<w2:column hidden="true" width="70" style="height:32px;" id="column19" value="장소 id"></w2:column>
+    								</w2:row>
+    							</w2:header>
+    							<w2:gBody id="gBody1" style="">
+    								<w2:row id="row2" style="">
+    									<w2:column width="47" inputType="checkbox" id="check" hidden="true"></w2:column>
+    									<w2:column blockSelect="false" customFormatter="scwin.gridNoFormat" displayMode="label" id="rowNo"
+    										inputType="text" removeBorderStyle="false" style="height:32px" value="" width="33">
+    									</w2:column>
+    									<w2:column width="70" id="travelPlaceName"></w2:column>
+    									<w2:column width="70" inputType="calendar" readOnly="true" id="createdAt"
+    										calendarValueType="yearMonthDateTimeSec">
+    									</w2:column>
+    									<w2:column width="70" readOnly="true" id="createdBy"></w2:column>
+    									<w2:column width="70" inputType="calendar" readOnly="true" id="updatedAt"
+    										calendarValueType="yearMonthDateTimeSec">
+    									</w2:column>
+    									<w2:column width="70" readOnly="true" id="updatedBy"></w2:column>
+    									<w2:column width="70" readOnly="true" id="travelPlaceId"></w2:column>
+    								</w2:row>
+    							</w2:gBody>
+    						</w2:gridView>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox class="req" id="" label="첨부파일" style="" tagname="label"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="w2tb_td" style="" tagname="td">
+    						<w2:attributes>
+    							<w2:colspan>5</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<w2:textbox class="" id="attachment" label="첨부파일.pdf" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    	<br></br>
+
+    	<xf:group id="" style="text-align:right;" tagname="">
+    		<xf:trigger class="btn_cancel" ev:onclick="scwin.btn_cancel_onclick" id="trigger24" style="margin-right: 10px;" type="button">
+    			<xf:label><![CDATA[ 닫기 ]]></xf:label>
+    		</xf:trigger>
+    	</xf:group>
+    	
+    </body>
+</html>

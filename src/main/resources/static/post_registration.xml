@@ -214,6 +214,7 @@ scwin.onpageload = function() {
 			alert("3개까지 추가 가능합니다.");
 			return;
 		}
+		
 		gnt_add.insertChild();
 		
 	};
@@ -285,16 +286,13 @@ scwin.onpageload = function() {
 	
 	// 파일 삭제
 	scwin.btn_DeleteFile_onclick = function(e) {
-	
+		var targetId = this.getID();
 	    if (targetId === "mf_btn_deleteFileP") {
 	        upd_singleFileUpload_pc.reset();
-	        upd_singleFileUpload_pc.dom.fakeinput.files[0].name;
 	    } else if (targetId === "mf_btn_deleteFileM") {
 	        upd_singleFileUpload_mo.reset();
-	        upd_singleFileUpload_mo.dom.fakeinput.files[0].name;
 	    } else if (targetId === "mf_btn_deleteFileA") {
 	        upd_singleFileUpload_at.reset();
-	        upd_singleFileUpload_at.dom.fakeinput.files[0].name;
 	    }
 	};
 	
@@ -345,7 +343,6 @@ scwin.onpageload = function() {
 	// 이미지 미리보기
 	scwin.btn_prvImage_onclick = function(e) {
 		var targetId = this.getID();
-		//console.log(targetId);
 		
 		var url = "/post_imgPopup.xml";
 		var path = "";
@@ -378,6 +375,31 @@ scwin.onpageload = function() {
 		$p.openPopup(url, options, data);
 	};
 	
+	// 게시글 미리보기
+	scwin.btn_prev_onclick = function(e) {
+		var url = "";
+		
+		requires("uiplugin.popup");
+		var options = {
+			id : "previewPost",
+			popupName : "게시글 미리보기",
+			modal : true,
+			width : 800,
+			height: 630,
+			type : "wframePopup"
+		};
+		
+		if (dma_postForm.get("category1") == 2) {
+			url = "/post_preview_knowledge.xml";
+		} else if (dma_postForm.get("category2") == 3) {
+			url = "/post_preview_travel.xml";
+		} else {
+			url = "/post_preview_standard.xml";
+		}
+		
+		$p.openPopup(url, options);
+		
+	};
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload">
@@ -767,7 +789,7 @@ scwin.onpageload = function() {
     	<br></br>
 
     	<xf:group id="" style="text-align:right;" tagname="">
-    		<xf:trigger class="btn_prev" id="btn_prev" style="margin-right: 10px;" type="button">
+    		<xf:trigger class="btn_prev" id="btn_prev" style="margin-right: 10px;" type="button" ev:onclick="scwin.btn_prev_onclick">
     			<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     		</xf:trigger>
     		<xf:trigger class="btn_save" ev:onclick="scwin.btn_save_onclick" id="trigger24" style="margin-right: 10px;" type="button">
