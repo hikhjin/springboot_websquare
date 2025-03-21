@@ -4,11 +4,34 @@
 
 <mapper namespace="com.example.websquareproject.category.mapper.CategoryMapper">
 
-    <select id="getCategories1d" resultType="com.example.websquareproject.category.dto.CategoryListDto">
+    <select id="getCategories1d" resultType="com.example.websquareproject.category.dto.CategoryDto">
     SELECT category_id AS categoryId, category_name AS categoryName FROM CATEGORY WHERE parent_id IS NULL
     </select>
 
-    <select id="getCategories2d" resultType="com.example.websquareproject.category.dto.CategoryListDto">
+    <select id="getCategories2d" resultType="com.example.websquareproject.category.dto.CategoryDto">
         SELECT category_id AS categoryId, category_name AS categoryName FROM CATEGORY WHERE parent_id = #{parentId}
+    </select>
+
+    <select id="getCategories" resultType="com.example.websquareproject.category.dto.CategoryDto">
+        SELECT
+            0 AS categoryId,
+            '전체' AS categoryName,
+            0 AS depth,
+            NULL AS parent_id
+        UNION
+        SELECT
+            category_id AS categoryId,
+            category_name AS categoryName,
+            CASE
+                WHEN parent_id IS NULL THEN 1
+                ELSE 2
+                END AS depth,
+            parent_id
+        FROM CATEGORY
+
+        ORDER BY
+            CASE WHEN parent_id IS NULL THEN categoryId ELSE parent_id END, -- 부모 카테고리 순서 정렬
+            depth, -- 부모 먼저 출력 후 자식 출력
+            categoryId; -- 동일한 depth 내에서 ID 순 정렬
     </select>
 </mapper>

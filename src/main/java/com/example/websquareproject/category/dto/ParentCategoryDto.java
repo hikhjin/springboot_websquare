@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ParentCategoryDto {
-    private CategoryDto parentCategory;
+    private CategoryFormDto parentCategory;
 }

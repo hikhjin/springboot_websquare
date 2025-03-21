@@ -1,7 +1,6 @@
 package com.example.websquareproject.category.service;
 
 import com.example.websquareproject.category.dto.CategoryDto;
-import com.example.websquareproject.category.dto.CategoryListDto;
 import com.example.websquareproject.category.mapper.CategoryMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,21 +18,26 @@ public class CategoryService {
         this.categoryMapper = categoryMapper;
     }
 
-    public ResponseEntity<Map<String, List<CategoryListDto>>> getCategories1d() {
-        List<CategoryListDto> categories = categoryMapper.getCategories1d();
+    public ResponseEntity<Map<String, List<CategoryDto>>> getCategories1d() {
+        List<CategoryDto> categories = categoryMapper.getCategories1d();
 
-        Map<String, List<CategoryListDto>> response = new HashMap<>();
+        Map<String, List<CategoryDto>> response = new HashMap<>();
         response.put("categoryList1d", categories);
 
         return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<Map<String, List<CategoryListDto>>> getCategories2d(int parentId) {
-        List<CategoryListDto> categories = categoryMapper.getCategories2d(parentId);
+    public ResponseEntity<Map<String, List<CategoryDto>>> getCategories2d(int parentId) {
+        List<CategoryDto> categories = categoryMapper.getCategories2d(parentId);
 
-        Map<String, List<CategoryListDto>> response = new HashMap<>();
+        Map<String, List<CategoryDto>> response = new HashMap<>();
         response.put("categoryList2d", categories);
 
         return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<List<CategoryDto>> getCategoryWithDepth() {
+        List<CategoryDto> categories = categoryMapper.getCategories();
+        return ResponseEntity.ok(categories);
     }
 }

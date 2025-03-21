@@ -7,7 +7,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryListDto {
-    private int categoryId;
+public class CategoryFormDto {
     private String categoryName;
+    private int parentId;
+    private String isHidden;
+    private String description;
+    private String help;
+    private String createdBy;
+    private String updatedBy;
 }

@@ -1,7 +1,6 @@
 package com.example.websquareproject.category.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,11 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryDto {
+    private int categoryId;
     private String categoryName;
-    private int parentId;
-    private String isHidden;
-    private String description;
-    private String help;
-    private String createdBy;
-    private String updatedBy;
+    private int depth;
 }

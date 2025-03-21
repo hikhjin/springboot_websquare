@@ -1,7 +1,6 @@
 package com.example.websquareproject.category.controller;
 
 import com.example.websquareproject.category.dto.CategoryDto;
-import com.example.websquareproject.category.dto.CategoryListDto;
 import com.example.websquareproject.category.dto.ParentCategoryDto;
 import com.example.websquareproject.category.service.CategoryService;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +21,20 @@ public class CategoryController {
 
     //카테고리 1depth 조회
     @GetMapping("")
-    public ResponseEntity<Map<String, List<CategoryListDto>>> getCategories() {
+    public ResponseEntity<Map<String, List<CategoryDto>>> getCategories() {
         return categoryService.getCategories1d();
     }
 
-//    @GetMapping("/child")
-//    public ResponseEntity<Map<String, List<CategoryListDto>>> getCategories(@RequestParam int parentId) {
-//        return categoryService.getCategories2d(parentId);
-//    }
     @PostMapping("/child")
-    public ResponseEntity<Map<String, List<CategoryListDto>>> getCategories(@RequestBody ParentCategoryDto parentCategoryDto) {
+    public ResponseEntity<Map<String, List<CategoryDto>>> getCategories(@RequestBody ParentCategoryDto parentCategoryDto) {
         int parentId = parentCategoryDto.getParentCategory().getParentId();
         return categoryService.getCategories2d(parentId);
+    }
+
+    // 카테고리 관리 - 조회
+    @GetMapping("/list")
+    public ResponseEntity<List<CategoryDto>> getCategoryWithDepth() {
+        return categoryService.getCategoryWithDepth();
     }
 
     // 카테고리 추가
