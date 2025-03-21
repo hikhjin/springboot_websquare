@@ -131,15 +131,36 @@
 	scwin.btn_reg_onclick = function(e) {
 		var dataArr = dlt_travelPlaceList.getModifiedIndex();
 		var parentLength = $p.parent().dlt_travelPlaceList.getRowCount();
+		var childLength = dataArr.length;
 		
-		if (dataArr.length + parentLength > 5) {
+		for (var i = 0; i < dataArr.length; i++) {
+			var selectedId = dlt_travelPlaceList.getCellData(dataArr[i], "travelPlaceId");
+			var isMatched = $p.parent().dlt_travelPlaceList.getMatchedIndex("travelPlaceId", selectedId);
+			//console.log(JSON.stringify(isMatched));
+			
+			if (JSON.stringify(isMatched) !== "[]") {
+				childLength--;
+				continue;
+			}
+		}
+		
+		if (childLength + parentLength > 5) {
 			alert("최대 5개까지 등록 가능합니다.");
 			return;
 		}
+		
 		// dataArr의 인덱스에 해당하는 데이터들을 부모에게 넘겨줌.
 	    var modifiedData = [];
 	    for (var i = 0; i < dataArr.length; i++) {
-	        modifiedData.push(dlt_travelPlaceList.getRowJSON(dataArr[i]));
+		    var status = dlt_travelPlaceList.getRowStatus(dataArr[i]);
+		    var selectedId = dlt_travelPlaceList.getCellData(dataArr[i], "travelPlaceId");
+		    
+		    // 중복된 장소가 있다면 추가하지 않음
+		   	var isMatched = $p.parent().dlt_travelPlaceList.getMatchedIndex("travelPlaceId", selectedId);
+
+		    if (status !== "C" && JSON.stringify(isMatched) === "[]") { // 저장되지 않은 장소는 등록 제외
+			    modifiedData.push(dlt_travelPlaceList.getRowJSON(dataArr[i]));
+			   }
 	    }
 	    
 	    // 부모창 함수 호출
