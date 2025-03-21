@@ -140,12 +140,17 @@ scwin.onpageload = function() {
 
 	scwin.btn_save_onclick = function(e) {
 		
-		if (!scwin.is_exist_files()) { // 파일 등록 여부 확인
+		if (!scwin.is_exist_data()) { // 필수정보 등록 여부 확인
 			return;
 		}
 		
 		// 내용
 		dma_postForm.set("content", edt_content.getHTML());	
+		
+		var isContentExist = dma_postForm.get("content") !== "";
+		if (!isContentExist) {
+	    	alert("내용을 입력해주세요.");
+		}
 		
 		//카테고리 1d가 지식일 경우
 		if (parentId.getValue() == 2) {
@@ -171,40 +176,57 @@ scwin.onpageload = function() {
 			}
 		}
 		
-		// 파일 업로드
-		//if (upd_singleFileUpload_pc.dom.fakeinput.files[0].name != null) {
-			//console.log("pc");
-			//upd_singleFileUpload_pc.submit();
-		//}
-		//if (upd_singleFileUpload_mo.dom.fakeinput.files[0].name != null) {
-			//console.log("mo");
-			//upd_singleFileUpload_mo.submit();
-		//}
-		//if (upd_singleFileUpload_at.dom.fakeinput.files[0].name != null) {
-			//console.log("at");
-			//upd_singleFileUpload_at.submit();
-		//}
-		
 		$p.executeSubmission("sbm_createPost");
-		
+		$p.url("/post_list.xml");
 		
 	};
 	
-	// 이미지, 등록 여부 확인
-	scwin.is_exist_files = function() {
+	// 필수 내용 등록 여부 확인
+	scwin.is_exist_data = function() {
 		
 		var isPcUploaded = upd_singleFileUpload_pc.getValue() !== "";
 	    var isMobileUploaded = upd_singleFileUpload_mo.getValue() !== "";
+	    var isTitleExist = dma_postForm.get("title") !== "";
+	    var isPcAtExist = dma_postForm.get("pcImageAltText") !== "";
+	    var isMoAtExist = dma_postForm.get("mobileImageAltText") !== "";
+	    var isDisplay = dma_postForm.get("isDisplayed") !== "";
+	    var isDisplaySExist = dma_postForm.get("displayStart") !== "";
+	    var isDisplayEExist = dma_postForm.get("displayEnd") !== "";
+		
+		if (!isTitleExist) {
+	    	alert("제목을 입력해주세요.");
+		}
+		
+		if (!isDisplay) {
+	    	alert("전시여부를 입력해주세요.");
+		}
+		
+		if (!isDisplaySExist) {
+	    	alert("전시시작일을 입력해주세요.");
+		}
+		
+		if (!isDisplayEExist) {
+	    	alert("전시종료일을 입력해주세요.");
+		}
 	
-	    if (!isPcUploaded) {
+		if (!isPcUploaded) {
 	        alert("PC 이미지를 등록해주세요.");
+	    }
+	    
+	    if (!isPcAtExist) {
+	        alert("PC 이미지 대체 텍스트를 등록해주세요.");
 	    }
 	
 	    if (!isMobileUploaded) {
 	        alert("Mobile 이미지를 등록해주세요.");
 	    }
-	
-	    return isPcUploaded && isMobileUploaded;
+	    
+	    if (!isMoAtExist) {
+	        alert("Mobile 이미지 대체 텍스트를 등록해주세요.");
+	    }
+	    
+	    return isTitleExist && isDisplay && isDisplaySExist
+	     && isDisplayEExist && isTitleExist && isPcAtExist && isMoAtExist && isPcUploaded && isMobileUploaded;
 	}
 
 	// 출처 매체 추가
