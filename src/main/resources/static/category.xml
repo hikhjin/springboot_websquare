@@ -18,12 +18,16 @@
         			</w2:columnInfo>
         		</w2:dataList>
         		<w2:dataMap baseNode="map" id="dma_categoryForm">
-        			<w2:keyInfo>
-        				<w2:key id="categoryName" name="카테고리 이름" dataType="text"></w2:key>
-        				<w2:key id="category1d" name="상위 카테고리" dataType="text"></w2:key>
+        			<w2:keyInfo><w2:key id="categoryName" name="카테고리 이름" dataType="text"></w2:key>
+        				<w2:key id="parentId" name="상위 카테고리" dataType="text"></w2:key>
         				<w2:key id="isHidden" name="웹에서 숨기기 여부" dataType="text"></w2:key>
         				<w2:key id="description" name="설명" dataType="text"></w2:key>
         				<w2:key id="help" name="카테고리 도움말" dataType="text"></w2:key>
+        				<w2:key id="createdBy" name="name6" dataType="text"></w2:key>
+        				<w2:key id="createdAt" name="name7" dataType="text"></w2:key>
+        				<w2:key id="updatedBy" name="name8" dataType="text"></w2:key>
+        				<w2:key id="updatedAt" name="name9" dataType="text"></w2:key>
+        				
         			</w2:keyInfo>
         		</w2:dataMap>
         		<w2:dataList baseNode="list" id="dlt_categoryList1d" repeatNode="map" saveRemovedData="true" style="">
@@ -40,7 +44,7 @@
         		</w2:dataMap>
         		<w2:dataMap baseNode="map" id="dma_category">
         			<w2:keyInfo>
-        				<w2:key id="categoryId" name="name1" dataType="text"></w2:key>
+        				<w2:key id="categoryId" name="카테고리 id" dataType="text"></w2:key>
         			</w2:keyInfo>
         		</w2:dataMap>
         	</w2:dataCollection>
@@ -55,9 +59,20 @@
         		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone="" ev:submiterror=""
         		abortTrigger="">
         	</xf:submission>
-        	<xf:submission id="sbm_deleteCategory" ref="data:json,dma_category" target="" action="http://127.0.0.1:8080/category" method="delete"
-        		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
-        		processMsg="" singleMode="true" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
+        	<xf:submission id="sbm_deleteCategory" ref="data:json,dma_category" target="" action="http://127.0.0.1:8080/category"
+        		method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
+        		mode="asynchronous" processMsg="" singleMode="true" ev:submit="" ev:submitdone="scwin.sbm_deleteCategory_submitdone"
+        		ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        	<xf:submission id="sbm_categoryInfo" ref='data:json,{"id":"dma_category","key":"category"}' target="data:json,dma_categoryForm"
+        		action="http://127.0.0.1:8080/category/info" method="post" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" singleMode="true" ev:submit=""
+        		ev:submitdone="scwin.sbm_categoryInfo_submitdone" ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        	<xf:submission id="sbm_createUpdateCategory" ref='data:json,[{"id":"dma_categoryForm","key":"categoryForm"},{"id":"dma_category","key":"category"}]' target=""
+        		action="http://127.0.0.1:8080/category/info" method="put" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" singleMode="true" ev:submit="" ev:submitdone="scwin.sbm_createUpdateCategory_submitdone"
+        		ev:submiterror="" abortTrigger="">
         	</xf:submission>
         </xf:model>
         <script type="text/javascript" lazy="false"><![CDATA[
@@ -80,222 +95,245 @@
 	
 	scwin.btn_add_onclick = function(e) {
 		scwin.resetForm();
+		dma_category.set("categoryId", "");
 	};
 	
 	scwin.parentId_onchange = function() {
-		dma_categoryForm.set("category1d", parentId.getValue());
+		dma_categoryForm.set("parentId", parentId.getValue());
+		
 	};
 	
 	scwin.resetForm = function() {
-		dma_categoryForm.set("category1d", "");
-		dma_categoryForm.set("isHidden", "");
-		dma_categoryForm.set("categoryName", "");
-		dma_categoryForm.set("description", "");
-		dma_categoryForm.set("help", "");
+		parentId.setValue("");
+		dma_categoryForm.setEmptyValue();
 	}
 	
 	scwin.categoryTree_onlabelclick = function(value,nodeElement,index) {
-		console.log(value);
-		console.log(nodeElement);
-		console.log(index);
-		dma_category.set("categoryId", value);
+		parentId.setValue(categoryTree.getParentValue(value));
 		
-		//dma_categoryForm.set("category1d", );
+		if (value === "0") { // 카테고리 전체 선택했을 경우
+			scwin.resetForm();
+			return;
+		}
+		dma_category.set("categoryId", value);
+		console.log(dma_categoryForm.get("categoryFormId"));
+		
+		$p.executeSubmission("sbm_categoryInfo");
+		
 	};
 	
 	scwin.btn_del_onclick = function(e) {
 		$p.executeSubmission("sbm_deleteCategory");
+		scwin.resetForm();
+	};
+	
+	scwin.sbm_deleteCategory_submitdone = function(e) {
 		$p.executeSubmission("sbm_categoryList");
+		$p.executeSubmission("sbm_categoryList1d");
+	};
+	
+	
+	
+	scwin.btn_save_onclick = function(e) {
+		$p.executeSubmission("sbm_createUpdateCategory");
+	};
+	
+	scwin.sbm_createUpdateCategory_submitdone = function(e) {
+		$p.executeSubmission("sbm_categoryList");
+		$p.executeSubmission("sbm_categoryList1d");
+		scwin.resetForm();
+		dma_category.set("categoryId", "");
 	};
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
-    	<xf:group id="" style="text-align:left;margin-bottom: 10px;margin-top: 10px;" tagname="">
-    		<xf:trigger class="btn_add" ev:onclick="scwin.btn_add_onclick" id="trigger27" style="margin-right: 10px;" type="button">
+    	<w2:textbox id="" label="카테고리 등록" style="" tagname="h1"></w2:textbox><xf:group tagname="table" style="width:80%;float:right;margin-right: 10px;" id="" class="w2tb tb">
+    					<w2:attributes>
+    						<w2:summary></w2:summary>
+    					</w2:attributes>
+    					<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
+    					<xf:group tagname="colgroup">
+    						<xf:group tagname="col" style="width:13.47%;"></xf:group>
+    						<xf:group tagname="col" style="width:10%;"></xf:group>
+    						<xf:group tagname="col"></xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" style="text-align:right;" class="w2tb_th">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox tagname="label" style="color:#FF0000;" id="" label="*" class="req"></w2:textbox>
+    							<w2:textbox class="req" id="" label="카테고리명" style="" tagname="label"></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>5</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<xf:input ref="data:dma_categoryForm.categoryName" adjustMaxLength="false" style="width:49.83%;height:21px;margin-right:10px;" id="" maxlength="30">
+    							</xf:input>
+    							<w2:textbox tagname="span" style="margin-right: 10px;" id="textbox14" label=" 최대 30자" class=""></w2:textbox>
+    							<xf:select ref="data:dma_categoryForm.isHidden" appearance="full" style="width: 148px;height: 21px;" id="" selectedindex="-1" rows="" cols="">
+    								<xf:choices>
+    									<xf:item>
+    										<xf:label><![CDATA[웹에서 숨기기]]></xf:label>
+    										<xf:value><![CDATA[Y]]></xf:value>
+    									</xf:item>
+    								</xf:choices>
+    							</xf:select>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" style="text-align:right;" class="w2tb_th">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox class="req" id="" label="*" style="color:#FF0000;" tagname="label"></w2:textbox>
+    							<w2:textbox tagname="label" style="" id="" label="상위 카테고리" class="req"></w2:textbox>
+
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>5</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<xf:select1 chooseOptionLabel="전체" ref="data:dma_parentCategory.parentId" submenuSize="auto" appearance="minimal" ev:onchange="scwin.parentId_onchange" disabledClass="w2selectbox_disabled" chooseOption="true" disabled="false" style="position:static; top:151px; left:266px; width:148px; height:21px;text-align:left;margin-right: 10px;" allOption="" id="parentId" direction="auto">
+    								<xf:choices>
+    									<xf:itemset nodeset="data:dlt_categoryList1d">
+    										<xf:label ref="categoryName"></xf:label>
+    										<xf:value ref="categoryId"></xf:value>
+    									</xf:itemset>
+    								</xf:choices>
+    							</xf:select1>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" style="text-align:right;" class="w2tb_th">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox tagname="label" style="" id="" label="설명" class="req"></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>5</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<xf:input ref="data:dma_categoryForm.description" adjustMaxLength="false" readOnly="false" style="width:99%;height:78px;margin-right:10px;" id="">
+    							</xf:input>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="" id="help">
+    						<xf:group tagname="th" style="text-align:right;" class="w2tb_th">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox tagname="label" style="" id="" label="카테고리 도움말" class="req"></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>5</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<xf:input ref="data:dma_categoryForm.help" adjustMaxLength="false" readOnly="false" style="width:99%;height:78px;margin-right:10px;" id="">
+    							</xf:input>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" style="text-align:right;" class="w2tb_th">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox tagname="label" style="" id="" label="등록자" class="req"></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>2</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<w2:textbox tagname="span" style="" id="textbox9" label="hikhjin" class="" ref="data:dma_categoryForm.createdBy">
+    							</w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="th" style="text-align:right;" class="w2tb_th">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox tagname="label" style="" id="" label="등록일시" class="req"></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>2</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<xf:group tagname="" style="" id="" class="gvw_info"></xf:group>
+    							<w2:textbox tagname="span" style="" id="textbox15" label=" " class="" ref="data:dma_categoryForm.createdAt">
+    							</w2:textbox>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" style="text-align:right;" class="w2tb_th">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox tagname="label" style="" id="" label="수정자" class="req"></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>2</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<w2:textbox tagname="span" style="" id="textbox13" label="hikhjin" class="" ref="data:dma_categoryForm.updatedBy">
+    							</w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="th" style="text-align:right;" class="w2tb_th">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox tagname="label" style="" id="" label="수정일시" class="req"></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>2</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<xf:group tagname="" style="" id="" class="gvw_info"></xf:group>
+    							<w2:textbox tagname="span" style="" id="textbox16" label=" " class="" ref="data:dma_categoryForm.updatedAt">
+    							</w2:textbox>
+    						</xf:group>
+    					</xf:group>
+    				</xf:group><xf:group id="" style="text-align:left;margin-bottom: 10px;margin-top: 10px;" tagname="">
+    		<xf:trigger class="btn_add" ev:onclick="scwin.btn_add_onclick" id="trigger27" style="margin-right: 10px;margin-left: 5px;" type="button">
     			<xf:label><![CDATA[+ 추가]]></xf:label>
     		</xf:trigger>
     		<xf:trigger class="btn_del" ev:onclick="scwin.btn_del_onclick" id="trigger28" style="margin-right: 10px;" type="button">
     			<xf:label><![CDATA[- 삭제]]></xf:label>
     		</xf:trigger>
-    		
+
     		<br></br>
-    	</xf:group><w2:treeview id="categoryTree" dataType="listed" tooltipGroupClass="false" style="width: 200px;height: 200px;margin-top: 10px;margin-bottom: 10px;border:1px solid black;;;a;ac;ack;ac;a;;" showCheckbox="" ev:onlabelclick="scwin.categoryTree_onlabelclick">
-    		<w2:itemset nodeset="data:dlt_categoryList">
-    			<w2:label ref="categoryName"></w2:label>
-    			<w2:value ref="categoryId"></w2:value>
-    			<w2:depth ref="depth"></w2:depth>
-    			<w2:folder ref=""></w2:folder>
-    			<w2:checkbox ref=""></w2:checkbox>
-    			<w2:checkboxDisabled ref=""></w2:checkboxDisabled>
-    			<w2:image ref=""></w2:image>
-    			<w2:iconImage ref=""></w2:iconImage>
-    			<w2:selectedImage ref=""></w2:selectedImage>
-    			<w2:expandedImage ref=""></w2:expandedImage>
-    			<w2:leafImage ref=""></w2:leafImage>
-    		</w2:itemset>
-    	</w2:treeview>
-    	<xf:group id="" style="margin-top: 10px;" tagname="section">
-    		<xf:group class="tbbox" id="" style="">
-    			<xf:group class="w2tb tb" id="" style=";width:100%;" tagname="table">
-    				<w2:attributes>
-    					<w2:summary></w2:summary>
-    				</w2:attributes>
-    				<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
-    				<xf:group tagname="colgroup">
-    					<xf:group style="width:13.47%;" tagname="col"></xf:group>
-    					<xf:group style="width:10%;" tagname="col"></xf:group>
-    					<xf:group tagname="col"></xf:group>
-    				</xf:group>
-    				<xf:group style="" tagname="tr">
-    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
-    						<w2:attributes>
-    							<w2:scope>row</w2:scope>
-    						</w2:attributes>
-    						<w2:textbox class="req" id="" label="카테고리명" style="" tagname="label"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_td" style="" tagname="td">
-    						<w2:attributes>
-    							<w2:colspan>5</w2:colspan>
-    							<w2:rowspan>1</w2:rowspan>
-    						</w2:attributes>
-    						<xf:input adjustMaxLength="false" id="" ref="data:dma_categoryForm.categoryName"
-    							style="width:49.83%;height:21px;margin-right:10px;">
-    						</xf:input>
-    						<w2:textbox class="" id="textbox14" label=" 최대 30자" style="margin-right: 10px;" tagname="span"></w2:textbox>
-    						<xf:select selectedindex="-1" id="" appearance="full" style="width: 148px;height: 21px;" cols="" rows=""
-    							ref="data:dma_categoryForm.isHidden">
-    							<xf:choices>
-    								<xf:item>
-    									<xf:label><![CDATA[웹에서 숨기기]]></xf:label>
-    									<xf:value><![CDATA[Y]]></xf:value>
-    								</xf:item>
-    							</xf:choices>
-    						</xf:select>
-    					</xf:group>
-    				</xf:group>
-    				<xf:group style="" tagname="tr">
-    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
-    						<w2:attributes>
-    							<w2:scope>row</w2:scope>
-    						</w2:attributes>
-    						<w2:textbox class="req" id="" label="상위 카테고리" style="" tagname="label"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_td" style="" tagname="td">
-    						<w2:attributes>
-    							<w2:colspan>5</w2:colspan>
-    							<w2:rowspan>1</w2:rowspan>
-    						</w2:attributes>
-    						<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="전체" direction="auto"
-    							disabled="false" disabledClass="w2selectbox_disabled" ev:onchange="scwin.parentId_onchange" id="parentId"
-    							ref="data:dma_parentCategory.parentId"
-    							style="position:static; top:151px; left:266px; width:148px; height:21px;text-align:left;margin-right: 10px;"
-    							submenuSize="auto">
-    							<xf:choices>
-    								<xf:itemset nodeset="data:dlt_categoryList1d">
-    									<xf:label ref="categoryName"></xf:label>
-    									<xf:value ref="categoryId"></xf:value>
-    								</xf:itemset>
-    							</xf:choices>
-    						</xf:select1>
-    					</xf:group>
-    				</xf:group>
-    				<xf:group style="" tagname="tr">
-    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
-    						<w2:attributes>
-    							<w2:scope>row</w2:scope>
-    						</w2:attributes>
-    						<w2:textbox class="req" id="" label="설명" style="" tagname="label"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_td" style="" tagname="td">
-    						<w2:attributes>
-    							<w2:colspan>5</w2:colspan>
-    							<w2:rowspan>1</w2:rowspan>
-    						</w2:attributes>
-    						<xf:input adjustMaxLength="false" id="" readOnly="false" ref="data:dma_categoryForm.description"
-    							style="width:604px;height:78px;margin-right:10px;">
-    						</xf:input>
-    					</xf:group>
-    				</xf:group>
-    				<xf:group id="help" style="" tagname="tr">
-    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
-    						<w2:attributes>
-    							<w2:scope>row</w2:scope>
-    						</w2:attributes>
-    						<w2:textbox class="req" id="" label="카테고리 도움말" style="" tagname="label"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_td" style="" tagname="td">
-    						<w2:attributes>
-    							<w2:colspan>5</w2:colspan>
-    							<w2:rowspan>1</w2:rowspan>
-    						</w2:attributes>
-    						<xf:input adjustMaxLength="false" id="" readOnly="false" ref="data:dma_categoryForm.help"
-    							style="width:604px;height:78px;margin-right:10px;">
-    						</xf:input>
-    					</xf:group>
-    				</xf:group>
-    				<xf:group style="" tagname="tr">
-    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
-    						<w2:attributes>
-    							<w2:scope>row</w2:scope>
-    						</w2:attributes>
-    						<w2:textbox class="req" id="" label="등록자" style="" tagname="label"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_td" style="" tagname="td">
-    						<w2:attributes>
-    							<w2:colspan>2</w2:colspan>
-    							<w2:rowspan>1</w2:rowspan>
-    						</w2:attributes>
-    						<w2:textbox class="" id="textbox9" label="hikhjin" style="" tagname="span"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
-    						<w2:attributes>
-    							<w2:scope>row</w2:scope>
-    						</w2:attributes>
-    						<w2:textbox class="req" id="" label="등록일시" style="" tagname="label"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_td" style="" tagname="td">
-    						<w2:attributes>
-    							<w2:colspan>2</w2:colspan>
-    							<w2:rowspan>1</w2:rowspan>
-    						</w2:attributes>
-    						<xf:group class="gvw_info" id="" style="" tagname=""></xf:group>
-    						<w2:textbox class="" id="textbox15" label="등록일시" style="" tagname="span"></w2:textbox>
-    					</xf:group>
-    				</xf:group>
-    				<xf:group style="" tagname="tr">
-    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
-    						<w2:attributes>
-    							<w2:scope>row</w2:scope>
-    						</w2:attributes>
-    						<w2:textbox class="req" id="" label="수정자" style="" tagname="label"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_td" style="" tagname="td">
-    						<w2:attributes>
-    							<w2:colspan>2</w2:colspan>
-    							<w2:rowspan>1</w2:rowspan>
-    						</w2:attributes>
-    						<w2:textbox class="" id="textbox13" label="hikhjin" style="" tagname="span"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_th" style="text-align:right;" tagname="th">
-    						<w2:attributes>
-    							<w2:scope>row</w2:scope>
-    						</w2:attributes>
-    						<w2:textbox class="req" id="" label="수정일시" style="" tagname="label"></w2:textbox>
-    					</xf:group>
-    					<xf:group class="w2tb_td" style="" tagname="td">
-    						<w2:attributes>
-    							<w2:colspan>2</w2:colspan>
-    							<w2:rowspan>1</w2:rowspan>
-    						</w2:attributes>
-    						<xf:group class="gvw_info" id="" style="" tagname=""></xf:group>
-    						<w2:textbox class="" id="textbox16" label="수정일시" style="" tagname="span"></w2:textbox>
-    					</xf:group>
-    				</xf:group>
+    	</xf:group><w2:treeview showCheckbox="" tooltipGroupClass="false" ev:onlabelclick="scwin.categoryTree_onlabelclick" dataType="listed" style="width: 200px;height: 260px;margin-top: 10px;margin-bottom: 10px;border:1px solid black;margin-left: 5px;" id="categoryTree">
+    			<w2:itemset nodeset="data:dlt_categoryList">
+    				<w2:label ref="categoryName"></w2:label>
+    				<w2:value ref="categoryId"></w2:value>
+    				<w2:depth ref="depth"></w2:depth>
+    				<w2:folder ref=""></w2:folder>
+    				<w2:checkbox ref=""></w2:checkbox>
+    				<w2:checkboxDisabled ref=""></w2:checkboxDisabled>
+    				<w2:image ref=""></w2:image>
+    				<w2:iconImage ref=""></w2:iconImage>
+    				<w2:selectedImage ref=""></w2:selectedImage>
+    				<w2:expandedImage ref=""></w2:expandedImage>
+    				<w2:leafImage ref=""></w2:leafImage>
+    			</w2:itemset>
+    		</w2:treeview><xf:group tagname="section" style="margin-top: 10px;" id="">
+    			<xf:group style="" id="" class="tbbox">
+    				
     			</xf:group>
+    			<br></br>
+    			<w2:textbox class="" id="textbox17" label=" 메뉴 편집 후, 우측 저장버튼 클릭 시 최종 반영됩니다." style="margin-left: 10px;text-align:left;" tagname="span">
+    			</w2:textbox>
     		</xf:group>
-    	</xf:group>
-    	<br></br>
     	<xf:group id="" style="text-align:right;" tagname="">
+
     		<xf:trigger class="btn_cancel" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel" style="margin-right: 10px;"
     			type="button">
     			<xf:label><![CDATA[ 취소 ]]></xf:label>
@@ -303,7 +341,10 @@
     		<xf:trigger class="btn_save" ev:onclick="scwin.btn_save_onclick" id="trigger26" style="margin-right: 10px;" type="button">
     			<xf:label><![CDATA[ 저장 ]]></xf:label>
     		</xf:trigger>
+
     	</xf:group>
+
+
     	
     </body>
 </html>

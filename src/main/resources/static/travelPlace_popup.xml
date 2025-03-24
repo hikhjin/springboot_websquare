@@ -142,6 +142,11 @@
 				childLength--;
 				continue;
 			}
+			
+			if (dlt_travelPlaceList.getRowStatus(dataArr[i]) === "C") {// 새로 삽입된 행을 등록하려고 하면 alert
+				alert("변경사항 저장 버튼을 먼저 눌러주세요.");
+				return;
+			}
 		}
 		
 		if (childLength + parentLength > 5) {
@@ -177,19 +182,18 @@
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
-    <br></br>
-    	<xf:group id="" style="">
-    		<xf:trigger class="" ev:onclick="scwin.btn_add_travelPlace_onclick" id="btn_add_travelPlace" style="margin-right: 10px;"
-    			type="button">
+    	<br></br><w2:textbox style="width:463px;height:19px;float:right;" id="" label="장소 추가, 수정, 삭제 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다."></w2:textbox>
+    	<xf:group id="">
+    		<xf:trigger ev:onclick="scwin.btn_add_travelPlace_onclick" style="margin-right: 10px;" id="btn_add_travelPlace" type="button"
+    			class="">
     			<xf:label><![CDATA[+장소추가]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger class="btn_del" ev:onclick="scwin.btn_del_onclick" id="trigger23" style="" type="button">
+    		<xf:trigger ev:onclick="scwin.btn_del_onclick" style="" id="trigger23" type="button" class="btn_del">
     			<xf:label><![CDATA[ -선택삭제 ]]></xf:label>
     		</xf:trigger>
-    		
     	</xf:group>
     	<br></br>
-    	<w2:textbox id="" label="장소 추가, 수정, 삭제 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다." style="width:609px;height:23px;"></w2:textbox>
+
     	<w2:gridView id="grd_main" style="height:98px;" scrollByColumn="false" defaultCellHeight="32" scrollByColumnAdaptive="false"
     		dataList="data:dlt_travelPlaceList" autoFit="allColumn" rowNumVisible="false" visibleRowNum="all" sortable="true" focusMode="row">
     		<w2:caption style="" id="caption1" value="this is a grid caption."></w2:caption>
@@ -231,10 +235,11 @@
     			ev:onclick="scwin.btn_reg_onclick">
     			<xf:label><![CDATA[등록]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger class="btn_df" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel" style="width: 80px;height: 23px;margin-right: 10px;"
-    			type="button">
+    		<xf:trigger class="btn_df" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel"
+    			style="width: 80px;height: 23px;margin-right: 10px;" type="button">
     			<xf:label><![CDATA[ 닫기 ]]></xf:label>
     		</xf:trigger>
     	</xf:group>
+    	
     </body>
 </html>
