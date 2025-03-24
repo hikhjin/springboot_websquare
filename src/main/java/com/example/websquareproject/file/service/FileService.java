@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,6 +23,36 @@ import java.util.UUID;
 public class FileService {
 
     private static final Logger logger = LoggerFactory.getLogger(FileService.class);
+
+    @Transactional
+    public void deleteFile(String fileUrl) {
+        if (fileUrl == null || fileUrl.isEmpty()) {
+            return; // 아무것도 안함
+        }
+
+        try {
+            // URL 인코딩 제거
+            String decodedUrl = URLDecoder.decode(fileUrl, StandardCharsets.UTF_8);
+            String BASE_PATH = "src/main/resources/static";
+            String fullPath = BASE_PATH + decodedUrl;
+
+            File file = new File(fullPath);
+            if (file.exists()) {
+                boolean deleted = file.delete();
+                if (!deleted) {
+                    System.err.println("파일 삭제 실패: " + fullPath);
+                } else {
+                    System.out.println("파일 삭제 성공: " + fullPath);
+                }
+            } else {
+                System.out.println("삭제 대상 파일이 존재하지 않음: " + fullPath);
+            }
+
+        } catch (Exception e) {
+            System.err.println("파일 삭제 중 예외 발생: " + e.getMessage());
+        }
+    }
+
 
     @Transactional
     public ResponseEntity<FileDto> uploadFile(MultipartFile file, String type) {
@@ -44,7 +76,6 @@ public class FileService {
             Path fileFullPath = uploadPath.resolve(fileName);
             Files.copy(file.getInputStream(), fileFullPath, StandardCopyOption.REPLACE_EXISTING);
 
-            System.out.println(fileName);
             // fileDto 객체 생성
             FileDto uploadedFile = new FileDto(
                     file.getOriginalFilename(),

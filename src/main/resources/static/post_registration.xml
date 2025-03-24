@@ -94,9 +94,22 @@
         		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
         		processMsg="" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
         	</xf:submission>
-        	<xf:submission id="sbm_createPost" ref='data:json,{"id":"dma_postForm","key":"postForm"}' target="" action="http://127.0.0.1:8080/post" method="post"
-        		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
-        		processMsg="" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="" singleMode="true">
+        	<xf:submission id="sbm_createPost" ref='data:json,{"id":"dma_postForm","key":"postForm"}' target=""
+        		action="http://127.0.0.1:8080/post" method="post" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger=""
+        		singleMode="true">
+        	</xf:submission>
+        	<xf:submission id="sbm_deleteFilePc" ref="data:json,dma_postForm" target="" action="http://127.0.0.1:8080/file/pc"
+        		method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
+        		mode="asynchronous" processMsg="" singleMode="true" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        	<xf:submission id="sbm_deleteFileMo" ref="data:json,dma_postForm" target="" action="http://127.0.0.1:8080/file/mobile"
+        		method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
+        		mode="asynchronous" processMsg="" singleMode="true" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        	<xf:submission id="sbm_deleteFileAt" ref="data:json,dma_postForm" target="" action="http://127.0.0.1:8080/file/attachment"
+        		method="delete" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
+        		mode="asynchronous" processMsg="" singleMode="true" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
         	</xf:submission>
         </xf:model>
         <w2:layoutInfo/>
@@ -311,10 +324,13 @@ scwin.onpageload = function() {
 		var targetId = this.getID();
 	    if (targetId === "mf_btn_deleteFileP") {
 	        upd_singleFileUpload_pc.reset();
+	        $p.executeSubmission("sbm_deleteFilePc");
 	    } else if (targetId === "mf_btn_deleteFileM") {
 	        upd_singleFileUpload_mo.reset();
+	        $p.executeSubmission("sbm_deleteFileMo");
 	    } else if (targetId === "mf_btn_deleteFileA") {
 	        upd_singleFileUpload_at.reset();
+	        $p.executeSubmission("sbm_deleteFileAt");
 	    }
 	};
 	

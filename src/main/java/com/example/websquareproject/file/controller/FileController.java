@@ -2,6 +2,7 @@ package com.example.websquareproject.file.controller;
 
 import com.example.websquareproject.file.dto.FileDto;
 import com.example.websquareproject.file.service.FileService;
+import com.example.websquareproject.post.dto.PostFormDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,23 @@ public class FileController {
         this.fileService = fileService;
     }
 
-//    @PostMapping("/pc")
-//    public ResponseEntity<FileDto> uploadFilePc (@RequestParam("upload") MultipartFile file) {
-//        return fileService.uploadFile(file, "pc");
-//    }
+    @DeleteMapping("/pc")
+    public ResponseEntity<String> deleteFilePc(@RequestBody PostFormDto postFormDto) {
+        fileService.deleteFile(postFormDto.getPcImageUrl());
+        return ResponseEntity.ok("Success");
+    }
+
+    @DeleteMapping("/mobile")
+    public ResponseEntity<String> deleteFileMo(@RequestBody PostFormDto postFormDto) {
+        fileService.deleteFile(postFormDto.getMobileImageUrl());
+        return ResponseEntity.ok("Success");
+    }
+
+    @DeleteMapping("/attachment")
+    public ResponseEntity<String> deleteFileAt(@RequestBody PostFormDto postFormDto) {
+        fileService.deleteFile(postFormDto.getAttachmentUrl());
+        return ResponseEntity.ok("Success");
+    }
 
     @PostMapping("/pc")
     public String uploadFilePc (@RequestParam("upload") MultipartFile file) {
@@ -40,16 +54,6 @@ public class FileController {
         FileDto fileDto = fileService.uploadFile(file, "attachment").getBody();
         return generatePostMessageScript(fileDto);
     }
-
-//    @PostMapping("/mobile")
-//    public ResponseEntity<FileDto> uploadFileMo (@RequestParam("upload") MultipartFile file) {
-//        return fileService.uploadFile(file, "mobile");
-//    }
-
-//    @PostMapping("/attachment")
-//    public ResponseEntity<FileDto> uploadFileAt (@RequestParam("upload") MultipartFile file) {
-//        return fileService.uploadFile(file, "attachment");
-//    }
 
     private String generatePostMessageScript(FileDto fileDto) {
         if (fileDto == null) {
