@@ -56,19 +56,6 @@ public class PostService {
         return ResponseEntity.ok(response);
     }
 
-
-//    public ResponseEntity<Map<String, Object>> getExcelList(String category1, String category2, String periodType, String startDate,
-//                                                        String endDate, String isDisplayed, String searchType, String keyword) {
-//
-//        List<ExcelListDto> posts = postMapper.getExcelList(safeParseInt(category1), safeParseInt(category2), periodType, startDate, endDate, isDisplayed, searchType, keyword);
-//
-//        Map<String, Object> response = new HashMap<>();
-//
-//        response.put("excelList", posts);
-//
-//        return ResponseEntity.ok(response);
-//    }
-
     public void getExcelFile(String category1, String category2, String periodType,
                                                             String startDate, String endDate, String isDisplayed,
                                                             String searchType, String keyword, HttpServletResponse response) {
@@ -124,6 +111,7 @@ public class PostService {
             logger.error("Error while creating Excel file", e);
         }
     }
+
     private void insertImage(Sheet sheet, Workbook workbook, String imageUrl, int rowIndex, int colIndex) {
         try {
             InputStream is;
@@ -196,7 +184,6 @@ public class PostService {
     public void createPost(PostFormDto postFormDto) {
         postFormDto.setCreatedBy("hikhjin");
         postFormDto.setUpdatedBy("hikhjin");
-        System.out.println("service");
 
         // category2가 존재하면 category2 사용, 없으면 category1 사용
         int categoryId = (postFormDto.getCategory2() != null) ? postFormDto.getCategory2() : postFormDto.getCategory1();
@@ -204,7 +191,6 @@ public class PostService {
         postMapper.createPost(postFormDto, categoryId);
 
         int postId = postFormDto.getPostId();
-        System.out.println("postId: " + postId);
 
         // 카테고리가 여행일 경우
         if (categoryId == 3) {

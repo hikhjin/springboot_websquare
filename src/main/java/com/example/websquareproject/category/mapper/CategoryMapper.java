@@ -3,6 +3,7 @@ package com.example.websquareproject.category.mapper;
 import com.example.websquareproject.category.dto.CategoryTreeDto;
 import com.example.websquareproject.category.dto.CategoryFormDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface CategoryMapper {
     List<CategoryTreeDto> getCategories2d(int parentId);
     List<CategoryTreeDto> getCategories();
     CategoryFormDto getCategoryInfo(int categoryId);
-    void updateCategory(CategoryFormDto formDto);
+    void updateCategory(@Param("categoryFormDto") CategoryFormDto categoryFormDto, @Param("categoryId") int categoryId);
     void createCategory(CategoryFormDto formDto);
     void deleteCategory(int categoryId);
 }

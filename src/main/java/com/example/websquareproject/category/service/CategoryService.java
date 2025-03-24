@@ -1,8 +1,11 @@
 package com.example.websquareproject.category.service;
 
+import com.example.websquareproject.category.dto.CategoryCreateDto;
+import com.example.websquareproject.category.dto.CategoryDto;
 import com.example.websquareproject.category.dto.CategoryTreeDto;
 import com.example.websquareproject.category.dto.CategoryFormDto;
 import com.example.websquareproject.category.mapper.CategoryMapper;
+import jdk.jfr.Category;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,18 +52,24 @@ public class CategoryService {
     }
 
     @Transactional
-    public void createOrUpdateCategory(CategoryFormDto categoryFormDto) {
+    public void createOrUpdateCategory(CategoryCreateDto categoryCreateDto) {
+        int categoryId = categoryCreateDto.getCategory().getCategoryId();
+        CategoryFormDto categoryFormDto = categoryCreateDto.getCategoryForm();
+
         if (categoryFormDto.getIsHidden() == null) {
             categoryFormDto.setIsHidden("N");
-            categoryFormDto.setParentId(null);
         }
 
+        System.out.println(categoryId);
         System.out.println(categoryFormDto.toString());
-        if (categoryFormDto.getCategoryFormId() == 0) {
+        if (categoryId == -1) { // 새로 만들 경우
+            if (categoryFormDto.getParentId() == null) { // 1 depth에 추가
+                categoryFormDto.setParentId(null);
+            }
 
             categoryMapper.createCategory(categoryFormDto);
         } else {
-            categoryMapper.updateCategory(categoryFormDto);
+            categoryMapper.updateCategory(categoryFormDto, categoryId);
         }
     }
 

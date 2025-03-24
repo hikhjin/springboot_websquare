@@ -1,9 +1,6 @@
 package com.example.websquareproject.category.controller;
 
-import com.example.websquareproject.category.dto.CategoryTreeDto;
-import com.example.websquareproject.category.dto.CategoryFormDto;
-import com.example.websquareproject.category.dto.CategoryDto;
-import com.example.websquareproject.category.dto.ParentCategoryListDto;
+import com.example.websquareproject.category.dto.*;
 import com.example.websquareproject.category.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,9 +45,8 @@ public class CategoryController {
 
     // 카테고리 추가/수정
     @PutMapping("/info")
-    public ResponseEntity<String> createOrUpdateCategoryInfo(@RequestBody CategoryFormDto categoryFormDto) {
-        System.out.println(categoryFormDto.getCategoryFormId());
-        categoryService.createOrUpdateCategory(categoryFormDto);
+    public ResponseEntity<String> createOrUpdateCategoryInfo(@RequestBody CategoryCreateDto categoryCreateDto) {
+        categoryService.createOrUpdateCategory(categoryCreateDto);
         return ResponseEntity.ok("Success");
     }
 

@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @ToString
 public class CategoryFormDto {
-    private int categoryFormId;
+    //private int categoryFormId;
     private String categoryName;
     private Integer parentId;
     private String isHidden;

@@ -10,9 +10,10 @@
 
     <update id="updateCategory">
         UPDATE CATEGORY
-        SET category_name = #{categoryName}, parent_id = #{parentId}, is_hidden = #{isHidden}, description = #{description},
-            help = #{help}, updated_at = now(), updated_by = 'hikhjin'
-        WHERE category_id = #{cId}
+        SET category_name = #{categoryFormDto.categoryName}, parent_id = #{categoryFormDto.parentId},
+            is_hidden = #{categoryFormDto.isHidden}, description = #{categoryFormDto.description},
+            help = #{categoryFormDto.help}, updated_at = now(), updated_by = 'hikhjin'
+        WHERE category_id = #{categoryId}
     </update>
 
     <delete id="deleteCategory">
