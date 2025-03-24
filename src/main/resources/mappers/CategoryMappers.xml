@@ -3,19 +3,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.websquareproject.category.mapper.CategoryMapper">
+    <insert id="createCategory">
+        INSERT INTO CATEGORY (category_name, parent_id, is_hidden, description, help, updated_at, updated_by, created_at, created_by)
+        VALUES (#{categoryName}, #{parentId}, #{isHidden}, #{description}, #{help}, now(), 'hikhjin', now(), 'hikhjin')
+    </insert>
+
+    <update id="updateCategory">
+        UPDATE CATEGORY
+        SET category_name = #{categoryName}, parent_id = #{parentId}, is_hidden = #{isHidden}, description = #{description},
+            help = #{help}, updated_at = now(), updated_by = 'hikhjin'
+        WHERE category_id = #{cId}
+    </update>
+
     <delete id="deleteCategory">
         DELETE FROM CATEGORY WHERE category_id = #{categoryId}
     </delete>
 
-    <select id="getCategories1d" resultType="com.example.websquareproject.category.dto.CategoryDto">
+    <select id="getCategories1d" resultType="com.example.websquareproject.category.dto.CategoryTreeDto">
     SELECT category_id AS categoryId, category_name AS categoryName FROM CATEGORY WHERE parent_id IS NULL
     </select>
 
-    <select id="getCategories2d" resultType="com.example.websquareproject.category.dto.CategoryDto">
+    <select id="getCategories2d" resultType="com.example.websquareproject.category.dto.CategoryTreeDto">
         SELECT category_id AS categoryId, category_name AS categoryName FROM CATEGORY WHERE parent_id = #{parentId}
     </select>
 
-    <select id="getCategories" resultType="com.example.websquareproject.category.dto.CategoryDto">
+    <select id="getCategories" resultType="com.example.websquareproject.category.dto.CategoryTreeDto">
         SELECT
             0 AS categoryId,
             '전체' AS categoryName,
@@ -36,5 +48,18 @@
             CASE WHEN parent_id IS NULL THEN categoryId ELSE parent_id END, -- 부모 카테고리 순서 정렬
             depth, -- 부모 먼저 출력 후 자식 출력
             categoryId; -- 동일한 depth 내에서 ID 순 정렬
+    </select>
+
+    <select id="getCategoryInfo" resultType="com.example.websquareproject.category.dto.CategoryFormDto">
+        SELECT category_name AS categoryName,
+               parent_id AS parentId,
+               is_hidden AS isHidden,
+               description,
+               help,
+               created_at AS createdAt,
+               created_by AS createdBy,
+               updated_at AS updatedAt,
+               updated_by AS updatedBy
+               FROM CATEGORY WHERE category_id = #{categoryId}
     </select>
 </mapper>

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeleteCategoryDto {
+public class CategoryTreeDto {
     private int categoryId;
+    private String categoryName;
+    private int depth;
 }

@@ -9,6 +9,4 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryDto {
     private int categoryId;
-    private String categoryName;
-    private int depth;
 }
