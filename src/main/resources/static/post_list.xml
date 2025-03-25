@@ -193,6 +193,7 @@ scwin.onpageunload = function() {
 		scwin.fn_search(1);
 	};
 	
+	com.data
 	// 목록 조회
 	scwin.fn_search = function(pageNo) {
 		dma_postParam.set("size", rowSize.getValue());
@@ -637,11 +638,11 @@ scwin.onpageunload = function() {
 
     										<xf:group class="gvw_btn" id=""></xf:group>
     									</xf:group>
-    								<xf:group id="" style="text-align:right;"><xf:trigger ev:onclick="scwin.btn_delete_onclick" style="margin-right: 10px;" id="trigger26" type="button" class="normal-button">
+    								<xf:group id="" style="text-align:right;"><xf:trigger ev:onclick="scwin.btn_delete_onclick" style="margin-right: 10px;" id="trigger26" type="button" class="">
     										<xf:label><![CDATA[ 선택 삭제 ]]></xf:label>
-    									</xf:trigger><xf:trigger ev:onclick="scwin.btn_save_onclick" style="margin-right: 10px;" id="trigger1" type="button" class="normal-button">
+    									</xf:trigger><xf:trigger ev:onclick="scwin.btn_save_onclick" style="margin-right: 10px;" id="trigger1" type="button" class="">
     										<xf:label><![CDATA[ 전시 순서 저장 ]]></xf:label>
-    									</xf:trigger><xf:trigger ev:onclick="scwin.btn_excelDown_onclick" style="margin-right: 10px;" id="btn_excelDownload" type="button" class="normal-button">
+    									</xf:trigger><xf:trigger ev:onclick="scwin.btn_excelDown_onclick" style="margin-right: 10px;" id="btn_excelDownload" type="button" class="">
     										<xf:label><![CDATA[ 엑셀 다운로드]]></xf:label>
     									</xf:trigger></xf:group></xf:group>
     								<br></br>

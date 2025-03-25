@@ -173,7 +173,9 @@
 	    // 부모창 함수 호출
 		$p.parent().scwin.travelPlace_popup_callBack(modifiedData);
 		
-		$p.parent().$p.closePopup("addPopup");
+		//$p.parent().$p.closePopup("addPopup");
+
+		com.win.closePopup();
 	};
 
 	

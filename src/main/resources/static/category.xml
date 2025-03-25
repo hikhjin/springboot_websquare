@@ -301,10 +301,10 @@
     						</xf:group>
     					</xf:group>
     				</xf:group><xf:group id="" style="text-align:left;margin-bottom: 10px;margin-top: 10px;margin-left: 20px;" tagname="">
-    		<xf:trigger class="grey-button" ev:onclick="scwin.btn_add_onclick" id="trigger27" style="margin-right: 10px;margin-left: 5px;" type="button">
+    		<xf:trigger class="" ev:onclick="scwin.btn_add_onclick" id="trigger27" style="margin-right: 10px;margin-left: 5px;" type="button">
     			<xf:label><![CDATA[+ 추가]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger class="grey-button" ev:onclick="scwin.btn_del_onclick" id="trigger28" style="margin-right: 10px;" type="button">
+    		<xf:trigger class="" ev:onclick="scwin.btn_del_onclick" id="trigger28" style="margin-right: 10px;" type="button">
     			<xf:label><![CDATA[- 삭제]]></xf:label>
     		</xf:trigger>
 
@@ -333,7 +333,7 @@
     		</xf:group>
     	<xf:group id="" style="text-align:right;" tagname="">
 
-    		<xf:trigger class="normal-button" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel" style="margin-right: 10px;"
+    		<xf:trigger class="" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel" style="margin-right: 10px;"
     			type="button">
     			<xf:label><![CDATA[ 취소 ]]></xf:label>
     		</xf:trigger>

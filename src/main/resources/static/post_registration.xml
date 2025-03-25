@@ -651,7 +651,7 @@ scwin.onpageload = function() {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:trigger class="grey-button" id="btn_add_media" style="margin-right: 10px;" type="button" ev:onclick="scwin.btn_add_media_onclick">
+    						<xf:trigger class="" id="btn_add_media" style="margin-right: 10px;" type="button" ev:onclick="scwin.btn_add_media_onclick">
     							<xf:label><![CDATA[ +추가 ]]></xf:label>
     						</xf:trigger>
 
@@ -662,7 +662,7 @@ scwin.onpageload = function() {
     								<xf:input adjustMaxLength="false" style="width:604px;height:21px;margin-right: 10px;" id="input_sm"
     									ref="data:dlt_sourceMediaList">
     								</xf:input>
-    								<xf:trigger style="" id="btn_del" type="button" ev:onclick="scwin.btn_del_onclick" class="grey-button">
+    								<xf:trigger style="" id="btn_del" type="button" ev:onclick="scwin.btn_del_onclick" class="">
     									<xf:label><![CDATA[ -삭제 ]]></xf:label>
     								</xf:trigger>
     							</xf:group>
@@ -682,11 +682,11 @@ scwin.onpageload = function() {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:trigger class="grey-button" id="btn_add_travelPlace" style="margin-right: 10px;" type="button"
+    						<xf:trigger class="" id="btn_add_travelPlace" style="margin-right: 10px;" type="button"
     							ev:onclick="scwin.btn_add_travelPlace_onclick">
     							<xf:label><![CDATA[ +장소등록 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="grey-button" ev:onclick="scwin.btn_del_travelPlace_onclick" id="btn_del_travelPlace" style="margin-right: 10px;"
+    						<xf:trigger class="" ev:onclick="scwin.btn_del_travelPlace_onclick" id="btn_del_travelPlace" style="margin-right: 10px;"
     							type="button">
     							<xf:label><![CDATA[ -선택삭제 ]]></xf:label>
     						</xf:trigger>
@@ -756,11 +756,11 @@ scwin.onpageload = function() {
     							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_pc" ev:onInputValueChange="scwin.upd_singleFileUpload_onInputValueChange">
     						</w2:upload>
 
-    						<xf:trigger class="grey-button" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP"
+    						<xf:trigger class="" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP"
     							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="grey-button" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgPc" style=""
+    						<xf:trigger class="" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgPc" style=""
     							type="button">
     							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
@@ -802,11 +802,11 @@ scwin.onpageload = function() {
     						<w2:upload imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word" accept=".jpeg, .gif, .png, .jpg"
     							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_mo" ev:onInputValueChange="scwin.upd_singleFileUpload_onInputValueChange">
     						</w2:upload>
-    						<xf:trigger class="grey-button" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM"
+    						<xf:trigger class="" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM"
     							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="grey-button" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgMo" style=""
+    						<xf:trigger class="" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgMo" style=""
     							type="button">
     							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
@@ -846,7 +846,7 @@ scwin.onpageload = function() {
     							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;"
     							ev:onInputValueChange="scwin.upd_singleFileUpload_onInputValueChange" accept=".pdf, .docx, .csv, .txt, .xlsx">
     						</w2:upload>
-    						<xf:trigger class="grey-button" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileA"
+    						<xf:trigger class="" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileA"
     							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
