@@ -1,0 +1,62 @@
+.title {
+	width : auto;
+	height : auto;
+	font-size:20px;
+	font-weight:bolder;
+	padding-left:20px;
+	padding-top:20px;
+}
+
+
+.purple-button {
+	color: white;
+	background-color: purple;
+	font-weight: bold;
+}
+
+.white-button {
+	color: black;
+	background-color: white;
+	font-weight: bold;
+}
+
+.grey-button {
+	color: white;
+	background-color: grey;
+	font-weight: bold;
+}
+
+.normal-button {
+	font-weight: bold;
+}
+
+.req::before {
+    content: "*";
+    color: red;
+    margin-right: 4px; 
+}
+
+.explain {
+	width: auto;
+	font-size: 12px;
+	color: purple;
+	margin-left : 5px;
+}
+
+.explain::before {
+    content: "i"; 
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    background-color: purple; /* 보라색 원 */
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* 원형 */
+    margin-right: 6px;
+    text-align: center;
+    font-family: Arial, sans-serif; /* 가독성 좋은 폰트 */
+}
+
