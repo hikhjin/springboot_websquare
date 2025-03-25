@@ -128,6 +128,8 @@ scwin.onpageload = function() {
 	scwin.postFormInit = function() {
 		sourceMedia.setDisabled(true);
 		travelPlace.setDisabled(true);
+		startDate.setValue($p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss"));
+		endDate.setValue(Websquare.date.dateTimeAdd($p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss")), 7);
 	}
 	
 	// 카테고리 1d 변경될 때마다 2d 조회
@@ -421,7 +423,7 @@ scwin.onpageload = function() {
 	
 	// 파일 삭제 콜백
 	scwin.btn_DeleteFile_callBack = function(targetId) {
-		console.log("삭제할 타겟 ID는: " + targetId);
+		//console.log("삭제할 타겟 ID는: " + targetId);
 	    if (targetId === "mf_btn_previewImgPc") {
 	        upd_singleFileUpload_pc.reset();
 	        $p.executeSubmission("sbm_deleteFilePc");
@@ -832,7 +834,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="첨부파일" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="첨부파일" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>

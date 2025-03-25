@@ -299,7 +299,7 @@ scwin.onpageunload = function() {
 	};
 	
 	//엑셀 다운로드
-	scwin.btn_excel_onclick = function(e) {
+	scwin.btn_excelDown_onclick = function(e) {
 		console.log("dd");
 		var isExistParam = 0;
 		
@@ -377,8 +377,7 @@ scwin.onpageunload = function() {
 	scwin.btn_reg_onclick = function(e) {
 		$p.url("/post_registration.xml");
 	};
-
-	]]></script>
+]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
     	<w2:textbox id="" label="게시글 목록" style="" tagname="h1" class="title"></w2:textbox>
@@ -643,7 +642,7 @@ scwin.onpageunload = function() {
     									</xf:trigger><xf:trigger ev:onclick="scwin.btn_save_onclick" style="margin-right: 10px;" id="trigger1" type="button" class="normal-button">
     										<xf:label><![CDATA[ 전시 순서 저장 ]]></xf:label>
     									</xf:trigger><xf:trigger ev:onclick="scwin.btn_excelDown_onclick" style="margin-right: 10px;" id="btn_excelDownload" type="button" class="normal-button">
-    										<xf:label><![CDATA[엑셀 다운로드 ]]></xf:label>
+    										<xf:label><![CDATA[ 엑셀 다운로드]]></xf:label>
     									</xf:trigger></xf:group></xf:group>
     								<br></br>
     								<w2:gridView autoFit="allColumn" class="wq_gvw" dataList="data:dlt_postList" defaultCellHeight="32"

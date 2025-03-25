@@ -34,8 +34,6 @@
 	};
 	
 	scwin.btn_del_onclick = function(e) {
-		console.log($p.getParameter("param")["callbackFn"]);
-		console.log($p.getParameter("param")["targetId"]);
 		$p.parent().scwin[$p.getParameter("param")["callbackFn"]]($p.getParameter("param")["targetId"]);
 		$p.parent().$p.closePopup("previewImg");
 	};

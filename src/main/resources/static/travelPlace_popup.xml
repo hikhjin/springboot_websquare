@@ -130,7 +130,7 @@
 	
 	
 	scwin.btn_reg_onclick = function(e) {
-		var dataArr = dlt_travelPlaceList.getModifiedIndex();
+		var dataArr = dlt_travelPlaceList.getMatchedIndex("check", "1");
 		var parentLength = $p.parent().dlt_travelPlaceList.getRowCount();
 		var childLength = dataArr.length;
 		
@@ -149,7 +149,8 @@
 				return;
 			}
 		}
-		
+		console.log(childLength);
+		console.log(parentLength);
 		if (childLength + parentLength > 5) {
 			alert("최대 5개까지 등록 가능합니다.");
 			return;

@@ -27,7 +27,7 @@ public class FileService {
     @Transactional
     public void deleteFile(String fileUrl) {
         if (fileUrl == null || fileUrl.isEmpty()) {
-            return; // 아무것도 안함
+            return;
         }
 
         try {
