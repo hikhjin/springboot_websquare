@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/cm/css/community.css" type="text/css"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ev="http://www.w3.org/2001/xml-events"
     xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
@@ -91,7 +92,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="구분" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="구분" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -105,7 +106,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="카테고리" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="카테고리" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -123,7 +124,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="제목" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="제목" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -136,7 +137,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="조회수" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="조회수" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -151,7 +152,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="등록자" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="등록자" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -164,7 +165,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="등록일시" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="등록일시" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -179,7 +180,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="수정자" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="수정자" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -192,7 +193,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="수정일시" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="수정일시" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -207,7 +208,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="이미지" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="이미지" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td" id="image">
     						<w2:attributes>
@@ -222,7 +223,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="내용" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="내용" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -237,7 +238,7 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="첨부파일" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="첨부파일" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
@@ -253,7 +254,7 @@ scwin.onpageload = function() {
     	<br></br>
 
     	<xf:group id="" style="text-align:right;" tagname="">
-    		<xf:trigger class="btn_cancel" ev:onclick="scwin.btn_cancel_onclick" id="trigger24" style="margin-right: 10px;" type="button">
+    		<xf:trigger class="normal-button" ev:onclick="scwin.btn_cancel_onclick" id="trigger24" style="margin-right: 10px;" type="button">
     			<xf:label><![CDATA[ 닫기 ]]></xf:label>
     		</xf:trigger>
     	</xf:group>

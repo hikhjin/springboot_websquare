@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/cm/css/community.css" type="text/css"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ev="http://www.w3.org/2001/xml-events"
     xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
@@ -147,7 +148,7 @@
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
-    	<w2:textbox id="" label="카테고리 등록" style="" tagname="h1"></w2:textbox><xf:group tagname="table" style="width:80%;float:right;margin-right: 10px;" id="" class="w2tb tb">
+    	<w2:textbox id="" label="카테고리 등록" style="" tagname="h1" class="title"></w2:textbox><xf:group tagname="table" style="width:80%;float:right;margin-right: 10px;" id="" class="w2tb tb">
     					<w2:attributes>
     						<w2:summary></w2:summary>
     					</w2:attributes>
@@ -162,7 +163,6 @@
     							<w2:attributes>
     								<w2:scope>row</w2:scope>
     							</w2:attributes>
-    							<w2:textbox tagname="label" style="color:#FF0000;" id="" label="*" class="req"></w2:textbox>
     							<w2:textbox class="req" id="" label="카테고리명" style="" tagname="label"></w2:textbox>
     						</xf:group>
     						<xf:group tagname="td" style="" class="w2tb_td">
@@ -172,7 +172,7 @@
     							</w2:attributes>
     							<xf:input ref="data:dma_categoryForm.categoryName" adjustMaxLength="false" style="width:49.83%;height:21px;margin-right:10px;" id="" maxlength="30">
     							</xf:input>
-    							<w2:textbox tagname="span" style="margin-right: 10px;" id="textbox14" label=" 최대 30자" class=""></w2:textbox>
+    							<w2:textbox tagname="span" style="margin-right: 10px;" id="textbox14" label=" 최대 30자" class="explain"></w2:textbox>
     							<xf:select ref="data:dma_categoryForm.isHidden" appearance="full" style="width: 148px;height: 21px;" id="" selectedindex="-1" rows="" cols="">
     								<xf:choices>
     									<xf:item>
@@ -188,7 +188,6 @@
     							<w2:attributes>
     								<w2:scope>row</w2:scope>
     							</w2:attributes>
-    							<w2:textbox class="req" id="" label="*" style="color:#FF0000;" tagname="label"></w2:textbox>
     							<w2:textbox tagname="label" style="" id="" label="상위 카테고리" class="req"></w2:textbox>
 
     						</xf:group>
@@ -212,7 +211,7 @@
     							<w2:attributes>
     								<w2:scope>row</w2:scope>
     							</w2:attributes>
-    							<w2:textbox tagname="label" style="" id="" label="설명" class="req"></w2:textbox>
+    							<w2:textbox tagname="label" style="" id="" label="설명" class=""></w2:textbox>
     						</xf:group>
     						<xf:group tagname="td" style="" class="w2tb_td">
     							<w2:attributes>
@@ -228,7 +227,7 @@
     							<w2:attributes>
     								<w2:scope>row</w2:scope>
     							</w2:attributes>
-    							<w2:textbox tagname="label" style="" id="" label="카테고리 도움말" class="req"></w2:textbox>
+    							<w2:textbox tagname="label" style="" id="" label="카테고리 도움말" class=""></w2:textbox>
     						</xf:group>
     						<xf:group tagname="td" style="" class="w2tb_td">
     							<w2:attributes>
@@ -301,16 +300,16 @@
     							</w2:textbox>
     						</xf:group>
     					</xf:group>
-    				</xf:group><xf:group id="" style="text-align:left;margin-bottom: 10px;margin-top: 10px;" tagname="">
-    		<xf:trigger class="btn_add" ev:onclick="scwin.btn_add_onclick" id="trigger27" style="margin-right: 10px;margin-left: 5px;" type="button">
+    				</xf:group><xf:group id="" style="text-align:left;margin-bottom: 10px;margin-top: 10px;margin-left: 20px;" tagname="">
+    		<xf:trigger class="grey-button" ev:onclick="scwin.btn_add_onclick" id="trigger27" style="margin-right: 10px;margin-left: 5px;" type="button">
     			<xf:label><![CDATA[+ 추가]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger class="btn_del" ev:onclick="scwin.btn_del_onclick" id="trigger28" style="margin-right: 10px;" type="button">
+    		<xf:trigger class="grey-button" ev:onclick="scwin.btn_del_onclick" id="trigger28" style="margin-right: 10px;" type="button">
     			<xf:label><![CDATA[- 삭제]]></xf:label>
     		</xf:trigger>
 
     		<br></br>
-    	</xf:group><w2:treeview showCheckbox="" tooltipGroupClass="false" ev:onlabelclick="scwin.categoryTree_onlabelclick" dataType="listed" style="width: 200px;height: 260px;margin-top: 10px;margin-bottom: 10px;border:1px solid black;margin-left: 5px;" id="categoryTree">
+    	</xf:group><w2:treeview showCheckbox="" tooltipGroupClass="false" ev:onlabelclick="scwin.categoryTree_onlabelclick" dataType="listed" style="width: 200px;height: 260px;margin-top: 10px;margin-bottom: 10px;border:1px solid black;margin-left: 20px;" id="categoryTree">
     			<w2:itemset nodeset="data:dlt_categoryList">
     				<w2:label ref="categoryName"></w2:label>
     				<w2:value ref="categoryId"></w2:value>
@@ -329,16 +328,16 @@
     				
     			</xf:group>
     			<br></br>
-    			<w2:textbox class="" id="textbox17" label=" 메뉴 편집 후, 우측 저장버튼 클릭 시 최종 반영됩니다." style="margin-left: 10px;text-align:left;" tagname="span">
+    			<w2:textbox class="explain" id="textbox17" label=" 메뉴 편집 후, 우측 저장버튼 클릭 시 최종 반영됩니다." style="margin-left: 20px;text-align:left;" tagname="span">
     			</w2:textbox>
     		</xf:group>
     	<xf:group id="" style="text-align:right;" tagname="">
 
-    		<xf:trigger class="btn_cancel" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel" style="margin-right: 10px;"
+    		<xf:trigger class="normal-button" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel" style="margin-right: 10px;"
     			type="button">
     			<xf:label><![CDATA[ 취소 ]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger class="btn_save" ev:onclick="scwin.btn_save_onclick" id="trigger26" style="margin-right: 10px;" type="button">
+    		<xf:trigger class="purple-button" ev:onclick="scwin.btn_save_onclick" id="trigger26" style="margin-right: 10px;" type="button">
     			<xf:label><![CDATA[ 저장 ]]></xf:label>
     		</xf:trigger>
 

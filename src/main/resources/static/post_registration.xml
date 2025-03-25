@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/cm/css/community.css" type="text/css"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ev="http://www.w3.org/2001/xml-events"
     xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
@@ -139,6 +140,7 @@ scwin.onpageload = function() {
 			sourceMedia.setDisabled(false);
 		} else {
 			sourceMedia.setDisabled(true);
+			
 		}
 	};
 	
@@ -390,9 +392,13 @@ scwin.onpageload = function() {
 		} else {
 			path = dma_postForm.get("mobileImageUrl");
 		}
+		
 		var rowJSON = {
-		  "src": path
+		  "src": path,
+		  "targetId": targetId,
+		  "callbackFn": "btn_DeleteFile_callBack"
 		};
+		
 		var data = {
 				"type": "json",
 				  "name": "param",
@@ -411,6 +417,18 @@ scwin.onpageload = function() {
 		};
                 
 		$p.openPopup(url, options, data);
+	};
+	
+	// 파일 삭제 콜백
+	scwin.btn_DeleteFile_callBack = function(targetId) {
+		console.log("삭제할 타겟 ID는: " + targetId);
+	    if (targetId === "mf_btn_previewImgPc") {
+	        upd_singleFileUpload_pc.reset();
+	        $p.executeSubmission("sbm_deleteFilePc");
+	    } else {
+	        upd_singleFileUpload_mo.reset();
+	        $p.executeSubmission("sbm_deleteFileMo");
+	    } 
 	};
 	
 	// 게시글 미리보기
@@ -447,7 +465,7 @@ scwin.onpageload = function() {
     	</xf:group>
 
     	<xf:group id="" style="margin-top: 20px; margin-bottom: 20px;">
-    		<w2:textbox id="" label="게시글 등록" style="" tagname="h1"></w2:textbox>
+    		<w2:textbox id="" label="게시글 등록" style="" tagname="h1" class="title"></w2:textbox>
     	</xf:group>
     	<xf:group id="" style="" tagname="section">
     		<xf:group class="tbbox" id="" style="">
@@ -467,7 +485,6 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="*" style="color:#FF0000;" tagname="label"></w2:textbox>
     						<w2:textbox class="req" id="" label="구분" style="" tagname="label"></w2:textbox>
 
 
@@ -499,7 +516,6 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="*" style="color:#FF0000;" tagname="label"></w2:textbox>
     						<w2:textbox class="req" id="" label="카테고리" style="" tagname="label"></w2:textbox>
 
     					</xf:group>
@@ -537,7 +553,6 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="*" style="color:#FF0000;" tagname="label"></w2:textbox>
     						<w2:textbox class="req" id="" label="제목" style="" tagname="label"></w2:textbox>
 
     					</xf:group>
@@ -546,10 +561,10 @@ scwin.onpageload = function() {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:input adjustMaxLength="false" id="" style="width:90%;height:21px;margin-right: 10px" ref="data:dma_postForm.title"
+    						<xf:input adjustMaxLength="false" id="" style="width:87.77%;height:21px;margin-right:10px;" ref="data:dma_postForm.title"
     							maxlength="50">
     						</xf:input>
-    						<w2:textbox class="" id="textbox14" label="최대 50자" style="margin-right: 10px;" tagname="span"></w2:textbox>
+    						<w2:textbox class="explain" id="textbox14" label="최대 50자" style="margin-right: 10px;" tagname="span"></w2:textbox>
 
     					</xf:group>
     				</xf:group>
@@ -558,7 +573,6 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="*" style="color:#FF0000;" tagname="label"></w2:textbox>
     						<w2:textbox class="req" id="" label="전시 여부" style="" tagname="label"></w2:textbox>
 
     					</xf:group>
@@ -587,7 +601,6 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="*" style="color:#FF0000;" tagname="label"></w2:textbox>
     						<w2:textbox class="req" id="" label="전시 기간 " style="" tagname="label"></w2:textbox>
 
     					</xf:group>
@@ -613,7 +626,6 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="*" style="color:#FF0000;" tagname="label"></w2:textbox>
     						<w2:textbox class="req" id="" label="내용" style="" tagname="label"></w2:textbox>
 
     					</xf:group>
@@ -637,18 +649,18 @@ scwin.onpageload = function() {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:trigger class="btn_in" id="btn_add_media" style="margin-right: 10px;" type="button" ev:onclick="scwin.btn_add_media_onclick">
+    						<xf:trigger class="grey-button" id="btn_add_media" style="margin-right: 10px;" type="button" ev:onclick="scwin.btn_add_media_onclick">
     							<xf:label><![CDATA[ +추가 ]]></xf:label>
     						</xf:trigger>
 
 
-    						<w2:textbox class="" id="textbox15" label="1개 입력 필수, 최대 3개" style="margin-right: 10px;" tagname="span"></w2:textbox>
+    						<w2:textbox class="explain" id="textbox15" label="1개 입력 필수, 최대 3개" style="margin-right: 10px;" tagname="span"></w2:textbox>
     						<w2:generator style="width:693px;height:100px;" id="gnt_add">
     							<xf:group id="">
     								<xf:input adjustMaxLength="false" style="width:604px;height:21px;margin-right: 10px;" id="input_sm"
     									ref="data:dlt_sourceMediaList">
     								</xf:input>
-    								<xf:trigger style="" id="btn_del" type="button" ev:onclick="scwin.btn_del_onclick">
+    								<xf:trigger style="" id="btn_del" type="button" ev:onclick="scwin.btn_del_onclick" class="grey-button">
     									<xf:label><![CDATA[ -삭제 ]]></xf:label>
     								</xf:trigger>
     							</xf:group>
@@ -661,22 +673,22 @@ scwin.onpageload = function() {
     						<w2:attributes>
     							<w2:scope>row</w2:scope>
     						</w2:attributes>
-    						<w2:textbox class="req" id="" label="추천 여행지" style="" tagname="label"></w2:textbox>
+    						<w2:textbox class="" id="" label="추천 여행지" style="" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_td" style="" tagname="td">
     						<w2:attributes>
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:trigger class="btn_save" id="btn_add_travelPlace" style="margin-right: 10px;" type="button"
+    						<xf:trigger class="grey-button" id="btn_add_travelPlace" style="margin-right: 10px;" type="button"
     							ev:onclick="scwin.btn_add_travelPlace_onclick">
     							<xf:label><![CDATA[ +장소등록 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="btn_del" ev:onclick="scwin.btn_del_travelPlace_onclick" id="btn_del_travelPlace" style="margin-right: 10px;"
+    						<xf:trigger class="grey-button" ev:onclick="scwin.btn_del_travelPlace_onclick" id="btn_del_travelPlace" style="margin-right: 10px;"
     							type="button">
     							<xf:label><![CDATA[ -선택삭제 ]]></xf:label>
     						</xf:trigger>
-    						<w2:textbox class="" id="textbox16" label="최대 5개" style="margin-right: 10px;" tagname="span"></w2:textbox>
+    						<w2:textbox class="explain" id="textbox16" label="최대 5개" style="margin-right: 10px;" tagname="span"></w2:textbox>
     						<w2:gridView autoFit="allColumn" dataList="data:dlt_travelPlaceList" defaultCellHeight="32" focusMode="row"
     							id="grd_main" rowNumVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true" style="height:98px;margin-top: 10px;"
     							visibleRowNum="all">
@@ -714,7 +726,7 @@ scwin.onpageload = function() {
     								</w2:row>
     							</w2:gBody>
     						</w2:gridView>
-    						<w2:textbox class="" id="" label="장소 등록 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다." style="" tagname="p"></w2:textbox>
+    						<w2:textbox class="explain" id="" label="장소 등록 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다." style="" tagname="p"></w2:textbox>
 
 
     					</xf:group>
@@ -729,7 +741,6 @@ scwin.onpageload = function() {
 
 
     						<w2:textbox class="req" id="" label="PC 이미지 등록" style="float:right;clear:none;" tagname="label"></w2:textbox>
-    						<w2:textbox class="req" id="" label="*" style="float:right;clear:none;color:#FF0000;" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group tagname="th" class="w2tb_th">
     						<w2:attributes>
@@ -743,11 +754,11 @@ scwin.onpageload = function() {
     							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_pc" ev:onInputValueChange="scwin.upd_singleFileUpload_onInputValueChange">
     						</w2:upload>
 
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP"
+    						<xf:trigger class="grey-button" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileP"
     							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgPc" style=""
+    						<xf:trigger class="grey-button" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgPc" style=""
     							type="button">
     							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
@@ -777,8 +788,6 @@ scwin.onpageload = function() {
     							<w2:rowspan>2</w2:rowspan>
     						</w2:attributes>
     						<w2:textbox class="req" id="" label="Mobile 이미지 등록" style="float:right;clear:none;" tagname="label"></w2:textbox>
-
-    						<w2:textbox class="req" id="" label="*" style="float:right;clear:none;color:#FF0000;" tagname="label"></w2:textbox>
     					</xf:group>
     					<xf:group class="w2tb_th" tagname="th">
     						<w2:attributes>
@@ -791,11 +800,11 @@ scwin.onpageload = function() {
     						<w2:upload imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word" accept=".jpeg, .gif, .png, .jpg"
     							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;" id="upd_singleFileUpload_mo" ev:onInputValueChange="scwin.upd_singleFileUpload_onInputValueChange">
     						</w2:upload>
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM"
+    						<xf:trigger class="grey-button" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileM"
     							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="btn_in" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgMo" style=""
+    						<xf:trigger class="grey-button" disabled="" ev:onclick="scwin.btn_prvImage_onclick" id="btn_previewImgMo" style=""
     							type="button">
     							<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     						</xf:trigger>
@@ -835,13 +844,13 @@ scwin.onpageload = function() {
     							inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" style="width: 250px;height: 23px;margin-right: 20px;"
     							ev:onInputValueChange="scwin.upd_singleFileUpload_onInputValueChange" accept=".pdf, .docx, .csv, .txt, .xlsx">
     						</w2:upload>
-    						<xf:trigger class="btn_userDel" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileA"
+    						<xf:trigger class="grey-button" ev:onclick="scwin.btn_DeleteFile_onclick" id="btn_deleteFileA"
     							style="margin-right: 10px;" type="button" userData3="P">
     							<xf:label><![CDATA[ -파일삭제 ]]></xf:label>
     						</xf:trigger>
 
 
-    						<w2:textbox class="" id="textbox17" label=".pdf, .docx, .csv, .xlsx, .txt 만 가능합니다." style="margin-right: 10px;" tagname="span"></w2:textbox>
+    						<w2:textbox class="explain" id="textbox17" label=".pdf, .docx, .csv, .xlsx, .txt 만 가능합니다." style="margin-right: 10px;" tagname="span"></w2:textbox>
     					</xf:group>
     				</xf:group>
     			</xf:group>
@@ -850,10 +859,10 @@ scwin.onpageload = function() {
     	<br></br>
 
     	<xf:group id="" style="text-align:right;" tagname="">
-    		<xf:trigger class="btn_prev" id="btn_prev" style="margin-right: 10px;" type="button" ev:onclick="scwin.btn_prev_onclick">
+    		<xf:trigger class="purple-button" id="btn_prev" style="margin-right: 10px;" type="button" ev:onclick="scwin.btn_prev_onclick">
     			<xf:label><![CDATA[ 미리보기 ]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger class="btn_save" ev:onclick="scwin.btn_save_onclick" id="trigger24" style="margin-right: 10px;" type="button">
+    		<xf:trigger class="purple-button" ev:onclick="scwin.btn_save_onclick" id="trigger24" style="margin-right: 10px;" type="button">
     			<xf:label><![CDATA[ 저장 ]]></xf:label>
     		</xf:trigger>
     	</xf:group>

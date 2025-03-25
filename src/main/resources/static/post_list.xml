@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/cm/css/community.css" type="text/css"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ev="http://www.w3.org/2001/xml-events"
     xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
@@ -380,7 +381,7 @@ scwin.onpageunload = function() {
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
-    	<w2:textbox id="" label="게시글 목록" style="" tagname="h1"></w2:textbox>
+    	<w2:textbox id="" label="게시글 목록" style="" tagname="h1" class="title"></w2:textbox>
     	<xf:group class="sub_wrapper" id="" style="">
     		<w2:wframe class="page_header" id="" scope="true" src="../../../common/xml/wf_titleFav.xml" style=""></w2:wframe>
     		<xf:group class="page_contents" id="">
@@ -570,11 +571,11 @@ scwin.onpageunload = function() {
     							<xf:group class="list-inline mt5" id="" tagname="ul">
     							</xf:group>
     							<xf:group id="" tagname="" style="text-align:center;">
-    								<xf:trigger class="btn_df reset" ev:onclick="scwin.btn_init_onclick" id="btn_init" style="margin-right: 10px"
+    								<xf:trigger class="white-button" ev:onclick="scwin.btn_init_onclick" id="btn_init" style="margin-right: 10px"
     									type="button">
     									<xf:label><![CDATA[ 초기화 ]]></xf:label>
     								</xf:trigger>
-    								<xf:trigger class="btn_cm" ev:onclick="scwin.btn_search_onclick" id="btn_search"
+    								<xf:trigger class="purple-button" ev:onclick="scwin.btn_search_onclick" id="btn_search"
     									style="" type="button">
     									<xf:label><![CDATA[ 검색 ]]></xf:label>
     								</xf:trigger>
@@ -585,7 +586,7 @@ scwin.onpageunload = function() {
     				</xf:group>
     				<xf:group class="btnbox" id="" style="">
     					<xf:group class="rta" id="" style="text-align:right;">
-    						<xf:trigger class="btn_cm" ev:onclick="scwin.btn_reg_onclick" id="btn_reg" style="padding-right: 10px;padding-left: 10px;" type="button">
+    						<xf:trigger class="purple-button" ev:onclick="scwin.btn_reg_onclick" id="btn_reg" style="padding-right: 10px;padding-left: 10px;" type="button">
     							<xf:label><![CDATA[등록]]></xf:label>
     						</xf:trigger>
     					</xf:group>
@@ -637,45 +638,13 @@ scwin.onpageunload = function() {
 
     										<xf:group class="gvw_btn" id=""></xf:group>
     									</xf:group>
-    									<xf:group class="rta" id="" style="text-align:right;">
-    										<xf:group class="w2trigger btn_df btn_md" ev:onclick="scwin.btn_delete_onclick" id="group6"
-    											style="margin-right: 10px" tagname="button">
-    											<w2:attributes>
-    												<w2:type>button</w2:type>
-    											</w2:attributes>
-    											<w2:textbox class="fa fa-minus" id="" label="" style="" tagname="i">
-    												<w2:attributes>
-    													<w2:aria-hidden>true</w2:aria-hidden>
-    												</w2:attributes>
-    											</w2:textbox>
-    											<w2:textbox id="" label="선택 삭제" style="" tagname="span"></w2:textbox>
-    										</xf:group>
-    										<xf:group class="w2trigger btn_cm" ev:onclick="scwin.btn_save_onclick" id="group7"
-    											style="margin-right: 10px" tagname="button">
-    											<w2:attributes>
-    												<w2:type>button</w2:type>
-    											</w2:attributes>
-    											<w2:textbox class="fa fa-check" id="" label="" style="" tagname="i"></w2:textbox>
-    											<w2:textbox id="" label="전시 순서 저장" style="" tagname="span"></w2:textbox>
-    										</xf:group>
-
-
-    										<xf:group class="w2trigger btn_df btn_md" ev:onclick="scwin.btn_excelDown_onclick"
-    											id="btn_excelDownload" style="" tagname="button">
-    											<w2:attributes>
-    												<w2:type>button</w2:type>
-    											</w2:attributes>
-    											<w2:textbox class="fa fa-file-excel-o" id="" label="" style="" tagname="i">
-    												<w2:attributes>
-    													<w2:aria-hidden>true</w2:aria-hidden>
-    												</w2:attributes>
-    											</w2:textbox>
-    											<w2:textbox id="btn_excel" label="엑셀 다운로드" style="" tagname="span"
-    												ev:onclick="scwin.btn_excel_onclick">
-    											</w2:textbox>
-    										</xf:group>
-    									</xf:group>
-    								</xf:group>
+    								<xf:group id="" style="text-align:right;"><xf:trigger ev:onclick="scwin.btn_delete_onclick" style="margin-right: 10px;" id="trigger26" type="button" class="normal-button">
+    										<xf:label><![CDATA[ 선택 삭제 ]]></xf:label>
+    									</xf:trigger><xf:trigger ev:onclick="scwin.btn_save_onclick" style="margin-right: 10px;" id="trigger1" type="button" class="normal-button">
+    										<xf:label><![CDATA[ 전시 순서 저장 ]]></xf:label>
+    									</xf:trigger><xf:trigger ev:onclick="scwin.btn_excelDown_onclick" style="margin-right: 10px;" id="btn_excelDownload" type="button" class="normal-button">
+    										<xf:label><![CDATA[엑셀 다운로드 ]]></xf:label>
+    									</xf:trigger></xf:group></xf:group>
     								<br></br>
     								<w2:gridView autoFit="allColumn" class="wq_gvw" dataList="data:dlt_postList" defaultCellHeight="32"
     									ev:oncellclick="scwin.grd_main_oncellclick" focusMode="row" id="grd_main" rowNumHeaderValue="번호" rowNumVisible="false"

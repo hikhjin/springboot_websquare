@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/cm/css/community.css" type="text/css"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ev="http://www.w3.org/2001/xml-events"
     xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
@@ -31,6 +32,13 @@
 	scwin.btn_cancel_onclick = function(e) {
 		$p.parent().$p.closePopup("previewImg");
 	};
+	
+	scwin.btn_del_onclick = function(e) {
+		console.log($p.getParameter("param")["callbackFn"]);
+		console.log($p.getParameter("param")["targetId"]);
+		$p.parent().scwin[$p.getParameter("param")["callbackFn"]]($p.getParameter("param")["targetId"]);
+		$p.parent().$p.closePopup("previewImg");
+	};
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
@@ -39,7 +47,12 @@
     		<xf:image src="" style="width:630px;height:430px;margin-left:10px;margin-top:10px;margin-bottom: 10px;" id="img_preView"></xf:image>
 
     		<xf:group class="rta" id="" style="text-align:right;">
-    			<xf:trigger class="btn_df" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel" style="width:94px;height:23px;margin-right: 10px;" type="button">
+    			<xf:trigger class="purple-button" ev:onclick="scwin.btn_del_onclick" id="btn_del"
+    				style="margin-right:10px;" type="button">
+    				<xf:label><![CDATA[ 삭제 ]]></xf:label>
+    			</xf:trigger>
+    			<xf:trigger class="normal-button" ev:onclick="scwin.btn_cancel_onclick" id="trigger1"
+    				style="margin-right: 10px;" type="button">
     				<xf:label><![CDATA[ 닫기 ]]></xf:label>
     			</xf:trigger>
     		</xf:group>
