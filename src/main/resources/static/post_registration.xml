@@ -128,8 +128,28 @@ scwin.onpageload = function() {
 	scwin.postFormInit = function() {
 		sourceMedia.setDisabled(true);
 		travelPlace.setDisabled(true);
-		startDate.setValue($p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss"));
-		endDate.setValue(Websquare.date.dateTimeAdd($p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss")), 7);
+		rd_isDisplay.setValue("Y");
+		startDate.setValue($p.getCurrentServerDate("yyyyMMddHHmmss"));
+
+		var tmp = new Date();
+		//7일 추가
+		tmp.setDate(tmp.getDate() + 7);
+		var dateStr = WebSquare.date.getFormattedDate(tmp, "yyyyMMddHHmmss");
+		
+		endDate.setValue(dateStr);
+	}
+	
+	// 전시일 체크
+	scwin.checkDate = function() {
+		var start = startDate.getValue();
+    	var end = endDate.getValue();
+
+		if (start > end) {
+	        alert("전시 시작일이 종료일보다 클 수 없습니다.");
+	        return true;
+    	}
+
+    	return false;
 	}
 	
 	// 카테고리 1d 변경될 때마다 2d 조회
@@ -159,14 +179,6 @@ scwin.onpageload = function() {
 		
 		if (!scwin.is_exist_data()) { // 필수정보 등록 여부 확인
 			return;
-		}
-		
-		// 내용
-		dma_postForm.set("content", edt_content.getHTML());	
-		
-		var isContentExist = dma_postForm.get("content") !== "";
-		if (!isContentExist) {
-	    	alert("내용을 입력해주세요.");
 		}
 		
 		//카테고리 1d가 지식일 경우
@@ -206,43 +218,59 @@ scwin.onpageload = function() {
 	    var isTitleExist = dma_postForm.get("title") !== "";
 	    var isPcAtExist = dma_postForm.get("pcImageAltText") !== "";
 	    var isMoAtExist = dma_postForm.get("mobileImageAltText") !== "";
-	    var isDisplay = dma_postForm.get("isDisplayed") !== "";
 	    var isDisplaySExist = dma_postForm.get("displayStart") !== "";
 	    var isDisplayEExist = dma_postForm.get("displayEnd") !== "";
+	    var isDisPlaySEValid = true;
+	    // 내용
+		dma_postForm.set("content", edt_content.getHTML());	
+		
+		var isContentExist = dma_postForm.get("content") !== "";
 		
 		if (!isTitleExist) {
 	    	alert("제목을 입력해주세요.");
-		}
-		
-		if (!isDisplay) {
-	    	alert("전시여부를 입력해주세요.");
+	    	return;
 		}
 		
 		if (!isDisplaySExist) {
 	    	alert("전시시작일을 입력해주세요.");
+	    	return;
 		}
 		
 		if (!isDisplayEExist) {
 	    	alert("전시종료일을 입력해주세요.");
+	    	return;
+		}
+		
+		if (scwin.checkDate()) {
+			return;
+		}
+		
+		if (!isContentExist) {
+	    	alert("내용을 입력해주세요.");
+	    	return;
 		}
 	
 		if (!isPcUploaded) {
 	        alert("PC 이미지를 등록해주세요.");
+	        return;
 	    }
 	    
 	    if (!isPcAtExist) {
 	        alert("PC 이미지 대체 텍스트를 등록해주세요.");
+	        return;
 	    }
 	
 	    if (!isMobileUploaded) {
 	        alert("Mobile 이미지를 등록해주세요.");
+	        return;
 	    }
 	    
 	    if (!isMoAtExist) {
 	        alert("Mobile 이미지 대체 텍스트를 등록해주세요.");
+	        return;
 	    }
 	    
-	    return isTitleExist && isDisplay && isDisplaySExist
+	    return isTitleExist && isDisplaySExist && isContentExist && isDisPlaySEValid
 	     && isDisplayEExist && isTitleExist && isPcAtExist && isMoAtExist && isPcUploaded && isMobileUploaded;
 	}
 
@@ -447,6 +475,8 @@ scwin.onpageload = function() {
 			type : "wframePopup"
 		};
 		
+		var tmpUrl = "&w2Config=/.settings/config.xml";
+
 		if (dma_postForm.get("category1") == 2) {
 			url = "/post_preview_knowledge.xml";
 		} else if (dma_postForm.get("category2") == 3) {
@@ -454,7 +484,7 @@ scwin.onpageload = function() {
 		} else {
 			url = "/post_preview_standard.xml";
 		}
-		
+		console.log(url);
 		$p.openPopup(url, options);
 		
 	};
@@ -583,7 +613,7 @@ scwin.onpageload = function() {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:select1 appearance="full" cols="2" id="" mandatory="true" ref="data:dma_postForm.isDisplayed" rows=""
+    						<xf:select1 appearance="full" cols="2" id="rd_isDisplay" mandatory="true" ref="data:dma_postForm.isDisplayed" rows=""
     							selectedIndex="-1" style="width: 150px;height: 21px;">
     							<xf:choices>
     								<xf:item>
