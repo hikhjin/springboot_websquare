@@ -309,7 +309,7 @@
     		</xf:trigger>
 
     		<br></br>
-    	</xf:group><w2:treeview showCheckbox="" tooltipGroupClass="false" ev:onlabelclick="scwin.categoryTree_onlabelclick" dataType="listed" style="width: 200px;height: 260px;margin-top: 10px;margin-bottom: 10px;border:1px solid black;margin-left: 20px;" id="categoryTree">
+    	</xf:group><w2:treeview showCheckbox="" tooltipGroupClass="false" ev:onlabelclick="scwin.categoryTree_onlabelclick" dataType="listed" style="width:192px;height:260px;margin-top:10px;margin-bottom:10px;border:1px solid black;margin-left:20px;" id="categoryTree">
     			<w2:itemset nodeset="data:dlt_categoryList">
     				<w2:label ref="categoryName"></w2:label>
     				<w2:value ref="categoryId"></w2:value>
