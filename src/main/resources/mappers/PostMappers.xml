@@ -51,6 +51,7 @@
         LEFT JOIN CATEGORY child_category ON child_category.category_id = p.category_id
         LEFT JOIN CATEGORY parent_category ON parent_category.category_id = child_category.parent_id
         WHERE 1=1
+            AND p.category_id IS NOT NULL
 
             <if test="category1 != null and category1 != ''">
                 AND (parent_category.category_id = #{category1} OR child_category.category_id = #{category1})
@@ -124,6 +125,7 @@
         LEFT JOIN CATEGORY child_category ON child_category.category_id = p.category_id
         LEFT JOIN CATEGORY parent_category ON parent_category.category_id = child_category.parent_id
         WHERE 1=1
+        AND p.category_id IS NOT NULL
 
         <if test="category1 != null and category1 != ''">
             AND (parent_category.category_id = #{category1} OR child_category.category_id = #{category1})
@@ -226,6 +228,7 @@
         LEFT JOIN TRAVEL_PLACE tp ON tp.travel_place_id = ptp.travel_place_id
         LEFT JOIN SOURCE_MEDIA sm ON sm.post_id = p.post_id
         WHERE 1=1
+        AND p.category_id IS NOT NULL
 
         <if test="category1 != null and category1 != ''">
             AND (parent_category.category_id = #{category1} OR child_category.category_id = #{category1})

@@ -15,11 +15,9 @@
         <w2:publicInfo method=""/>
         <script lazy="false" type="text/javascript"><![CDATA[
 scwin.onpageload = function() {
-	var pr = $p.parent().dma_postForm;
 	
 	// 구분
-	var typeId = pr.get("type");
-	if (typeId == 0) {
+	if ($p.parent().dma_postForm.get("type") === "0") {
 		type.setValue("공지");
 	} else {
 		type.setValue("일반");
