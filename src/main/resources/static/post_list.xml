@@ -290,7 +290,7 @@ scwin.onpageunload = function() {
 		   }
 	    // category2 값이 서로 다르면 alert 창 띄우기
 	    if (categorySet.size > 1) {
-	        alert("서로 다른 카테고리 2d 값이 포함되어 있습니다."); 
+	        alert("전시 순서 변경 전 카테고리 2d를 먼저 검색해주세요."); 
 	        scwin.fn_search(dma_pageInfo.get("pageNo"));
 	        return;
 	    }
@@ -376,7 +376,8 @@ scwin.onpageunload = function() {
 	
 	// 등록 버튼 클릭 시 페이지 이동
 	scwin.btn_reg_onclick = function(e) {
-		$p.url("/post_registration.xml" +"&w2Config=/.settings/config.xml");
+		var tmpUrl = "&w2Config=/.settings/config.xml";
+		$p.url("/post_registration.xml");
 	};
 ]]></script>
     </head>

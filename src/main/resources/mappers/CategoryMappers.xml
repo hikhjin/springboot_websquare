@@ -33,22 +33,51 @@
             0 AS categoryId,
             '전체' AS categoryName,
             0 AS depth,
-            NULL AS parent_id
-        UNION
+            NULL AS parent_id,
+            0 AS display_order,
+            NULL AS created_at,
+            0 AS tmp
+        UNION ALL
         SELECT
-            category_id AS categoryId,
-            category_name AS categoryName,
-            CASE
-                WHEN parent_id IS NULL THEN 1
-                ELSE 2
-                END AS depth,
-            parent_id
-        FROM CATEGORY
+            c.category_id,
+            c.category_name,
+            IF(c.parent_id IS NULL, 1, 2) AS depth,
+            c.parent_id,
+            c.display_order,
+            c.created_at,
+            IF(c.parent_id IS NULL, p.tmp, p2.tmp) AS tmp
+        FROM CATEGORY c
+                 LEFT JOIN (
+            -- 부모 카테고리에 display_order 기준 tmp 부여
+            SELECT
+                category_id,
+                @r := @r + 1 AS tmp
+            FROM CATEGORY, (SELECT @r := 0) r
+            WHERE parent_id IS NULL
+            ORDER BY display_order IS NULL ASC, display_order, created_at DESC
+        ) p ON c.category_id = p.category_id
+                 LEFT JOIN (
+            -- 자식은 부모의 tmp 상속
+            SELECT
+                child.category_id,
+                parent.tmp
+            FROM CATEGORY child
+                     JOIN (
+                SELECT
+                    category_id,
+                    @r2 := @r2 + 1 AS tmp
+                FROM CATEGORY, (SELECT @r2 := 0) r2
+                WHERE parent_id IS NULL
+                ORDER BY display_order IS NULL ASC, display_order, created_at DESC
+            ) parent ON child.parent_id = parent.category_id
+        ) p2 ON c.category_id = p2.category_id
 
         ORDER BY
-            CASE WHEN parent_id IS NULL THEN categoryId ELSE parent_id END, -- 부모 카테고리 순서 정렬
-            depth, -- 부모 먼저 출력 후 자식 출력
-            categoryId; -- 동일한 depth 내에서 ID 순 정렬
+            tmp,
+            depth,
+            display_order IS NULL ASC,
+            display_order,
+            created_at DESC;
     </select>
 
     <select id="getCategoryInfo" resultType="com.example.websquareproject.category.dto.CategoryFormDto">

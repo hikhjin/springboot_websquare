@@ -40,7 +40,11 @@
     <style>
         <removeDefaultClass value="true"/>
     </style>
-    <engine/>
+    <engine>
+		<module src="/external/h2oWebPush/eventbroker.js" />
+		<module src="/common/js/common_global.js" />
+		<module src="/common/js/common_scope.js" />
+	</engine>
     <ModelUtil>
         <copyChildrenNodes refresh="false"/>
     </ModelUtil>
@@ -85,47 +89,43 @@
         <saveRemovedDataDeletedInsertedRow value="false"/>
     </dataList>
     <grid>
-        <contentCellClick value="true"/>
-        <noSelect value="true"/>
-        <rowNumStatusUniqueId value="true"/>
-        <drilldownRealRowIndexAll value="true"/>
-        <collectGarbage value="none"/>
-        <fastScroll value="true"/>
-        <dataType>
-            <date displayFormat="yyyy-MM-dd"/>
-        </dataType>
-        <editType value="focus"/>
-        <rowNumBackgroundColor value="#e5eff7"/>
-        <rowNumRowMouseOverColor value="true"/>
-        <selectedRowColor value="#fcf8e3"/>
-        <oddEvenColorDisplay value="true"/>
-        <evenRowBackgroundColor value="#f5f5f5"/>
-        <oddRowBackgroundColor value="#ffffff"/>
-        <rowMouseOver value="true"/>
-        <rowMouseOverColor value="#edf3fb"/>
-        <tooltipStyle value="padding:1px 3px 0;line-height:14px;font-size:12px;border:0;background-color:#5c85d4;color:#fff"/>
-        <noResultMessageVisible value="true"/>
-        <noResultMessage value="�뜲�씠�꽣媛� �뾾�쓬"/>
-        <noResultMessageStyle value="position:absolute; left:40%; width:20%; top:40%; border:1px solid #b3b3b3; color:#383d41; font-size:12px; padding:5px; text-align:center; background:#fafafa"/>
-        <pasteMessage value="�뜲�씠�꽣 遺숈씠�뒗 以�"/>
-        <getColumnVisible useRealColIndex="true"/>
-        <colIdToColIndex value="true"/>
-        <checkDisabledOnPaste value="true"/>
-        <checkReadOnlyOnPaste value="true"/>
-        <column inputType="text">
-            <editType value="select"/>
-        </column>
-        <column inputType="select">
-            <chooseOptionLabel value="-�꽑�깮-"/>
-        </column>
-        <column inputType="calendar">
-            <dataType value="date"/>
-            <displayFormat value="yyyy-MM" valueType="yearMonth"/>
-            <displayFormat value="yyyy-MM-dd" valueType="yearMonthDate"/>
-            <displayFormat value="yyyy-MM-dd HH:mm" valueType="yearMonthDateTime"/>
-            <displayFormat value="yyyy-MM-dd HH:mm:SS" valueType="yearMonthDateTimeSec"/>
-        </column>
-    </grid>
+		<rowNumStatusUniqueId value="true" />
+		<drilldownRealRowIndexAll value="true" />
+		<collectGarbage value="none" />
+		<fastScroll value="true" />
+		<dataType>
+			<date displayFormat="yyyy-MM-dd" />
+		</dataType>
+		<editType value="focus" />
+		<rowNumBackgroundColor value="#e5eff7" />
+		<selectedRowColor value="#fff1c3" />
+		<oddEvenColorDisplay value="true" />
+		<evenRowBackgroundColor value="#f5f5f5" />
+		<oddRowBackgroundColor value="#ffffff" />
+		<rowMouseOver value="true" />
+		<rowMouseOverColor value="#f8f8f8" />
+		<tooltipStyle value="padding:1px 3px 0;line-height:14px;font-size:12px;border:0;background-color:#5c85d4;color:#fff" />
+		<noResultMessageVisible value="true" />
+		<noResultMessage value="데이터가 없음" />
+		<noResultMessageStyle
+			value="position:absolute; left:40%; width:20%; top:40%; border:1px solid #b3b3b3; color:#383d41; font-size:12px; padding:5px; text-align:center; background:#fafafa" />
+		<pasteMessage value="데이터 붙이는 중" />
+		<getColumnVisible useRealColIndex="true" />
+		<colIdToColIndex value="true" />
+		<column inputType="text">
+			<editType value="select" />
+		</column>
+		<column inputType="select">
+			<chooseOptionLabel value="-선택-" />
+		</column>
+		<column inputType="calendar">
+			<dataType value="date" />
+			<displayFormat valueType="yearMonth" value="yyyy-MM" />
+			<displayFormat valueType="yearMonthDate" value="yyyy-MM-dd" />
+			<displayFormat valueType="yearMonthDateTime" value="yyyy-MM-dd HH:mm" />
+			<displayFormat valueType="yearMonthDateTimeSec" value="yyyy-MM-dd HH:mm:SS" />
+		</column>
+	</grid>
     <gridView>
         <noSelect value="true"/>
         <drilldownFooterExpressionAllData value="true"/>
@@ -254,4 +254,6 @@
     <xhr useActiveXObject="false"/>
     <license value="true"/>
     <requirejs timeout="20"/>
+    
+    
 </WebSquare>

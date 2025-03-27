@@ -136,6 +136,12 @@
 	
 	
 	scwin.btn_save_onclick = function(e) {
+		if (chk_isHidden.getValue() === "Y") {
+			dma_categoryForm.set("isHidden", "Y");
+		} else {
+			dma_categoryForm.set("isHidden", "N");
+		}
+		
 		$p.executeSubmission("sbm_createUpdateCategory");
 	};
 	
@@ -173,7 +179,7 @@
     							<xf:input ref="data:dma_categoryForm.categoryName" adjustMaxLength="false" style="width:49.83%;height:21px;margin-right:10px;" id="" maxlength="30">
     							</xf:input>
     							<w2:textbox tagname="span" style="margin-right: 10px;" id="textbox14" label=" 최대 30자" class="explain"></w2:textbox>
-    							<xf:select ref="data:dma_categoryForm.isHidden" appearance="full" style="width: 148px;height: 21px;" id="" selectedindex="-1" rows="" cols="">
+    							<xf:select ref="data:dma_categoryForm.isHidden" appearance="full" style="width: 148px;height: 21px;" id="chk_isHidden" selectedindex="-1" rows="" cols="">
     								<xf:choices>
     									<xf:item>
     										<xf:label><![CDATA[웹에서 숨기기]]></xf:label>
