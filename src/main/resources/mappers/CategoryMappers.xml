@@ -34,7 +34,7 @@
             '전체' AS categoryName,
             0 AS depth,
             NULL AS parent_id,
-            0 AS display_order,
+            0 AS displayOrder,
             NULL AS created_at,
             0 AS tmp
         UNION ALL
@@ -43,7 +43,7 @@
             c.category_name,
             IF(c.parent_id IS NULL, 1, 2) AS depth,
             c.parent_id,
-            c.display_order,
+            c.display_order AS displayOrder,
             c.created_at,
             IF(c.parent_id IS NULL, p.tmp, p2.tmp) AS tmp
         FROM CATEGORY c
@@ -75,8 +75,8 @@
         ORDER BY
             tmp,
             depth,
-            display_order IS NULL ASC,
-            display_order,
+            displayOrder IS NULL ASC,
+            displayOrder,
             created_at DESC;
     </select>
 

@@ -11,4 +11,5 @@ public class CategoryTreeDto {
     private int categoryId;
     private String categoryName;
     private int depth;
+    private int displayOrder;
 }
