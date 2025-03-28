@@ -116,10 +116,6 @@
         <w2:layoutInfo/>
         <w2:publicInfo method=""/>
         <script lazy="false" type="text/javascript"><![CDATA[
-var isSetPc = false;
-var isSetMo = false;
-var isSetAt = false;
-
 scwin.onpageload = function() {
     $p.executeSubmission("sbm_categoryList1d");
 	scwin.postFormInit();
@@ -129,11 +125,12 @@ scwin.onpageload = function() {
 		sourceMedia.setDisabled(true);
 		travelPlace.setDisabled(true);
 		rd_isDisplay.setValue("Y");
+		period.setValue("1m");
 		startDate.setValue($p.getCurrentServerDate("yyyyMMddHHmmss"));
 
 		var tmp = new Date();
-		//7일 추가
-		tmp.setDate(tmp.getDate() + 7);
+		// 한달 추가
+		tmp.setMonth(tmp.getMonth() + 1);
 		var dateStr = WebSquare.date.getFormattedDate(tmp, "yyyyMMddHHmmss");
 		
 		endDate.setValue(dateStr);
@@ -404,10 +401,6 @@ scwin.onpageload = function() {
             isSetAt = true;
         }
     }
-    //if (isSetPc && isSetMo && isSetAt) {
-	    //$p.executeSubmission("sbm_createPost");
-	   //}
-    
 });
 	
 	// 이미지 미리보기
@@ -475,8 +468,6 @@ scwin.onpageload = function() {
 			type : "wframePopup"
 		};
 		
-		var tmpUrl = "&w2Config=/.settings/config.xml";
-
 		if (dma_postForm.get("category1") == 2) {
 			url = "/post_preview_knowledge.xml";
 		} else if (dma_postForm.get("category2") == 3) {
@@ -484,9 +475,31 @@ scwin.onpageload = function() {
 		} else {
 			url = "/post_preview_standard.xml";
 		}
-		console.log(url);
-		$p.openPopup(url, options);
 		
+		com.win.openPopup(url, options);
+		
+	};
+
+	
+	scwin.period_onchange = function() {
+		var selected = period.getValue();
+		var tmp = new Date();
+		
+		if (selected === "7d") {
+			tmp.setDate(tmp.getDate() + 7);
+		} else if (selected === "1m") {
+			tmp.setMonth(tmp.getMonth() + 1);
+		} else if (selected === "3m") {
+			tmp.setMonth(tmp.getMonth() + 3);
+		} else if (selected === "6m") {
+			tmp.setMonth(tmp.getMonth() + 6);
+		} else if (selected === "1y") {
+			tmp.setYear(tmp.getYear() + 1);
+		}
+
+		var dateStr = WebSquare.date.getFormattedDate(tmp, "yyyyMMddHHmmss");
+		
+		endDate.setValue(dateStr);
 	};
 	]]></script>
     </head>
@@ -649,8 +662,35 @@ scwin.onpageload = function() {
     						<w2:span id="wave" label=" ~ " style=""></w2:span>
     						<w2:inputCalendar calendarValueType="yearMonthDateTimeSec" focusOnDateSelect="false" footerDiv="false"
     							id="endDate" ref="data:dma_postForm.displayEnd" renderDiv="true" renderType="component" rightAlign="false"
-    							style="width:200px;height:23px;">
+    							style="width:200px;height:23px;margin-right: 10px;">
     						</w2:inputCalendar>
+    						<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="직접입력" direction="auto"
+    							disabled="false" disabledClass="w2selectbox_disabled" id="period" ref=""
+    							style="position:static; top:151px; left:266px; width:148px; height:21px; ;text-align:left;" submenuSize="auto"
+    							ev:onchange="scwin.period_onchange">
+    							<xf:choices>
+    								<xf:item>
+    									<xf:label><![CDATA[7일]]></xf:label>
+    									<xf:value><![CDATA[7d]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[1개월]]></xf:label>
+    									<xf:value><![CDATA[1m]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[3개월]]></xf:label>
+    									<xf:value><![CDATA[3m]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[6개월]]></xf:label>
+    									<xf:value><![CDATA[6m]]></xf:value>
+    								</xf:item>
+    								<xf:item>
+    									<xf:label><![CDATA[1년]]></xf:label>
+    									<xf:value><![CDATA[1y]]></xf:value>
+    								</xf:item>
+    							</xf:choices>
+    						</xf:select1>
     					</xf:group>
     				</xf:group>
     				<xf:group style="" tagname="tr">
