@@ -161,13 +161,13 @@ scwin.onpageload = function() {
 	
 	// 카테고리 1d 변경될 때마다 2d 조회
 	scwin.parentId_onchange = function() {
+		travelPlace.setDisabled(true);
 		dma_postForm.set("category1", parentId.getValue());
 		$p.executeSubmission("sbm_categoryList2d");
 		
 		// 카테고리1d가 지식일 경우 출처매체 입력 가능
-		if (dma_postForm.get("category1") == "2") {
+		if (dma_postForm.get("category1") === 2) {
 			sourceMedia.setDisabled(false);
-			travelPlace.setDisabled(true);
 		} else {
 			sourceMedia.setDisabled(true);
 		}
