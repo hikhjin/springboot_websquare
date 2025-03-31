@@ -4,8 +4,8 @@
 
 <mapper namespace="com.example.websquareproject.category.mapper.CategoryMapper">
     <insert id="createCategory">
-        INSERT INTO CATEGORY (category_name, parent_id, is_hidden, description, help, updated_at, updated_by, created_at, created_by)
-        VALUES (#{categoryName}, #{parentId}, #{isHidden}, #{description}, #{help}, now(), 'hikhjin', now(), 'hikhjin')
+        INSERT INTO CATEGORY (category_name, parent_id, is_hidden, description, help, updated_at, updated_by, created_at, created_by, display_order)
+        VALUES (#{categoryName}, #{parentId}, #{isHidden}, #{description}, #{help}, now(), 'hikhjin', now(), 'hikhjin', #{displayOrder})
     </insert>
 
     <update id="updateCategory">
@@ -15,6 +15,15 @@
             help = #{categoryFormDto.help}, updated_at = now(), updated_by = 'hikhjin'
         WHERE category_id = #{categoryId}
     </update>
+
+    <select id="getMaxDisplayOrder1d" resultType="int">
+        SELECT IFNULL(MAX(display_order), 0) FROM CATEGORY WHERE parent_id IS NULL
+    </select>
+
+    <select id="getMaxDisplayOrder2d" resultType="int">
+        SELECT IFNULL(MAX(display_order), 0) FROM CATEGORY WHERE parent_id = #{parentId}
+    </select>
+
 
     <delete id="deleteCategory">
         DELETE FROM CATEGORY WHERE category_id = #{categoryId}

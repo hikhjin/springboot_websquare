@@ -16,4 +16,6 @@ public interface CategoryMapper {
     void updateCategory(@Param("categoryFormDto") CategoryFormDto categoryFormDto, @Param("categoryId") int categoryId);
     void createCategory(CategoryFormDto formDto);
     void deleteCategory(int categoryId);
+    int getMaxDisplayOrder1d();
+    int getMaxDisplayOrder2d(@Param("parentId") int parentId);
 }

@@ -16,7 +16,11 @@
         				<w2:column id="depth" name="name1" dataType="text"></w2:column>
         				<w2:column id="categoryName" name="이름" dataType="text"></w2:column>
         				<w2:column id="categoryId" name="카테고리 id" dataType="text"></w2:column>
+        				<w2:column id="displayOrder" name="전시순서" dataType="text"></w2:column>
         			</w2:columnInfo>
+        			<w2:data>
+        				<w2:row></w2:row>
+        			</w2:data>
         		</w2:dataList>
         		<w2:dataMap baseNode="map" id="dma_categoryForm">
         			<w2:keyInfo><w2:key id="categoryName" name="카테고리 이름" dataType="text"></w2:key>
@@ -151,10 +155,73 @@
 		scwin.resetForm();
 		dma_category.set("categoryId", "");
 	};
+	
+	/* 카테고리 위치 교환
+	-srcIndex 옮길 대상이 되는 노드의 index 
+	-destIndex 옮길 위치 기준이 되는 노드의 index 
+	-bAppendChild 노드를 붙일 때 자식 노드로 붙일지(true), 동일 레벨로 붙일지(false)에 대한 여부 */
+	scwin.categoryTree_moveNode = function(srcIndex, destIndex, bAppendChild) {
+		//이전상태 저장
+		let j=0;
+		let status = [];
+		
+		status[j++] = dlt_catgList.getRowStatus(srcIndex-1);
+		let depth = Number(dlt_catgList.getCellData(srcIndex-1, "urcFaqCatgLvln"));
+		for(let i=srcIndex; i<dlt_catgList.getRowCount(); i++){
+			if(depth >= Number(dlt_catgList.getCellData(i, "urcFaqCatgLvln"))) break;
+			status[j++] = dlt_catgList.getRowStatus(i);  	
+		}
+		let urcFaqCatgId = dlt_catgList.getCellData(srcIndex-1, "urcFaqCatgId");
+				
+		//이동
+		tvw_catg.moveNode(srcIndex, destIndex, bAppendChild);
+		
+		//상태되돌리기
+		let srcIdx = scwin.getUrcFaqCatgIdIndex(urcFaqCatgId);
+		
+		for(let i=0; i<status.length; i++)
+			dlt_catgList.modifyRowStatus(srcIdx + i, status[i]);	
+			
+		tvw_catg.options.scrollFix = false;
+		btn_collapse.trigger("onclick");
+		tvw_catg.findNodeByIndex(srcIdx+1, true);
+		tvw_catg.options.scrollFix = true;	
+	};
+	
+	//카테고리 순서 변경
+	scwin.chgCatgOrdr = function(i, j){
+		var catgOrdr = dlt_categoryList.getCellData(i, "displayOrder");
+		dlt_categoryList.setCellData(i, "sortOrd", dlt_categoryList.getCellData(j, "sortOrd"));
+		dlt_categoryList.setCellData(j, "sortOrd", catgOrdr);			
+	}
+	
+	scwin.btn_treeUp_onclick = function(e) {
+		var me = categoryTree.getSelectedIndex();
+		var myDepth = Number(dlt_categoryList.getCellData(me-1, "depth"));
+		
+		//상위 같은depth 찾음
+		var i = me;
+		while(--i > 0){
+			var toDepth = Number(dlt_categoryList.getCellData(i-1, "depth"));
+			//같은depth 찾으면 이동
+			if(myDepth == toDepth){
+				//오더순서 바꿈
+				scwin.chgCatgOrdr(i-1,me-1);
+				scwin.tvw_catg_moveNode(i, me, false);
+				tvw_catg.findNodeByIndex(i, true);		
+				return;
+			}
+			//상위 depth 나오면 이동못함
+			else if(myDepth > toDepth)
+				break;
+		}
+		//com.alt.0104=더는 이동할 수가 없습니다.
+		com.win.alert(com.data.getMessage("com.alt.0104"));
+	};
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
-    	<w2:textbox id="" label="카테고리 등록" style="" tagname="h1" class="title"></w2:textbox><xf:group tagname="table" style="width:80%;float:right;margin-right: 10px;" id="" class="w2tb tb">
+    	<w2:textbox id="" label="카테고리 등록" style="" tagname="h1" class="title"></w2:textbox><xf:group tagname="table" style="width:77%;float:right;margin-right: 10px;" id="" class="w2tb tb">
     					<w2:attributes>
     						<w2:summary></w2:summary>
     					</w2:attributes>
@@ -306,16 +373,25 @@
     							</w2:textbox>
     						</xf:group>
     					</xf:group>
-    				</xf:group><xf:group id="" style="text-align:left;margin-bottom: 10px;margin-top: 10px;margin-left: 20px;" tagname="">
-    		<xf:trigger class="" ev:onclick="scwin.btn_add_onclick" id="trigger27" style="margin-right: 10px;margin-left: 5px;" type="button">
-    			<xf:label><![CDATA[+ 추가]]></xf:label>
+    				</xf:group>
+    	<xf:group id="" style="text-align:left;margin-bottom: 10px;margin-top: 10px;margin-left: 20px;" tagname="">
+    		<xf:trigger class="" ev:onclick="scwin.btn_add_onclick" id="trigger27" style="margin-right: 10px;"
+    			type="button">
+    			<xf:label><![CDATA[ + 추가 ]]></xf:label>
     		</xf:trigger>
     		<xf:trigger class="" ev:onclick="scwin.btn_del_onclick" id="trigger28" style="margin-right: 10px;" type="button">
-    			<xf:label><![CDATA[- 삭제]]></xf:label>
+    			<xf:label><![CDATA[ - 삭제 ]]></xf:label>
+    		</xf:trigger><xf:trigger class="" ev:onclick="scwin.btn_treeUp_onclick" id="btn_treeUp" style="margin-right: 10px;" type="button">
+    			<xf:label><![CDATA[ 위로 이동 ]]></xf:label>
+    		</xf:trigger><xf:trigger class="" ev:onclick="scwin.btn_treeDown_onclick" id="btn_treeDown" style="margin-right: 10px;" type="button">
+    			<xf:label><![CDATA[ 아래로 이동 ]]></xf:label>
     		</xf:trigger>
 
     		<br></br>
-    	</xf:group><w2:treeview showCheckbox="" tooltipGroupClass="false" ev:onlabelclick="scwin.categoryTree_onlabelclick" dataType="listed" style="width:192px;height:260px;margin-top:10px;margin-bottom:10px;border:1px solid black;margin-left:20px;" id="categoryTree">
+    		
+    		
+    	</xf:group>
+    	<w2:treeview showCheckbox="" tooltipGroupClass="false" ev:onlabelclick="scwin.categoryTree_onlabelclick" dataType="listed" style="width:190px;height:260px;margin-top:10px;margin-bottom:10px;border:1px solid black;margin-left:20px;" id="categoryTree">
     			<w2:itemset nodeset="data:dlt_categoryList">
     				<w2:label ref="categoryName"></w2:label>
     				<w2:value ref="categoryId"></w2:value>
