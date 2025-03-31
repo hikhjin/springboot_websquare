@@ -140,6 +140,16 @@ scwin.onpageload = function() {
 	scwin.checkDate = function() {
 		var start = startDate.getValue();
     	var end = endDate.getValue();
+    	
+    	if ((start !== "" && end === "")) {
+    		alert("검색 종료일시를 입력해주십시오.");
+	    	return true;
+	    }
+	    
+	    if ((start === "" && end !== "")) {
+    		alert("검색 시작일시를 입력해주십시오.");
+	    	return true;
+	    }
 
 		if (start > end) {
 	        alert("전시 시작일이 종료일보다 클 수 없습니다.");
@@ -157,9 +167,9 @@ scwin.onpageload = function() {
 		// 카테고리1d가 지식일 경우 출처매체 입력 가능
 		if (dma_postForm.get("category1") == "2") {
 			sourceMedia.setDisabled(false);
+			travelPlace.setDisabled(true);
 		} else {
 			sourceMedia.setDisabled(true);
-			
 		}
 	};
 	
@@ -188,6 +198,12 @@ scwin.onpageload = function() {
 			//출처 매체
 			for (var i = 1; i <= gnt_add.getLength(); i++) {
 				var sourceMediaIdx = "sourceMedia" + i;
+				
+				
+				if (gnt_add.getChild(i-1, "input_sm").getValue() === "") {
+					alert("출처 매체 내용을 입력해주세요.");
+					return;
+				}
 				
 				dma_postForm.set(sourceMediaIdx, gnt_add.getChild(i-1, "input_sm").getValue());	
 			}
@@ -476,11 +492,11 @@ scwin.onpageload = function() {
 			url = "/post_preview_standard.xml";
 		}
 		
-		com.win.openPopup(url, options);
+		$p.openPopup(url, options);
 		
 	};
 
-	
+	// 전시기간 셀렉트박스
 	scwin.period_onchange = function() {
 		var selected = period.getValue();
 		var tmp = new Date();

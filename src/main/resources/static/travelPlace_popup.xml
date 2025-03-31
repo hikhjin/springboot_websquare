@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="/cm/css/community.css" type="text/css"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ev="http://www.w3.org/2001/xml-events"
     xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
@@ -121,6 +120,12 @@
 	            $p.executeSubmission("sbm_travelPlaceList");
 	            return;
 	        }
+	        
+	        if (travelPlaceName === "") {
+		        alert("장소 이름을 작성해주세요.");
+		        return;
+		       }
+		       
 	        dlt_travelPlaceList.setCellData(modifiedList[i], "updatedBy", "hikhjin");
 	    }
 	    $p.executeSubmission("sbm_deleteTravelPlaceList");
@@ -188,11 +193,10 @@
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
     	<br></br><w2:textbox class="explain" style="width:500px;height:19px;float:right;" id="" label="장소 추가, 수정, 삭제 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다."></w2:textbox>
     	<xf:group id="">
-    		<xf:trigger ev:onclick="scwin.btn_add_travelPlace_onclick" style="margin-right: 10px;" id="btn_add_travelPlace" type="button"
-    			class="grey-button">
+    		<xf:trigger ev:onclick="scwin.btn_add_travelPlace_onclick" style="margin-right: 10px;margin-left: 5px;" id="btn_add_travelPlace" type="button">
     			<xf:label><![CDATA[+장소추가]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger ev:onclick="scwin.btn_del_onclick" style="" id="trigger23" type="button" class="grey-button">
+    		<xf:trigger ev:onclick="scwin.btn_del_onclick" style="" id="trigger23" type="button">
     			<xf:label><![CDATA[ -선택삭제 ]]></xf:label>
     		</xf:trigger>
     	</xf:group>
