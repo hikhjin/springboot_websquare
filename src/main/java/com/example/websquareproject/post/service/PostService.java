@@ -4,7 +4,6 @@ import com.example.websquareproject.post.dto.ExcelListDto;
 import com.example.websquareproject.post.dto.PostFormDto;
 import com.example.websquareproject.post.dto.PostListDto;
 import com.example.websquareproject.post.mapper.PostMapper;
-import com.example.websquareproject.travelPlace.dto.TravelPlaceListDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
@@ -115,42 +114,6 @@ public class PostService {
     private void insertImage(Sheet sheet, Workbook workbook, String imageUrl, int rowIndex, int colIndex) {
         InputStream is = null;
         try {
-//            if (imageUrl.startsWith("http") || imageUrl.startsWith("https")) {
-//                // URL 타임아웃 설정 (0.5초 = 500ms)
-//                URL url = new URL(imageUrl);
-//                is = url.openConnection().getInputStream();
-//                // 타임아웃을 설정하려면 URLConnection을 명시적으로 캐스팅해야 함
-//                url.openConnection().setConnectTimeout(500);
-//                url.openConnection().setReadTimeout(500);
-//            } else {
-//                String basePath = "C:\\Users\\hikhj\\IdeaProjects\\websquareProject\\src\\main\\resources\\static";
-//                String absolutePath = basePath + imageUrl.replace("/", "\\");
-//
-//                File file = new File(absolutePath);
-//                if (!file.exists()) {
-//                    System.err.println("File not found: " + absolutePath);
-//                    return;
-//                }
-//                is = new FileInputStream(file);
-//            }
-//
-//            byte[] bytes = IOUtils.toByteArray(is);
-//
-//            int pictureIdx = workbook.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG);
-//            XSSFDrawing drawing = (XSSFDrawing) sheet.createDrawingPatriarch();
-//            XSSFClientAnchor anchor = new XSSFClientAnchor();
-//
-//            anchor.setCol1(colIndex);
-//            anchor.setRow1(rowIndex);
-//            anchor.setCol2(colIndex + 1);
-//            anchor.setRow2(rowIndex + 1);
-//            anchor.setDx1(0);
-//            anchor.setDy1(0);
-//            anchor.setDx2(1023); // 최대 크기 지정
-//            anchor.setDy2(255); // 최대 크기 지정
-//            anchor.setAnchorType(ClientAnchor.AnchorType.MOVE_AND_RESIZE);
-//
-//            XSSFPicture picture = drawing.createPicture(anchor, pictureIdx);
             if (imageUrl.startsWith("http") || imageUrl.startsWith("https")) {
                 is = new URL(imageUrl).openStream();
             } else {

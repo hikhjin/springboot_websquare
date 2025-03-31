@@ -16,6 +16,20 @@
         WHERE category_id = #{categoryId}
     </update>
 
+    <update id="updateOrder">
+        UPDATE CATEGORY
+        SET display_order =
+        CASE category_id
+        <foreach collection="categoryTreeDtoList" item="category">
+            WHEN #{category.categoryId} THEN #{category.displayOrder}
+        </foreach>
+        END
+        WHERE category_id IN
+        <foreach collection="categoryTreeDtoList" item="category" open="(" separator="," close=")">
+            #{category.categoryId}
+        </foreach>
+    </update>
+
     <select id="getMaxDisplayOrder1d" resultType="int">
         SELECT IFNULL(MAX(display_order), 0) FROM CATEGORY WHERE parent_id IS NULL
     </select>

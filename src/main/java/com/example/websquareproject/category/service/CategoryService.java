@@ -60,19 +60,29 @@ public class CategoryService {
             categoryFormDto.setIsHidden("N");
         }
 
-        System.out.println(categoryId);
-        System.out.println(categoryFormDto.toString());
         if (categoryId == -1) { // 새로 만들 경우
-            if (categoryFormDto.getParentId() == null) { // 1 depth에 추가
-                categoryFormDto.setParentId(null);
-            }
 
+            if (categoryFormDto.getParentId() == null) { // 1 depth에 추가
+                categoryFormDto.setDisplayOrder(categoryMapper.getMaxDisplayOrder1d() + 1);
+                categoryFormDto.setParentId(null);
+            } else {
+                categoryFormDto.setDisplayOrder(categoryMapper.getMaxDisplayOrder2d(categoryFormDto.getParentId()) + 1);
+            }
             categoryMapper.createCategory(categoryFormDto);
         } else {
             categoryMapper.updateCategory(categoryFormDto, categoryId);
         }
+
+        System.out.println(categoryId);
+        System.out.println(categoryFormDto.toString());
     }
 
+    @Transactional
+    public void updateCategoryOrder(List<CategoryTreeDto> categoryTreeDtoList) {
+        categoryMapper.updateOrder(categoryTreeDtoList);
+    }
+
+    @Transactional
     public void deleteCategory(int categoryId) {
         categoryMapper.deleteCategory(categoryId);
     }

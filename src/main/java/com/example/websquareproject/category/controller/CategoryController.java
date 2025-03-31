@@ -5,6 +5,7 @@ import com.example.websquareproject.category.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,10 +31,18 @@ public class CategoryController {
         return categoryService.getCategories2d(parentId);
     }
 
-    // 카테고리 관리 - 트리 조회
+    // 카테고리 관리 - 트리용 리스트 조회
     @GetMapping("/list")
     public ResponseEntity<List<CategoryTreeDto>> getCategoryWithDepth() {
         return categoryService.getCategoryWithDepth();
+    }
+
+    @PutMapping("/order")
+    public ResponseEntity<String> updateCategoryOrder(@RequestBody Map<String, CategoryTreeDto> categoryMap) {
+        List<CategoryTreeDto> updateList = new ArrayList<>(categoryMap.values());
+
+        categoryService.updateCategoryOrder(updateList);
+        return ResponseEntity.ok("Success");
     }
 
     // 카테고리 관리 - 카테고리 상세 조회

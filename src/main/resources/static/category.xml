@@ -23,7 +23,8 @@
         			</w2:data>
         		</w2:dataList>
         		<w2:dataMap baseNode="map" id="dma_categoryForm">
-        			<w2:keyInfo><w2:key id="categoryName" name="카테고리 이름" dataType="text"></w2:key>
+        			<w2:keyInfo>
+        				<w2:key id="categoryName" name="카테고리 이름" dataType="text"></w2:key>
         				<w2:key id="parentId" name="상위 카테고리" dataType="text"></w2:key>
         				<w2:key id="isHidden" name="웹에서 숨기기 여부" dataType="text"></w2:key>
         				<w2:key id="description" name="설명" dataType="text"></w2:key>
@@ -32,7 +33,7 @@
         				<w2:key id="createdAt" name="name7" dataType="text"></w2:key>
         				<w2:key id="updatedBy" name="name8" dataType="text"></w2:key>
         				<w2:key id="updatedAt" name="name9" dataType="text"></w2:key>
-        				
+
         			</w2:keyInfo>
         		</w2:dataMap>
         		<w2:dataList baseNode="list" id="dlt_categoryList1d" repeatNode="map" saveRemovedData="true" style="">
@@ -74,10 +75,16 @@
         		errorHandler="" customHandler="" mode="asynchronous" processMsg="" singleMode="true" ev:submit=""
         		ev:submitdone="scwin.sbm_categoryInfo_submitdone" ev:submiterror="" abortTrigger="">
         	</xf:submission>
-        	<xf:submission id="sbm_createUpdateCategory" ref='data:json,[{"id":"dma_categoryForm","key":"categoryForm"},{"id":"dma_category","key":"category"}]' target=""
+        	<xf:submission id="sbm_createUpdateCategory"
+        		ref='data:json,[{"id":"dma_categoryForm","key":"categoryForm"},{"id":"dma_category","key":"category"}]' target=""
         		action="http://127.0.0.1:8080/category/info" method="put" mediatype="application/json" encoding="UTF-8" instance="" replace=""
-        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" singleMode="true" ev:submit="" ev:submitdone="scwin.sbm_createUpdateCategory_submitdone"
-        		ev:submiterror="" abortTrigger="">
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" singleMode="true" ev:submit=""
+        		ev:submitdone="scwin.sbm_createUpdateCategory_submitdone" ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        	<xf:submission id="sbm_updateCategoryOrder" ref='data:json,{"action":"updated","id":"dlt_categoryList"}' target=""
+        		action="http://127.0.0.1:8080/category/order" method="put" mediatype="application/json" encoding="UTF-8" instance="" replace=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone=""
+        		ev:submiterror="" abortTrigger="" singleMode="true">
         	</xf:submission>
         </xf:model>
         <script type="text/javascript" lazy="false"><![CDATA[
@@ -121,7 +128,7 @@
 			return;
 		}
 		dma_category.set("categoryId", value);
-		console.log(dma_categoryForm.get("categoryFormId"));
+		//console.log(dma_categoryForm.get("categoryFormId"));
 		
 		$p.executeSubmission("sbm_categoryInfo");
 		
@@ -156,6 +163,42 @@
 		dma_category.set("categoryId", "");
 	};
 	
+	//카테고리 순서 변경
+	scwin.chgCatgOrdr = function(i, j){
+		var catgOrdr = dlt_categoryList.getCellData(i, "displayOrder");
+		dlt_categoryList.setCellData(i, "displayOrder", dlt_categoryList.getCellData(j, "displayOrder"));
+		dlt_categoryList.setCellData(j, "displayOrder", catgOrdr);
+	}
+	
+	scwin.btn_treeUp_onclick = function(e) {
+		var me = categoryTree.getSelectedIndex();
+		console.log(me);
+		var myDepth = Number(dlt_categoryList.getCellData(me-1, "depth"));
+		console.log("myDepth: " + myDepth);
+		
+		//상위 같은depth 찾음
+		var i = me;
+		while(--i > 0){
+			var toDepth = Number(dlt_categoryList.getCellData(i-1, "depth"));
+			console.log("toDepth: " + toDepth);
+			//같은depth 찾으면 이동
+			if(myDepth == toDepth){
+				//오더순서 바꿈
+				scwin.chgCatgOrdr(i-1,me-1);
+				scwin.categoryTree_moveNode(i, me, false);
+				categoryTree.findNodeByIndex(i, true);
+				com.sbm.execute(sbm_updateCategoryOrder);
+				//com.sbm.execute(sbm_categoryList);		
+				return;
+			}
+			//상위 depth 나오면 이동못함
+			else if(myDepth > toDepth) {
+				alert("더 이상 이동할 수 없습니다.");
+				break;
+			}
+		}
+	};
+	
 	/* 카테고리 위치 교환
 	-srcIndex 옮길 대상이 되는 노드의 index 
 	-destIndex 옮길 위치 기준이 되는 노드의 index 
@@ -165,59 +208,33 @@
 		let j=0;
 		let status = [];
 		
-		status[j++] = dlt_catgList.getRowStatus(srcIndex-1);
-		let depth = Number(dlt_catgList.getCellData(srcIndex-1, "urcFaqCatgLvln"));
-		for(let i=srcIndex; i<dlt_catgList.getRowCount(); i++){
-			if(depth >= Number(dlt_catgList.getCellData(i, "urcFaqCatgLvln"))) break;
-			status[j++] = dlt_catgList.getRowStatus(i);  	
+		status[j++] = dlt_categoryList.getRowStatus(srcIndex-1);
+		let depth = Number(dlt_categoryList.getCellData(srcIndex-1, "depth"));
+		for(let i=srcIndex; i<dlt_categoryList.getRowCount(); i++){
+			if(depth >= Number(dlt_categoryList.getCellData(i, "depth"))) break;
+			status[j++] = dlt_categoryList.getRowStatus(i);  	
 		}
-		let urcFaqCatgId = dlt_catgList.getCellData(srcIndex-1, "urcFaqCatgId");
+		let categoryId = dlt_categoryList.getCellData(srcIndex-1, "categoryId");
 				
 		//이동
-		tvw_catg.moveNode(srcIndex, destIndex, bAppendChild);
+		categoryTree.moveNode(srcIndex, destIndex, bAppendChild);
 		
 		//상태되돌리기
-		let srcIdx = scwin.getUrcFaqCatgIdIndex(urcFaqCatgId);
+		let srcIdx = scwin.getcatgIdIndex(categoryId);
 		
 		for(let i=0; i<status.length; i++)
-			dlt_catgList.modifyRowStatus(srcIdx + i, status[i]);	
+			dlt_categoryList.modifyRowStatus(srcIdx + i, status[i]);	
 			
-		tvw_catg.options.scrollFix = false;
-		btn_collapse.trigger("onclick");
-		tvw_catg.findNodeByIndex(srcIdx+1, true);
-		tvw_catg.options.scrollFix = true;	
+		categoryTree.options.scrollFix = false;
+		categoryTree.findNodeByIndex(srcIdx+1, true);
+		categoryTree.options.scrollFix = true;	
 	};
 	
-	//카테고리 순서 변경
-	scwin.chgCatgOrdr = function(i, j){
-		var catgOrdr = dlt_categoryList.getCellData(i, "displayOrder");
-		dlt_categoryList.setCellData(i, "sortOrd", dlt_categoryList.getCellData(j, "sortOrd"));
-		dlt_categoryList.setCellData(j, "sortOrd", catgOrdr);			
-	}
-	
-	scwin.btn_treeUp_onclick = function(e) {
-		var me = categoryTree.getSelectedIndex();
-		var myDepth = Number(dlt_categoryList.getCellData(me-1, "depth"));
-		
-		//상위 같은depth 찾음
-		var i = me;
-		while(--i > 0){
-			var toDepth = Number(dlt_categoryList.getCellData(i-1, "depth"));
-			//같은depth 찾으면 이동
-			if(myDepth == toDepth){
-				//오더순서 바꿈
-				scwin.chgCatgOrdr(i-1,me-1);
-				scwin.tvw_catg_moveNode(i, me, false);
-				tvw_catg.findNodeByIndex(i, true);		
-				return;
-			}
-			//상위 depth 나오면 이동못함
-			else if(myDepth > toDepth)
-				break;
-		}
-		//com.alt.0104=더는 이동할 수가 없습니다.
-		com.win.alert(com.data.getMessage("com.alt.0104"));
+	scwin.getcatgIdIndex = function(categoryId){
+		var arr = dlt_categoryList.getMatchedIndex("categoryId", categoryId, true);
+		return arr.length==0? null: arr[0];
 	};
+	
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">

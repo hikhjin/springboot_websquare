@@ -18,4 +18,5 @@ public interface CategoryMapper {
     void deleteCategory(int categoryId);
     int getMaxDisplayOrder1d();
     int getMaxDisplayOrder2d(@Param("parentId") int parentId);
+    void updateOrder(List<CategoryTreeDto> categoryTreeDtoList);
 }
