@@ -173,8 +173,39 @@ scwin.onpageunload = function() {
     return rowSize * (pageNo - 1) + rowIdx + 1;
 };
 
+	// 전시일 체크
+	scwin.checkDate = function() {
+		var start = startDate.getValue();
+    	var end = endDate.getValue();
+    	
+    	if (dma_postParam.get("periodType") !== "" && (start === "" && end === "")) {
+    		alert("검색 일시를 입력해주십시오.");
+	    	return true;
+	    }
+    	
+    	if ((start !== "" && end === "")) {
+    		alert("검색 종료 일시를 입력해주십시오.");
+	    	return true;
+	    }
+	    
+	    if ((start === "" && end !== "")) {
+    		alert("검색 시작 일시를 입력해주십시오.");
+	    	return true;
+	    }
+	    
+	    if (start > end) {
+	        alert("전시 시작일이 종료일보다 클 수 없습니다.");
+	        return true;
+    	}
+
+    	return false;
+	}
+
 	// 게시글 검색
 	scwin.btn_search_onclick = function(e) {
+		if (scwin.checkDate()) {
+			return;
+		}
 		scwin.fn_search(1);
 	};
 	
@@ -371,12 +402,20 @@ scwin.onpageunload = function() {
 			startDate.setStyle("display" , "");
 			endDate.setStyle("display" , "");
 			wave.setStyle("display" , "");
+			startDate.setValue($p.getCurrentServerDate("yyyyMMddHHmmss"));
+			startDate.setValue($p.getCurrentServerDate("yyyyMMddHHmmss"));
+			
+			var tmp = new Date();
+			// 한달 추가
+			tmp.setMonth(tmp.getMonth() + 1);
+			var dateStr = WebSquare.date.getFormattedDate(tmp, "yyyyMMddHHmmss");
+			
+			endDate.setValue(dateStr);
 		}
 	};
 	
 	// 등록 버튼 클릭 시 페이지 이동
 	scwin.btn_reg_onclick = function(e) {
-		var tmpUrl = "&w2Config=/.settings/config.xml";
 		$p.url("/post_registration.xml");
 	};
 ]]></script>
