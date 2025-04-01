@@ -23,7 +23,8 @@
         <foreach collection="categoryTreeDtoList" item="category">
             WHEN #{category.categoryId} THEN #{category.displayOrder}
         </foreach>
-        END
+        END,
+            updated_by = 'hikhjin'
         WHERE category_id IN
         <foreach collection="categoryTreeDtoList" item="category" open="(" separator="," close=")">
             #{category.categoryId}

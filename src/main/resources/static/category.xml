@@ -83,7 +83,7 @@
         	</xf:submission>
         	<xf:submission id="sbm_updateCategoryOrder" ref='data:json,{"action":"updated","id":"dlt_categoryList"}' target=""
         		action="http://127.0.0.1:8080/category/order" method="put" mediatype="application/json" encoding="UTF-8" instance="" replace=""
-        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone=""
+        		errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone="scwin.sbm_updateCategoryOrder_submitdone"
         		ev:submiterror="" abortTrigger="" singleMode="true">
         	</xf:submission>
         </xf:model>
@@ -154,6 +154,8 @@
 		}
 		
 		$p.executeSubmission("sbm_createUpdateCategory");
+		//com.sbm.execute(sbm_updateCategoryOrder);
+		com.sbm.execute(sbm_categoryList);
 	};
 	
 	scwin.sbm_createUpdateCategory_submitdone = function(e) {
@@ -172,7 +174,7 @@
 	
 	scwin.btn_treeUp_onclick = function(e) {
 		var me = categoryTree.getSelectedIndex();
-		console.log(me);
+		console.log("me:" + me);
 		var myDepth = Number(dlt_categoryList.getCellData(me-1, "depth"));
 		console.log("myDepth: " + myDepth);
 		
@@ -187,8 +189,6 @@
 				scwin.chgCatgOrdr(i-1,me-1);
 				scwin.categoryTree_moveNode(i, me, false);
 				categoryTree.findNodeByIndex(i, true);
-				com.sbm.execute(sbm_updateCategoryOrder);
-				//com.sbm.execute(sbm_categoryList);		
 				return;
 			}
 			//상위 depth 나오면 이동못함
@@ -197,6 +197,41 @@
 				break;
 			}
 		}
+	};
+	
+	scwin.btn_treeDown_onclick = function(e) {
+		var me = categoryTree.getSelectedIndex();
+		console.log("me:" + me);
+		
+		var myDepth = Number(dlt_categoryList.getCellData(me-1, "depth"));
+		console.log("myDepth: " + myDepth);
+		
+		var moved = false;
+		
+		//하위 같은depth 찾음
+		var i = me;
+		while(++i <= dlt_categoryList.getRowCount()){
+			var toDepth = Number(dlt_categoryList.getCellData(i-1, "depth"));
+			console.log("toDepth: " + toDepth);
+			console.log("i: " + i);
+			//같은depth 찾으면 이동
+			if(myDepth == toDepth){
+				//오더순서 바꿈
+				scwin.chgCatgOrdr(i-1,me-1);
+				scwin.categoryTree_moveNode(me, i, false);
+				moved = true;
+				return;
+			}
+			//상위 depth 나오면 이동못함
+			else if(myDepth > toDepth) {
+				moved = true;
+				alert("더 이상 이동할 수 없습니다.");
+				break;
+			}
+		}
+		if (!moved) {
+        alert("더 이상 이동할 수 없습니다.");
+    	}
 	};
 	
 	/* 카테고리 위치 교환
@@ -209,21 +244,25 @@
 		let status = [];
 		
 		status[j++] = dlt_categoryList.getRowStatus(srcIndex-1);
+		console.log("status[j]: " + dlt_categoryList.getRowStatus(srcIndex-1));
 		let depth = Number(dlt_categoryList.getCellData(srcIndex-1, "depth"));
+		console.log("depth: " + depth);
 		for(let i=srcIndex; i<dlt_categoryList.getRowCount(); i++){
 			if(depth >= Number(dlt_categoryList.getCellData(i, "depth"))) break;
 			status[j++] = dlt_categoryList.getRowStatus(i);  	
 		}
 		let categoryId = dlt_categoryList.getCellData(srcIndex-1, "categoryId");
+		console.log("categoryId: " + categoryId);
 				
 		//이동
 		categoryTree.moveNode(srcIndex, destIndex, bAppendChild);
 		
 		//상태되돌리기
 		let srcIdx = scwin.getcatgIdIndex(categoryId);
+		console.log("srcIdx: " + srcIdx);
 		
 		for(let i=0; i<status.length; i++)
-			dlt_categoryList.modifyRowStatus(srcIdx + i, status[i]);	
+			dlt_categoryList.modifyRowStatus(srcIdx + i, "U");	
 			
 		categoryTree.options.scrollFix = false;
 		categoryTree.findNodeByIndex(srcIdx+1, true);
@@ -235,6 +274,15 @@
 		return arr.length==0? null: arr[0];
 	};
 	
+	
+	scwin.sbm_updateCategoryOrder_submitdone = function(e) {
+		com.sbm.execute(sbm_categoryList);
+	};
+	
+	scwin.save_order_onclick = function(e) {
+		com.sbm.execute(sbm_updateCategoryOrder);
+		alert("변경된 순서가 저장되었습니다.");
+	};
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
@@ -392,20 +440,25 @@
     					</xf:group>
     				</xf:group>
     	<xf:group id="" style="text-align:left;margin-bottom: 10px;margin-top: 10px;margin-left: 20px;" tagname="">
-    		<xf:trigger class="" ev:onclick="scwin.btn_add_onclick" id="trigger27" style="margin-right: 10px;"
-    			type="button">
-    			<xf:label><![CDATA[ + 추가 ]]></xf:label>
-    		</xf:trigger>
-    		<xf:trigger class="" ev:onclick="scwin.btn_del_onclick" id="trigger28" style="margin-right: 10px;" type="button">
-    			<xf:label><![CDATA[ - 삭제 ]]></xf:label>
-    		</xf:trigger><xf:trigger class="" ev:onclick="scwin.btn_treeUp_onclick" id="btn_treeUp" style="margin-right: 10px;" type="button">
-    			<xf:label><![CDATA[ 위로 이동 ]]></xf:label>
-    		</xf:trigger><xf:trigger class="" ev:onclick="scwin.btn_treeDown_onclick" id="btn_treeDown" style="margin-right: 10px;" type="button">
-    			<xf:label><![CDATA[ 아래로 이동 ]]></xf:label>
-    		</xf:trigger>
 
-    		<br></br>
+    		<xf:group id=""><xf:trigger ev:onclick="scwin.btn_add_onclick" style="margin-right: 10px;" id="trigger27" type="button" class="">
+    			<xf:label><![CDATA[ + 추가 ]]></xf:label>
+    		</xf:trigger><xf:trigger ev:onclick="scwin.btn_del_onclick" style="margin-right: 10px;" id="trigger28" type="button" class="">
+    			<xf:label><![CDATA[ - 삭제 ]]></xf:label>
+    		</xf:trigger></xf:group><br></br><xf:group id="">
+    			<xf:trigger class="purple-button" id="save_order" style="margin-right: 10px;" type="button" ev:onclick="scwin.save_order_onclick">
+    				<xf:label><![CDATA[ 순서 저장 ]]></xf:label>
+    			</xf:trigger>
+    			<xf:trigger ev:onclick="scwin.btn_treeUp_onclick" style="margin-right: 10px;" id="btn_treeUp" type="button" class="">
+    				<xf:label><![CDATA[ 위로 이동 ]]></xf:label>
+    			</xf:trigger>
+    			<xf:trigger ev:onclick="scwin.btn_treeDown_onclick" style="margin-right: 10px;" id="btn_treeDown" type="button" class="">
+    				<xf:label><![CDATA[ 아래로 이동 ]]></xf:label>
+    			</xf:trigger>
+    		</xf:group>
     		
+
+
     		
     	</xf:group>
     	<w2:treeview showCheckbox="" tooltipGroupClass="false" ev:onlabelclick="scwin.categoryTree_onlabelclick" dataType="listed" style="width:190px;height:260px;margin-top:10px;margin-bottom:10px;border:1px solid black;margin-left:20px;" id="categoryTree">
