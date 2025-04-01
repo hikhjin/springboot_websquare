@@ -286,7 +286,7 @@
 	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
-    	<w2:textbox id="" label="카테고리 등록" style="" tagname="h1" class="title"></w2:textbox><xf:group tagname="table" style="width:77%;float:right;margin-right: 10px;" id="" class="w2tb tb">
+    	<w2:textbox id="" label="카테고리 관리" style="" tagname="h3" class="title"></w2:textbox><xf:group tagname="table" style="width:80%;float:right;margin-right: 20px;" id="" class="w2tb tb">
     					<w2:attributes>
     						<w2:summary></w2:summary>
     					</w2:attributes>
@@ -356,7 +356,7 @@
     								<w2:colspan>5</w2:colspan>
     								<w2:rowspan>1</w2:rowspan>
     							</w2:attributes>
-    							<xf:input ref="data:dma_categoryForm.description" adjustMaxLength="false" readOnly="false" style="width:99%;height:78px;margin-right:10px;" id="">
+    							<xf:input ref="data:dma_categoryForm.description" adjustMaxLength="false" readOnly="false" style="width:99%;height:90px;margin-right:10px;" id="">
     							</xf:input>
     						</xf:group>
     					</xf:group>
@@ -372,7 +372,7 @@
     								<w2:colspan>5</w2:colspan>
     								<w2:rowspan>1</w2:rowspan>
     							</w2:attributes>
-    							<xf:input ref="data:dma_categoryForm.help" adjustMaxLength="false" readOnly="false" style="width:99%;height:78px;margin-right:10px;" id="">
+    							<xf:input ref="data:dma_categoryForm.help" adjustMaxLength="false" readOnly="false" style="width:99%;height:90px;margin-right:10px;" id="">
     							</xf:input>
     						</xf:group>
     					</xf:group>
@@ -445,15 +445,18 @@
     			<xf:label><![CDATA[ + 추가 ]]></xf:label>
     		</xf:trigger><xf:trigger ev:onclick="scwin.btn_del_onclick" style="margin-right: 10px;" id="trigger28" type="button" class="">
     			<xf:label><![CDATA[ - 삭제 ]]></xf:label>
-    		</xf:trigger></xf:group><br></br><xf:group id="">
-    			<xf:trigger class="purple-button" id="save_order" style="margin-right: 10px;" type="button" ev:onclick="scwin.save_order_onclick">
-    				<xf:label><![CDATA[ 순서 저장 ]]></xf:label>
-    			</xf:trigger>
+    		</xf:trigger></xf:group><br></br>
+    		<xf:group id="">
+
     			<xf:trigger ev:onclick="scwin.btn_treeUp_onclick" style="margin-right: 10px;" id="btn_treeUp" type="button" class="">
     				<xf:label><![CDATA[ 위로 이동 ]]></xf:label>
     			</xf:trigger>
     			<xf:trigger ev:onclick="scwin.btn_treeDown_onclick" style="margin-right: 10px;" id="btn_treeDown" type="button" class="">
     				<xf:label><![CDATA[ 아래로 이동 ]]></xf:label>
+    			</xf:trigger>
+    			<xf:trigger class="purple-button" id="save_order" style="margin-right: 10px;" type="button"
+    				ev:onclick="scwin.save_order_onclick">
+    				<xf:label><![CDATA[ 순서 저장 ]]></xf:label>
     			</xf:trigger>
     		</xf:group>
     		

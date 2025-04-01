@@ -49,7 +49,7 @@
     				style="margin-right:10px;" type="button">
     				<xf:label><![CDATA[ 삭제 ]]></xf:label>
     			</xf:trigger>
-    			<xf:trigger class="normal-button" ev:onclick="scwin.btn_cancel_onclick" id="trigger1"
+    			<xf:trigger class="" ev:onclick="scwin.btn_cancel_onclick" id="trigger1"
     				style="margin-right: 10px;" type="button">
     				<xf:label><![CDATA[ 닫기 ]]></xf:label>
     			</xf:trigger>
