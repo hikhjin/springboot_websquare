@@ -184,6 +184,9 @@ scwin.onpageload = function() {
 
 	scwin.btn_save_onclick = function(e) {
 		
+		var rawTitle = dma_postForm.get("title");
+    	dma_postForm.set("title", scwin.escapeHtml(rawTitle));
+		
 		if (!scwin.is_exist_data()) { // 필수정보 등록 여부 확인
 			return;
 		}
@@ -351,14 +354,15 @@ scwin.onpageload = function() {
 	// 파일 업로드
 	scwin.upd_singleFileUpload_onInputValueChange = function(fileName) {
 	    var targetId = this.getID();
+	    console.log(targetId);
 	
-	    if (targetId === "mf_upd_singleFileUpload_pc") {
+	    if (targetId === "mf_upd_singleFileUpload_pc" || targetId === "mf_tabControl_contents_tab1_body_upd_singleFileUpload_pc") {
 	        upd_singleFileUpload_pc.changeFormAction("http://localhost:8080/file/pc");
 	        upd_singleFileUpload_pc.submit();
-	    } else if (targetId === "mf_upd_singleFileUpload_mo") {
+	    } else if (targetId === "mf_upd_singleFileUpload_mo" || targetId === "mf_tabControl_contents_tab1_body_upd_singleFileUpload_mo") {
 	        upd_singleFileUpload_mo.changeFormAction("http://localhost:8080/file/mobile");
 	        upd_singleFileUpload_mo.submit();
-	    } else if (targetId === "mf_upd_singleFileUpload_at") {
+	    } else if (targetId === "mf_upd_singleFileUpload_at" || targetId === "mf_tabControl_contents_tab1_body_upd_singleFileUpload_at") {
 	        upd_singleFileUpload_at.changeFormAction("http://localhost:8080/file/attachment");
 	        upd_singleFileUpload_at.submit();
 	    }
@@ -367,13 +371,14 @@ scwin.onpageload = function() {
 	// 파일 삭제
 	scwin.btn_DeleteFile_onclick = function(e) {
 		var targetId = this.getID();
-	    if (targetId === "mf_btn_deleteFileP") {
+		console.log(targetId);
+	    if (targetId === "mf_btn_deleteFileP" || targetId === "mf_tabControl_contents_tab1_body_btn_deleteFileP") {
 	        upd_singleFileUpload_pc.reset();
 	        $p.executeSubmission("sbm_deleteFilePc");
-	    } else if (targetId === "mf_btn_deleteFileM") {
+	    } else if (targetId === "mf_btn_deleteFileM" || targetId === "mf_tabControl_contents_tab1_body_btn_deleteFileM") {
 	        upd_singleFileUpload_mo.reset();
 	        $p.executeSubmission("sbm_deleteFileMo");
-	    } else if (targetId === "mf_btn_deleteFileA") {
+	    } else {
 	        upd_singleFileUpload_at.reset();
 	        $p.executeSubmission("sbm_deleteFileAt");
 	    }
@@ -422,11 +427,12 @@ scwin.onpageload = function() {
 	// 이미지 미리보기
 	scwin.btn_prvImage_onclick = function(e) {
 		var targetId = this.getID();
+		//console.log(targetId);
 		
 		var url = "/post_imgPopup.xml";
 		var path = "";
 		
-		if (targetId === "mf_btn_previewImgPc") {
+		if (targetId === "mf_btn_previewImgPc" || targetId === "mf_tabControl_contents_tab1_body_btn_previewImgPc") {
 			path = dma_postForm.get("pcImageUrl");
 		} else {
 			path = dma_postForm.get("mobileImageUrl");
@@ -461,7 +467,7 @@ scwin.onpageload = function() {
 	// 파일 삭제 콜백
 	scwin.btn_DeleteFile_callBack = function(targetId) {
 		//console.log("삭제할 타겟 ID는: " + targetId);
-	    if (targetId === "mf_btn_previewImgPc") {
+	    if (targetId === "mf_btn_previewImgPc" || targetId === "mf_tabControl_contents_tab1_body_btn_previewImgPc") {
 	        upd_singleFileUpload_pc.reset();
 	        $p.executeSubmission("sbm_deleteFilePc");
 	    } else {
@@ -472,7 +478,20 @@ scwin.onpageload = function() {
 	
 	// 게시글 미리보기
 	scwin.btn_prev_onclick = function(e) {
+		newTitle = scwin.escapeHtml(dma_postForm.get("title"));
+    	console.log(newTitle);
+    	
 		var url = "";
+		
+		var rowJSON = {
+		  "title": newTitle
+		};
+		
+		var data = {
+				"type": "json",
+				  "name": "param",
+				  "data": rowJSON
+                };
 		
 		requires("uiplugin.popup");
 		var options = {
@@ -481,7 +500,8 @@ scwin.onpageload = function() {
 			modal : true,
 			width : 800,
 			height: 630,
-			type : "wframePopup"
+			type : "wframePopup",
+			dataObject: data
 		};
 		
 		if (dma_postForm.get("category1") == 2) {
@@ -492,7 +512,7 @@ scwin.onpageload = function() {
 			url = "/post_preview_standard.xml";
 		}
 		
-		$p.openPopup(url, options);
+		$p.openPopup(url, options, data);
 		
 	};
 
@@ -516,6 +536,16 @@ scwin.onpageload = function() {
 		var dateStr = WebSquare.date.getFormattedDate(tmp, "yyyyMMddHHmmss");
 		
 		endDate.setValue(dateStr);
+	};
+	
+	scwin.escapeHtml = function(str) {
+	    if (!str) return "";
+	    return str
+	        .replace(/&/g, '&amp;')
+	        .replace(/</g, '&lt;')
+	        .replace(/>/g, '&gt;')
+	        .replace(/"/g, '&quot;')
+	        .replace(/'/g, '&#39;');
 	};
 	]]></script>
     </head>
@@ -622,8 +652,8 @@ scwin.onpageload = function() {
     							<w2:colspan>2</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
-    						<xf:input adjustMaxLength="false" id="" style="width:87.77%;height:21px;margin-right:10px;" ref="data:dma_postForm.title"
-    							maxlength="50">
+    						<xf:input adjustMaxLength="false" id="title" style="width:87.77%;height:21px;margin-right:10px;" ref="data:dma_postForm.title"
+    							maxlength="50" ev:onchange="scwin.title_onchange">
     						</xf:input>
     						<w2:textbox class="explain" id="textbox14" label="최대 50자" style="margin-right: 10px;" tagname="span"></w2:textbox>
 

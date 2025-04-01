@@ -70,7 +70,7 @@
         <w2:publicInfo method=""/>
         <script lazy="false" type="text/javascript"><![CDATA[
 scwin.onpageload = function() {
-	
+	var pr = $p.parent().dma_postForm;
 	// 구분
 	if ($p.parent().dma_postForm.get("type") === "0") {
 		type.setValue("공지");
@@ -94,7 +94,7 @@ scwin.onpageload = function() {
 	}
 
 	// 제목
-	title.setValue(pr.get("title"));
+	title.setValue($p.getParameter("param")["title"]);
 	
 	// 등록일시, 수정일시
 	createdAt.setValue($p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss"));
@@ -122,8 +122,8 @@ scwin.onpageload = function() {
 	};
 	
 	scwin.btn_cancel_onclick = function(e) {
-//		$p.parent().$p.closePopup("previewPost");
-		com.win.closePopup();
+		$p.parent().$p.closePopup("previewPost");
+		//com.win.closePopup();
 	};
 	]]></script>
     </head>
