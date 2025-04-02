@@ -11,6 +11,18 @@
             WHEN #{travelPlace.travelPlaceId} THEN #{travelPlace.travelPlaceName}
         </foreach>
         END,
+        SET addr =
+        CASE travel_place_id
+        <foreach collection="travelPlaceListDto" item="travelPlace">
+            WHEN #{travelPlace.travelPlaceId} THEN #{travelPlace.addr}
+        </foreach>
+        END,
+        SET detail_addr =
+        CASE travel_place_id
+        <foreach collection="travelPlaceListDto" item="travelPlace">
+            WHEN #{travelPlace.travelPlaceId} THEN #{travelPlace.detailAddr}
+        </foreach>
+        END,
         updated_by =
         CASE travel_place_id
         <foreach collection="travelPlaceListDto" item="travelPlace">
@@ -25,10 +37,10 @@
 
 
     <insert id="insertPlaces">
-        INSERT INTO TRAVEL_PLACE (travel_place_name, created_by, updated_by)
+        INSERT INTO TRAVEL_PLACE (travel_place_name, addr, detail_addr, created_by, updated_by)
         VALUES
         <foreach collection="travelPlaceListDto" item="travelPlace" separator=",">
-            (#{travelPlace.travelPlaceName}, #{travelPlace.createdBy}, #{travelPlace.updatedBy})
+            (#{travelPlace.travelPlaceName}, #{travelPlace.addr}, #{travelPlace.detailAddr} #{travelPlace.createdBy}, #{travelPlace.updatedBy})
         </foreach>
     </insert>
 
@@ -40,7 +52,7 @@
     </delete>
 
     <select id="getTravelPlaces" resultType="com.example.websquareproject.travelPlace.dto.TravelPlaceListDto">
-    SELECT travel_place_name AS travelPlaceName, created_at AS createdAt, created_by AS createdBy, updated_at AS updatedAt, updated_by AS updatedBy, travel_place_id AS travelPlaceId FROM TRAVEL_PLACE;
+    SELECT travel_place_name AS travelPlaceName, addr, detail_addr AS detailAddr, created_at AS createdAt, created_by AS createdBy, updated_at AS updatedAt, updated_by AS updatedBy, travel_place_id AS travelPlaceId FROM TRAVEL_PLACE;
 </select>
 
 

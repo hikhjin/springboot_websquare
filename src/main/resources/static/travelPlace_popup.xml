@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/cm/css/community.css" type="text/css"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ev="http://www.w3.org/2001/xml-events"
     xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
-    <head>
+    <head meta_vertical_guides="" meta_horizontal_guides="256">
     	<w2:type>DEFAULT</w2:type>
         <w2:buildDate/>
         <xf:model>
@@ -14,12 +15,14 @@
         			<w2:columnInfo>
         				<w2:column dataType="text" id="check" name="체크여부"></w2:column>
         				<w2:column dataType="text" id="travelPlaceName" name="장소"></w2:column>
-        				<w2:column dataType="text" id="createdAt" name="등록일시"></w2:column>
+        				<w2:column id="addr" name="주소" dataType="text"></w2:column><w2:column id="detailAddr" name="상세주소" dataType="text"></w2:column><w2:column dataType="text" id="createdAt" name="등록일시"></w2:column>
         				<w2:column dataType="text" id="createdBy" name="등록자"></w2:column>
         				<w2:column dataType="text" id="updatedAt" name="수정일시"></w2:column>
         				<w2:column dataType="text" id="updatedBy" name="수정자"></w2:column>
-        				<w2:column dataType="text" id="travelPlaceId" name="장소 id"></w2:column>
-        			</w2:columnInfo>
+        				
+        				
+        				
+        			<w2:column dataType="text" id="travelPlaceId" name="장소 id"></w2:column></w2:columnInfo>
         		</w2:dataList>
         		<w2:dataMap baseNode="map" id="dma_deleteList">
         			<w2:keyInfo>
@@ -64,7 +67,22 @@
 	//장소 추가
 	scwin.btn_add_travelPlace_onclick = function(e) {
 		dlt_travelPlaceList.insertRow();
+		
+		var url = "/travelPlace_search_popup.xml";
+		var data = {"callbackFn" : "scwin.travelPlace_search_callback"};
+		var options = {
+			id : "addrPopup",
+			popupName : "주소 검색",
+			width : 800,
+			height : 520,
+		};
+		
+		com.win.openPopup(url, options, data);			
 	};
+	
+	scwin.travelPlace_search_callback = function(e) {
+		
+	}
 	
 	//선택 삭제
 	scwin.btn_del_onclick = function(e) {
@@ -154,8 +172,8 @@
 				return;
 			}
 		}
-		console.log(childLength);
-		console.log(parentLength);
+		//console.log(childLength);
+		//console.log(parentLength);
 		if (childLength + parentLength > 5) {
 			alert("최대 5개까지 등록 가능합니다.");
 			return;
@@ -194,7 +212,7 @@
     	<br></br><w2:textbox class="explain" style="width:500px;height:19px;float:right;" id="" label="장소 추가, 수정, 삭제 후 [변경사항 저장] 버튼을 클릭해야 변경내용이 반영됩니다."></w2:textbox>
     	<xf:group id="">
     		<xf:trigger ev:onclick="scwin.btn_add_travelPlace_onclick" style="margin-right: 10px;margin-left: 5px;" id="btn_add_travelPlace" type="button">
-    			<xf:label><![CDATA[+장소추가]]></xf:label>
+    			<xf:label><![CDATA[ +장소추가 ]]></xf:label>
     		</xf:trigger>
     		<xf:trigger ev:onclick="scwin.btn_del_onclick" style="" id="trigger23" type="button">
     			<xf:label><![CDATA[ -선택삭제 ]]></xf:label>
@@ -214,6 +232,12 @@
     				<w2:column width="70" id="column14" value="장소" style="height:32px;"></w2:column>
     				<w2:column width="70" id="column15" value="등록일시" style="height:32px;"></w2:column>
     				<w2:column width="70" id="column16" value="등록자" style="height:32px;"></w2:column>
+    				<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:32px;" id="column30" value="주소"
+    					blockSelect="false" displayMode="label">
+    				</w2:column>
+    				<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:32px;" id="column28" value="상세주소"
+    					blockSelect="false" displayMode="label">
+    				</w2:column>
     				<w2:column width="70" id="column17" value="수정일시" style="height:32px;"></w2:column>
     				<w2:column width="70" id="column18" value="수정자" style="height:32px;"></w2:column>
     				<w2:column width="70" id="column19" value="장소 id" style="height:32px;" hidden="true"></w2:column>
@@ -228,6 +252,8 @@
     				<w2:column width="70" id="travelPlaceName"></w2:column>
     				<w2:column width="70" id="createdAt" inputType="calendar" calendarValueType="yearMonthDateTimeSec" readOnly="true"></w2:column>
     				<w2:column width="70" id="createdBy" readOnly="true"></w2:column>
+    				<w2:column width="70" id="addr" readOnly="true"></w2:column>
+    				<w2:column width="70" id="detailAddr"></w2:column>
     				<w2:column width="70" id="updatedAt" inputType="calendar" calendarValueType="yearMonthDateTimeSec" readOnly="true"></w2:column>
     				<w2:column width="70" id="updatedBy" readOnly="true"></w2:column>
     				<w2:column width="70" id="travelPlaceId" readOnly="true"></w2:column>
@@ -236,15 +262,15 @@
     	</w2:gridView>
     	<br></br>
     	<xf:group id="" style="text-align:right;">
-    		<xf:trigger id="btn_save" style="width:94px;height:23px;margin-right: 10px" type="button" ev:onclick="scwin.btn_save_onclick" class="purple-button">
+    		<xf:trigger id="btn_save" style="margin-right: 10px;" type="button" ev:onclick="scwin.btn_save_onclick" class="purple-button">
     			<xf:label><![CDATA[ 변경사항 저장 ]]></xf:label>
     		</xf:trigger>
-    		<xf:trigger id="btn_reg" style="width: 80px;height: 23px;margin-right: 10px;" type="button" class="purple-button"
+    		<xf:trigger id="btn_reg" style="margin-right: 10px;" type="button" class="purple-button"
     			ev:onclick="scwin.btn_reg_onclick">
-    			<xf:label><![CDATA[등록]]></xf:label>
+    			<xf:label><![CDATA[ 등록 ]]></xf:label>
     		</xf:trigger>
     		<xf:trigger class="btn_df" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel"
-    			style="width: 80px;height: 23px;margin-right: 10px;" type="button">
+    			style="margin-right: 10px;" type="button">
     			<xf:label><![CDATA[ 닫기 ]]></xf:label>
     		</xf:trigger>
     	</xf:group>

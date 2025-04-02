@@ -11,6 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TravelPlaceListDto {
     private String travelPlaceName;
+    private String addr;
+    private String detailAddr;
     private String createdAt;
     private String createdBy;
     private String updatedAt;
