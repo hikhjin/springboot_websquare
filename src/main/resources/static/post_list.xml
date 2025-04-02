@@ -378,7 +378,6 @@ scwin.onpageunload = function() {
 			console.log(sendUrl);
 		try{
 			$p.download(sendUrl);
-			console.log("sdfa");
 		} catch(e) {
 			concole.log(e);
 		}

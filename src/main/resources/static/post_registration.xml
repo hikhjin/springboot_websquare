@@ -499,7 +499,7 @@ scwin.onpageload = function() {
 			popupName : "게시글 미리보기",
 			modal : true,
 			width : 800,
-			height: 630,
+			height: 590,
 			type : "wframePopup",
 			dataObject: data
 		};
