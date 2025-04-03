@@ -299,7 +299,7 @@
     				<w2:column width="70" id="createdBy" readOnly="true"></w2:column>
     				<w2:column width="70" id="updatedAt" inputType="calendar" calendarValueType="yearMonthDateTimeSec" readOnly="true"></w2:column>
     				<w2:column width="70" id="updatedBy" readOnly="true"></w2:column>
-    				<w2:column width="70" id="travelPlaceId" readOnly="true"></w2:column>
+    				<w2:column width="70" id="travelPlaceId" readOnly="true" hidden="true"></w2:column>
     			</w2:row>
     		</w2:gBody>
     	</w2:gridView>

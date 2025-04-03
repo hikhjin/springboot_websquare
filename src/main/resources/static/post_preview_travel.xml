@@ -56,11 +56,13 @@
         			<w2:columnInfo>
         				<w2:column dataType="text" id="check" name="체크여부"></w2:column>
         				<w2:column dataType="text" id="travelPlaceName" name="장소"></w2:column>
-        				<w2:column dataType="text" id="createdAt" name="등록일시"></w2:column>
+        				<w2:column id="addr" name="name8" dataType="text"></w2:column><w2:column id="detailAddr" name="name9" dataType="text"></w2:column><w2:column dataType="text" id="createdAt" name="등록일시"></w2:column>
         				<w2:column dataType="text" id="createdBy" name="등록자"></w2:column>
         				<w2:column dataType="text" id="updatedAt" name="수정일시"></w2:column>
         				<w2:column dataType="text" id="updatedBy" name="수정자"></w2:column>
         				<w2:column dataType="text" id="travelPlaceId" name="장소 id"></w2:column>
+        				
+        				
         			</w2:columnInfo>
         		</w2:dataList>
         	</w2:dataCollection>
@@ -318,6 +320,8 @@ scwin.onpageload = function() {
     										removeBorderStyle="false" style="height:32px;" value="번호" width="33">
     									</w2:column>
     									<w2:column width="70" style="height:32px;" id="column14" value="장소"></w2:column>
+    									<w2:column width="70" style="height:32px;" id="column19" value="주소"></w2:column>
+    									<w2:column width="70" style="height:32px;" id="column120" value="상세주소"></w2:column>
     									<w2:column width="70" style="height:32px;" id="column15" value="등록일시"></w2:column>
     									<w2:column width="70" style="height:32px;" id="column16" value="등록자"></w2:column>
     									<w2:column width="70" style="height:32px;" id="column17" value="수정일시" hidden="true"></w2:column>
@@ -332,6 +336,8 @@ scwin.onpageload = function() {
     										inputType="text" removeBorderStyle="false" style="height:32px" value="" width="33">
     									</w2:column>
     									<w2:column width="70" id="travelPlaceName"></w2:column>
+    									<w2:column width="70" id="addr"></w2:column>
+    									<w2:column width="70" id="detailAddr"></w2:column>
     									<w2:column width="70" inputType="calendar" readOnly="true" id="createdAt"
     										calendarValueType="yearMonthDateTimeSec">
     									</w2:column>
