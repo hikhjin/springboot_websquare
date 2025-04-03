@@ -115,7 +115,7 @@
 	scwin.grd_main_oncelldblclick = function(row,col) {
 		console.log(row);
 		var addr = "";
-		if (col === 5) { // 장소 컬럼 클릭했을 경우만
+		if (col === 3) { // 주소 컬럼 클릭했을 경우만
 			scwin.addrPopup(row);
 		}
 	};
@@ -259,7 +259,8 @@
     	<br></br>
 
     	<w2:gridView id="grd_main" style="height:98px;" scrollByColumn="false" defaultCellHeight="32" scrollByColumnAdaptive="false"
-    		dataList="data:dlt_travelPlaceList" autoFit="allColumn" rowNumVisible="false" visibleRowNum="all" sortable="true" focusMode="row" ev:oncelldblclick="scwin.grd_main_oncelldblclick">
+    		dataList="data:dlt_travelPlaceList" autoFit="allColumn" rowNumVisible="false" visibleRowNum="all" sortable="true" focusMode="row"
+    		ev:oncelldblclick="scwin.grd_main_oncelldblclick">
     		<w2:caption style="" id="caption1" value="this is a grid caption."></w2:caption>
     		<w2:header style="" id="header1">
     			<w2:row style="" id="row1">
@@ -268,14 +269,9 @@
     					blockSelect="false" displayMode="label">
     				</w2:column>
     				<w2:column width="70" id="column14" value="장소" style="height:32px;"></w2:column>
-    				<w2:column width="70" id="column15" value="등록일시" style="height:32px;"></w2:column>
+    				<w2:column width="70" id="column15" value="주소" style="height:32px;"></w2:column>
+    				<w2:column width="70" id="column15" value="상세주소" style="height:32px;"></w2:column>
     				<w2:column width="70" id="column16" value="등록자" style="height:32px;"></w2:column>
-    				<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:32px;" id="column30" value="주소"
-    					blockSelect="false" displayMode="label">
-    				</w2:column>
-    				<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:32px;" id="column28" value="상세주소"
-    					blockSelect="false" displayMode="label">
-    				</w2:column>
     				<w2:column width="70" id="column17" value="수정일시" style="height:32px;"></w2:column>
     				<w2:column width="70" id="column18" value="수정자" style="height:32px;"></w2:column>
     				<w2:column width="70" id="column19" value="장소 id" style="height:32px;" hidden="true"></w2:column>
@@ -288,10 +284,10 @@
     					blockSelect="false" displayMode="label" customFormatter="scwin.gridNoFormat">
     				</w2:column>
     				<w2:column width="70" id="travelPlaceName"></w2:column>
-    				<w2:column width="70" id="createdAt" inputType="calendar" calendarValueType="yearMonthDateTimeSec" readOnly="true"></w2:column>
-    				<w2:column width="70" id="createdBy" readOnly="true"></w2:column>
     				<w2:column width="70" id="addr" readOnly="true"></w2:column>
     				<w2:column width="70" id="detailAddr"></w2:column>
+    				<w2:column width="70" id="createdAt" inputType="calendar" calendarValueType="yearMonthDateTimeSec" readOnly="true"></w2:column>
+    				<w2:column width="70" id="createdBy" readOnly="true"></w2:column>
     				<w2:column width="70" id="updatedAt" inputType="calendar" calendarValueType="yearMonthDateTimeSec" readOnly="true"></w2:column>
     				<w2:column width="70" id="updatedBy" readOnly="true"></w2:column>
     				<w2:column width="70" id="travelPlaceId" readOnly="true"></w2:column>

@@ -76,11 +76,13 @@
         			<w2:columnInfo>
         				<w2:column dataType="text" id="check" name="체크여부"></w2:column>
         				<w2:column dataType="text" id="travelPlaceName" name="장소"></w2:column>
-        				<w2:column dataType="text" id="createdAt" name="등록일시"></w2:column>
+        				<w2:column id="addr" name="주소" dataType="text"></w2:column><w2:column id="detailAddr" name="상세주소" dataType="text"></w2:column><w2:column dataType="text" id="createdAt" name="등록일시"></w2:column>
         				<w2:column dataType="text" id="createdBy" name="등록자"></w2:column>
         				<w2:column dataType="text" id="updatedAt" name="수정일시"></w2:column>
         				<w2:column dataType="text" id="updatedBy" name="수정자"></w2:column>
         				<w2:column dataType="text" id="travelPlaceId" name="장소 id"></w2:column>
+        				
+        				
         			</w2:columnInfo>
         		</w2:dataList>
         	</w2:dataCollection>
@@ -329,6 +331,7 @@ scwin.onpageload = function() {
 	
 	scwin.travelPlace_popup_callBack = function(obj) {
 		for (var i = 0; i < obj.length; i++) {
+			console.log(obj[i]);
 			dlt_travelPlaceList.setRowJSON(i, obj[i]);
 			dlt_travelPlaceList.setCellData(i, "check", "0");
 		}
@@ -808,17 +811,19 @@ scwin.onpageload = function() {
     						</xf:trigger>
     						<w2:textbox class="explain" id="textbox16" label="최대 5개" style="margin-right: 10px;" tagname="span"></w2:textbox>
     						<w2:gridView autoFit="allColumn" dataList="data:dlt_travelPlaceList" defaultCellHeight="32" focusMode="row"
-    							id="grd_main" rowNumVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true" style="height:98px;margin-top: 10px;"
-    							visibleRowNum="all">
+    							id="grd_main" rowNumVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true"
+    							style="height:98px;margin-top: 10px;" visibleRowNum="all">
     							<w2:caption id="caption1" style="" value="this is a grid caption."></w2:caption>
     							<w2:header id="header1" style="">
     								<w2:row id="row1" style="">
-    									<w2:column id="column13" inputType="checkbox" style="height:32px;" value="체크여부" width="47"></w2:column>
+    									<w2:column id="column13" inputType="checkbox" style="height:32px;" value="체크여부" width="16"></w2:column>
     									<w2:column blockSelect="false" displayMode="label" id="column27" inputType="text"
-    										removeBorderStyle="false" style="height:32px;" value="번호" width="46">
+    										removeBorderStyle="false" style="height:32px;" value="번호" width="16">
     									</w2:column>
-    									<w2:column id="column14" style="height:32px;" value="장소" width="70"></w2:column>
-    									<w2:column id="column15" style="height:32px;" value="등록일시" width="70"></w2:column>
+    									<w2:column id="column14" style="height:32px;" value="장소" width="56"></w2:column>
+    									<w2:column id="column15" style="height:32px;" value="주소" width="94"></w2:column>
+    									<w2:column id="column20" style="height:32px;" value="상세주소" width="70"></w2:column>
+    									<w2:column id="column21" style="height:32px;" value="등록일시" width="70"></w2:column>
     									<w2:column id="column16" style="height:32px;" value="등록자" width="70"></w2:column>
     									<w2:column id="column17" style="height:32px;" value="수정일시" width="70"></w2:column>
     									<w2:column id="column18" style="height:32px;" value="수정자" width="70"></w2:column>
@@ -827,11 +832,17 @@ scwin.onpageload = function() {
     							</w2:header>
     							<w2:gBody id="gBody1" style="">
     								<w2:row id="row2" style="">
-    									<w2:column id="check" inputType="checkbox" width="47"></w2:column>
+    									<w2:column id="check" inputType="checkbox" width="16"></w2:column>
     									<w2:column blockSelect="false" customFormatter="scwin.gridNoFormat" displayMode="label" id="rowNo"
-    										inputType="text" removeBorderStyle="false" style="height:32px" value="" width="46">
+    										inputType="text" removeBorderStyle="false" style="height:32px" value="" width="16">
     									</w2:column>
-    									<w2:column id="travelPlaceName" width="70"></w2:column>
+    									<w2:column id="travelPlaceName" width="56"></w2:column>
+    									<w2:column removeBorderStyle="false" width="94" inputType="text" style="height:32px" id="addr"
+    										value="" blockSelect="false" displayMode="label">
+    									</w2:column>
+    									<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:32px" id="detailAddr"
+    										value="" blockSelect="false" displayMode="label">
+    									</w2:column>
     									<w2:column calendarValueType="yearMonthDateTimeSec" id="createdAt" inputType="calendar"
     										readOnly="true" width="70">
     									</w2:column>
