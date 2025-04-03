@@ -140,8 +140,17 @@ scwin.onpageload = function() {
 	
 	// 전시일 체크
 	scwin.checkDate = function() {
-		var start = startDate.getValue();
+		var start = startDate.getValue(); //yyyyMMddHHmmss
     	var end = endDate.getValue();
+    	var syear = parseInt(start.substring(2, 4), 10);
+		var smonth = parseInt(start.substring(4, 6), 10);
+		var sday = parseInt(start.substring(6, 8), 10);
+		var eyear = parseInt(end.substring(2, 4), 10);
+		var emonth = parseInt(end.substring(4, 6), 10);
+		var eday = parseInt(end.substring(6, 8), 10);
+		
+//		console.log("smonth: " + smonth);
+//		console.log("sday: " + sday);
     	
     	if ((start !== "" && end === "")) {
     		alert("검색 종료일시를 입력해주십시오.");
@@ -152,6 +161,37 @@ scwin.onpageload = function() {
     		alert("검색 시작일시를 입력해주십시오.");
 	    	return true;
 	    }
+	    
+	    // 날짜 유효성 체크
+	    if (smonth < 1 || smonth > 12 || emonth < 1 || emonth > 12) {
+			alert("존재하지 않는 월을 입력하셨습니다.");
+			return true;
+		}
+	
+		if (sday < 1 || sday > 31 || eday < 1 || eday > 31) {
+			alert("존재하지 않는 일을 입력하셨습니다.");
+			return true;
+		}
+	
+		 //30일 이하만 있는 달
+		if (((smonth === 4 || smonth === 6 || smonth === 9 || smonth === 11) && sday === 31)
+				|| ((emonth === 4 || emonth === 6 || emonth === 9 || emonth === 11) && eday === 31)) {
+			alert("해당 월에는 31일이 존재하지 않습니다.");
+			return true;
+		}
+	
+		 //윤년 확인
+		if (smonth === 2) {
+			if (scwin.is_leap(syear, sday)) {
+				return true;
+			}
+		}
+		
+		if (emonth === 2) {
+			if (scwin.is_leap(eyear, eday)) {
+				return true;
+			}
+		}
 
 		if (start > end) {
 	        alert("전시 시작일이 종료일보다 클 수 없습니다.");
@@ -159,6 +199,15 @@ scwin.onpageload = function() {
     	}
 
     	return false;
+	}
+	
+	// 윤년 확인
+	scwin.is_leap = function(year, day) {
+		var isLeap = (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0));
+			if (day > 29 || (day === 29 && !isLeap)) {
+				alert("해당연도 2월에는 입력하신 일이 존재하지 않습니다.");
+				return true;
+			}
 	}
 	
 	// 카테고리 1d 변경될 때마다 2d 조회

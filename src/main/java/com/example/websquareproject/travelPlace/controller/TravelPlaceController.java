@@ -69,7 +69,7 @@ public class TravelPlaceController {
             if (firstSort != null) apiUrl.append("&firstSort=").append(firstSort);
 
             URL url = new URL(apiUrl.toString());
-            System.out.println(url);
+            //System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
