@@ -160,10 +160,16 @@
 	
 	scwin.btn_save_onclick = function(e) {
 		var modifiedList = dlt_travelPlaceList.getModifiedIndex();
+		var isDelete = false;
 		console.log(modifiedList);
 		
 	    for (var i = 0; i < modifiedList.length; i++) {
 	        var travelPlaceName = dlt_travelPlaceList.getCellData(modifiedList[i], "travelPlaceName");
+	        
+	        if (dlt_travelPlaceList.getRowStatus(modifiedList[i]) === "D") {
+		        isDelete = true;
+		       }
+		       
 	        // travelPlaceName 값이 문자열 형태가 아닐 경우
 	        if (/^\d+$/.test(travelPlaceName)) {
 	            alert("장소 이름은 문자열 형태여야 합니다.");
@@ -184,7 +190,10 @@
 		       
 	        dlt_travelPlaceList.setCellData(modifiedList[i], "updatedBy", "hikhjin");
 	    }
-	    $p.executeSubmission("sbm_deleteTravelPlaceList");
+	    
+	    if (isDelete) {
+		    com.sbm.execute(sbm_deleteTravelPlaceList);
+		   }
 	    $p.executeSubmission("sbm_updateTravelPlaceList");
 	    $p.executeSubmission("sbm_travelPlaceList");
 	};

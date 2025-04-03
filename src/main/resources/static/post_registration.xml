@@ -376,6 +376,28 @@ scwin.onpageload = function() {
                 };
                 
 		$p.openPopup(url, options, data);
+		
+		var url = "";
+		
+		var rowJSON = {
+		  "title": newTitle
+		};
+		
+		var data = {
+				"type": "json",
+				  "name": "param",
+				  "data": rowJSON
+                };
+		
+		requires("uiplugin.popup");
+		var options = {
+			id : "previewPost",
+			popupName : "게시글 미리보기",
+			modal : true,
+			width : 800,
+			height: 590,
+			type : "wframePopup",
+			dataObject: data
 	};
 	
 	scwin.travelPlace_popup_callBack = function(obj) {
