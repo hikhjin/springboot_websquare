@@ -43,6 +43,8 @@
         <script type="text/javascript" lazy="false"><![CDATA[
         
 	scwin.onpageload = function() {
+		grd_main.hide();
+		pgl_pageList.hide();
 	};
 	
 	scwin.onpageunload = function() {
@@ -70,6 +72,8 @@
 		dma_search.set("currentPage", pageNo);
 		dma_search.set("keyword", keyword.getValue());
 		com.sbm.execute(sbm_addrList);
+		grd_main.show();
+		pgl_pageList.show();
 		
 	};
 	
@@ -91,7 +95,17 @@
 	//페이징 처리
 	scwin.pgl_pageList_onviewchange = function(info) {
 		scwin.fn_search(info.newSelectedIndex);
-	};]]></script>
+	};
+	
+	scwin.grd_main_oncellclick = function(row,col) {
+		console.log(dlt_addrList.getCellData(row, col-1));
+		var addr = dlt_addrList.getCellData(row, col-1);
+		var row = $p.getParameter("param")["row"];
+		console.log("row: " + row);
+		$p.parent().dlt_travelPlaceList.setCellData(row, "addr", addr);
+		$p.parent().$p.closePopup("addrPopup");
+	};
+	]]></script>
     </head>
     <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
     	<xf:group class="search_area" id="grp_srchBox" style="">
@@ -121,6 +135,11 @@
     							<w2:colspan>4</w2:colspan>
     							<w2:rowspan>1</w2:rowspan>
     						</w2:attributes>
+
+
+
+    						<w2:textbox class="explain" id="" label="예시 : 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)" style="width:424px;height:19px;">
+    						</w2:textbox>
     						<xf:select selectedindex="-1" id="" appearance="full" style="width: 148px;height: 21px;" cols="" rows=""
     							ref="data:dma_search.hstryYn">
     							<xf:choices>
@@ -130,9 +149,9 @@
     								</xf:item>
     							</xf:choices>
     						</xf:select>
-    						<xf:input adjustMaxLength="false" id="keyword" maxlength="" ref="data:dma_search.keyword"
-    							style="width: 98%;">
+    						<xf:input adjustMaxLength="false" id="keyword" maxlength="" ref="data:dma_search.keyword" style="width: 98%;">
     						</xf:input>
+
     					</xf:group>
     				</xf:group>
     			</xf:group>
@@ -175,26 +194,26 @@
     	<br></br>
     	<w2:gridView autoFit="allColumn" dataList="data:dlt_addrList" defaultCellHeight="32" focusMode="row" id="grd_main"
     		rowNumVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true" style="height:98px;" visibleRowNum="all"
-    		rowStatusHeaderValue="" rowNumHeaderValue="" rowNumBackgroundColor="">
+    		rowStatusHeaderValue="" rowNumHeaderValue="" rowNumBackgroundColor="" ev:oncellclick="scwin.grd_main_oncellclick">
     		<w2:caption id="caption1" style="" value="this is a grid caption."></w2:caption>
     		<w2:header id="header1" style="">
     			<w2:row id="row1" style="">
-    				<w2:column removeBorderStyle="false" width="51" inputType="text" style="height:32px;" id="column20" value="번호"
+    				<w2:column removeBorderStyle="false" width="43" inputType="text" style="height:20px;" id="column20" value="번호"
     					blockSelect="false" displayMode="label">
     				</w2:column>
     				<w2:column width="178" style="height:32px;" id="column14" value="도로명주소"></w2:column>
     				<w2:column width="179" style="height:32px;" id="column16" value="지번주소"></w2:column>
-    				<w2:column width="70" style="height:32px;" id="column19" value="우편번호"></w2:column>
+    				<w2:column width="53" style="height:25px;" id="column19" value="우편번호"></w2:column>
     			</w2:row>
     		</w2:header>
     		<w2:gBody id="gBody1" style="">
     			<w2:row id="row2" style="">
-    				<w2:column removeBorderStyle="false" width="51" inputType="text" style="height:32px" id="rowNum" value=""
+    				<w2:column removeBorderStyle="false" width="43" inputType="text" style="" id="rowNum" value=""
     					blockSelect="false" displayMode="label" customFormatter="scwin.gridNoFormat">
     				</w2:column>
     				<w2:column width="178" id="roadAddr" readOnly="true"></w2:column>
     				<w2:column width="179" readOnly="true" id="jibunAddr"></w2:column>
-    				<w2:column width="70" readOnly="true" id="zipNo"></w2:column>
+    				<w2:column width="53" readOnly="true" id="zipNo"></w2:column>
     			</w2:row>
     		</w2:gBody>
     	</w2:gridView>

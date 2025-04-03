@@ -64,25 +64,61 @@
     	return rowIdx+1;
 	};
 	
-	//장소 추가
-	scwin.btn_add_travelPlace_onclick = function(e) {
-		dlt_travelPlaceList.insertRow();
-		
+	// 주소 팝업 띄우기
+	scwin.addrPopup = function(row) {
 		var url = "/travelPlace_search_popup.xml";
-		var data = {"callbackFn" : "scwin.travelPlace_search_callback"};
+//		var data = {"callbackFn" : "scwin.travelPlace_search_callback"};
+//		var options = {
+//			id : "addrPopup",
+//			popupName : "주소 검색",
+//			width : 800,
+//			height : 540,
+//		};
+//		
+//		com.win.openPopup(url, options, data);
+
+		var rowJSON = {
+//		  "src": "/travelPlace_search_popup.xml",
+		  "row": row
+//		  "callbackFn": "btn_DeleteFile_callBack"
+		};
+		
+		var data = {
+				"type": "json",
+				  "name": "param",
+				  "data": rowJSON
+                };
+                
+        requires("uiplugin.popup");
 		var options = {
 			id : "addrPopup",
 			popupName : "주소 검색",
+			modal : true,
 			width : 800,
-			height : 520,
+			height: 540,
+			type : "wframePopup",
+			dataObject: data
 		};
-		
-		com.win.openPopup(url, options, data);			
+                
+		$p.openPopup(url, options, data);
 	};
 	
-	scwin.travelPlace_search_callback = function(e) {
-		
-	}
+	//장소 추가
+	scwin.btn_add_travelPlace_onclick = function(e) {
+		dlt_travelPlaceList.insertRow();
+		var row = dlt_travelPlaceList.getRowCount()-1;
+		console.log("new row: " + row);
+		scwin.addrPopup(row);
+	};
+	
+	// 셀 더블 클릭 시 주소 팝업
+	scwin.grd_main_oncelldblclick = function(row,col) {
+		console.log(row);
+		var addr = "";
+		if (col === 5) { // 장소 컬럼 클릭했을 경우만
+			scwin.addrPopup(row);
+		}
+	};
 	
 	//선택 삭제
 	scwin.btn_del_onclick = function(e) {
@@ -125,11 +161,7 @@
 	scwin.btn_save_onclick = function(e) {
 		var modifiedList = dlt_travelPlaceList.getModifiedIndex();
 		console.log(modifiedList);
-		//if (modifiedList.length < 1) {
-		    //alert("변경할 내용이 없습니다.");
-		    //return;
-		//}
-
+		
 	    for (var i = 0; i < modifiedList.length; i++) {
 	        var travelPlaceName = dlt_travelPlaceList.getCellData(modifiedList[i], "travelPlaceName");
 	        // travelPlaceName 값이 문자열 형태가 아닐 경우
@@ -143,6 +175,12 @@
 		        alert("장소 이름을 작성해주세요.");
 		        return;
 		       }
+		       
+		    // 주소 칸이 비어있는지 확인
+		    if (dlt_travelPlaceList.getCellData(modifiedList[i], "addr") === "") {
+			    alert("주소 입력은 필수입니다.");
+			    return;
+			   }
 		       
 	        dlt_travelPlaceList.setCellData(modifiedList[i], "updatedBy", "hikhjin");
 	    }
@@ -221,7 +259,7 @@
     	<br></br>
 
     	<w2:gridView id="grd_main" style="height:98px;" scrollByColumn="false" defaultCellHeight="32" scrollByColumnAdaptive="false"
-    		dataList="data:dlt_travelPlaceList" autoFit="allColumn" rowNumVisible="false" visibleRowNum="all" sortable="true" focusMode="row">
+    		dataList="data:dlt_travelPlaceList" autoFit="allColumn" rowNumVisible="false" visibleRowNum="all" sortable="true" focusMode="row" ev:oncelldblclick="scwin.grd_main_oncelldblclick">
     		<w2:caption style="" id="caption1" value="this is a grid caption."></w2:caption>
     		<w2:header style="" id="header1">
     			<w2:row style="" id="row1">
