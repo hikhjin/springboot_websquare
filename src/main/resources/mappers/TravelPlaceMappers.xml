@@ -11,13 +11,13 @@
             WHEN #{travelPlace.travelPlaceId} THEN #{travelPlace.travelPlaceName}
         </foreach>
         END,
-        SET addr =
+        addr =
         CASE travel_place_id
         <foreach collection="travelPlaceListDto" item="travelPlace">
             WHEN #{travelPlace.travelPlaceId} THEN #{travelPlace.addr}
         </foreach>
         END,
-        SET detail_addr =
+        detail_addr =
         CASE travel_place_id
         <foreach collection="travelPlaceListDto" item="travelPlace">
             WHEN #{travelPlace.travelPlaceId} THEN #{travelPlace.detailAddr}
@@ -40,7 +40,7 @@
         INSERT INTO TRAVEL_PLACE (travel_place_name, addr, detail_addr, created_by, updated_by)
         VALUES
         <foreach collection="travelPlaceListDto" item="travelPlace" separator=",">
-            (#{travelPlace.travelPlaceName}, #{travelPlace.addr}, #{travelPlace.detailAddr} #{travelPlace.createdBy}, #{travelPlace.updatedBy})
+            (#{travelPlace.travelPlaceName}, #{travelPlace.addr}, #{travelPlace.detailAddr}, #{travelPlace.createdBy}, #{travelPlace.updatedBy})
         </foreach>
     </insert>
 
