@@ -214,12 +214,16 @@ public class PostService {
                 postFormDto.getTravelPlace5()
         );
 
-        for (Integer travelPlaceId : travelPlaces) {
-            if (travelPlaceId != 0) {
-                System.out.println("travelPlaceId: "+ travelPlaceId);
-                postMapper.insertPostTravelPlace(postId, travelPlaceId);
-            }
-        }
+//        for (Integer travelPlaceId : travelPlaces) {
+//            if (travelPlaceId != 0) {
+//                System.out.println("travelPlaceId: "+ travelPlaceId);
+//                postMapper.insertPostTravelPlace(postId, travelPlaceId);
+//            }
+//        }
+        travelPlaces.stream()
+                .filter(id -> id != 0)
+                .forEach(id -> postMapper.insertPostTravelPlace(postId, id));
+
     }
 
     private void saveSourceMedia(int postId, PostFormDto postFormDto) {
@@ -227,11 +231,16 @@ public class PostService {
                 postFormDto.getSourceMedia1(), postFormDto.getSourceMedia2(), postFormDto.getSourceMedia3()
         );
 
-        for (String media : sourceMedia) {
-            if (media != null && !media.trim().isEmpty()) {
-                postMapper.insertSourceMedia(postId, media);
-            }
-        }
+//        for (String media : sourceMedia) {
+//            if (media != null && !media.trim().isEmpty()) {
+//                postMapper.insertSourceMedia(postId, media);
+//            }
+//        }
+
+        sourceMedia.stream()
+                .filter(media -> media != null && !media.trim().isEmpty())
+                .forEach(media -> postMapper.insertSourceMedia(postId, media));
+
     }
 
     private boolean isChildCategory(int categoryId, int parentId) {
