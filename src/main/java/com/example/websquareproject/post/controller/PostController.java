@@ -69,10 +69,10 @@ public class PostController {
                               @RequestParam(required = false) String endDate,
                               @RequestParam(required = false) String isDisplayed,
                               @RequestParam(required = false) String searchType,
-                              @RequestParam(required = false) String keyword) {
+                              @RequestParam(required = false) String keyword,
+                              @RequestParam(required = false) String reqImg) {
         postService.getExcelFile(
-                category1, category2, periodType, startDate, endDate, isDisplayed, searchType, keyword, response
-        );
+                category1, category2, periodType, startDate, endDate, isDisplayed, searchType, keyword, reqImg, response);
     }
 
 }

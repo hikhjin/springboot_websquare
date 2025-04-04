@@ -16,6 +16,7 @@ public class PostParam {
     private String isDisplayed;
     private String searchType;
     private String keyword;
+    private String reqImg; // 사진 포함 여부 (액셀 다운로드용)
     private Integer size;
     private Integer page;
 }

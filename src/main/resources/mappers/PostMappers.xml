@@ -25,7 +25,7 @@
     </update>
 
 
-    <select id="getPosts" resultType="com.example.websquareproject.post.dto.PostListDto">
+    <select id="getPosts" resultType="com.example.websquareproject.post.dto.PostListDto" fetchSize="1000">
         SELECT
         p.post_id AS postId,
         p.display_order AS displayOrder,

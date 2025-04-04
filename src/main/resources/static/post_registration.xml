@@ -479,12 +479,12 @@ scwin.onpageload = function() {
 	// 이미지 미리보기
 	scwin.btn_prvImage_onclick = function(e) {
 		var targetId = this.getID();
-		//console.log(targetId);
+		console.log(targetId);
 		
 		var url = "/post_imgPopup.xml";
 		var path = "";
 		
-		if (targetId === "mf_btn_previewImgPc" || targetId === "mf_tabControl_contents_tab1_body_btn_previewImgPc") {
+		if (targetId.includes("btn_previewImgPc")) {
 			path = dma_postForm.get("pcImageUrl");
 		} else {
 			path = dma_postForm.get("mobileImageUrl");
@@ -519,7 +519,7 @@ scwin.onpageload = function() {
 	// 파일 삭제 콜백
 	scwin.btn_DeleteFile_callBack = function(targetId) {
 		//console.log("삭제할 타겟 ID는: " + targetId);
-	    if (targetId === "mf_btn_previewImgPc" || targetId === "mf_tabControl_contents_tab1_body_btn_previewImgPc") {
+	    if (targetId.includes("btn_previewImgPc")) {
 	        upd_singleFileUpload_pc.reset();
 	        $p.executeSubmission("sbm_deleteFilePc");
 	    } else {

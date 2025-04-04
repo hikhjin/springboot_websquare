@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFPicture;
@@ -57,9 +58,9 @@ public class PostService {
 
     public void getExcelFile(String category1, String category2, String periodType,
                                                             String startDate, String endDate, String isDisplayed,
-                                                            String searchType, String keyword, HttpServletResponse response) {
-        logger.info("getExcelFile() called with params: category1={}, category2={}, periodType={}, startDate={}, endDate={}",
-                category1, category2, periodType, startDate, endDate);
+                                                            String searchType, String keyword, String reqImg, HttpServletResponse response) {
+        logger.info("getExcelFile() called with params: category1={}, category2={}, periodType={}, startDate={}, endDate={}, reqImg={}",
+                category1, category2, periodType, startDate, endDate, reqImg);
 
         List<ExcelListDto> posts = postMapper.getExcelList(
                 safeParseInt(category1), safeParseInt(category2), periodType, startDate,
@@ -67,7 +68,14 @@ public class PostService {
 
         logger.info("Retrieved {} rows for Excel export", posts.size());
 
-        try (Workbook workbook = new XSSFWorkbook();) {
+        Workbook workbook = null;
+        System.out.println("reqImg: " + reqImg);
+        try {
+            if ("Y".equals(reqImg)) {
+                workbook = new XSSFWorkbook();
+            } else {
+                workbook = new SXSSFWorkbook();
+            }
             Sheet sheet = workbook.createSheet("Posts");
             createHeaderRow(sheet);
 
@@ -100,6 +108,7 @@ public class PostService {
                 row.createCell(20).setCellValue(post.getCreatedBy());
             }
 
+            System.out.println(workbook);
             logger.info("Excel file created successfully");
 
             response.setContentType("application/vnd.ms-excel");

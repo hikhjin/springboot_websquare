@@ -48,6 +48,7 @@
         				<w2:key id="keyword" name="키워드" dataType="text"></w2:key>
         				<w2:key id="size" name="게시글 개수" dataType="number"></w2:key>
         				<w2:key id="page" name="게시글 페이지" dataType="number"></w2:key>
+        				<w2:key id="reqImg" name="사진포함여부(액셀)" dataType="text"></w2:key>
         			</w2:keyInfo>
         		</w2:dataMap>
         		<w2:dataMap baseNode="map" id="dma_pageInfo">
@@ -332,12 +333,9 @@ scwin.onpageunload = function() {
 	
 	//엑셀 다운로드
 	scwin.btn_excelDown_onclick = function(e) {
-		console.log("dd");
 		var isExistParam = 0;
 		
-			var url = "http://localhost:8080";
-		
-			var sendUrl = url;
+			var sendUrl = "http://localhost:8080";
 		    sendUrl += "/post/excel?";
 		    if (dma_postParam.get('category1') != '') {
 				sendUrl += "category1=" + dma_postParam.get('category1');
@@ -369,6 +367,10 @@ scwin.onpageunload = function() {
 			}
 			if (dma_postParam.get('keyword') != '') {
 				sendUrl += "&keyword=" + dma_postParam.get('keyword');
+				isExistParam = 1;
+			}
+			if (dma_postParam.get('reqImg') != '') {
+				sendUrl += "&reqImg=" + dma_postParam.get('reqImg');
 				isExistParam = 1;
 			}
 			
@@ -461,45 +463,45 @@ scwin.onpageunload = function() {
 	};
 	]]></script>
     </head>
-    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload" style="overflow-x: hidden;}">
     	
-    	<w2:tabControl alwaysDraw="false" class="wq_tbc" confirmFalseAction="new" confirmTrueAction="exist" id="tabControl" style=""
-    		useConfirmMessage="false" useMoveNextTabFocus="false" useTabKeyOnly="true">
+    	
+    <xf:group id=""><w2:tabControl confirmTrueAction="exist" confirmFalseAction="new" useTabKeyOnly="true" useMoveNextTabFocus="false" useConfirmMessage="false" alwaysDraw="false" style="overflow-x: hidden;" id="tabControl" class="wq_tbc">
     		<w2:tabs disabled="false" style="width:91px;height:30px;" id="tabs2" label="게시글 목록"></w2:tabs>
-    		<w2:content alwaysDraw="false" style="" id="content2"><w2:textbox id="" label="게시글 목록" style="" tagname="h3" class="title"></w2:textbox><xf:group class="sub_wrapper" id="" style="">
-    		<w2:wframe class="page_header" id="" scope="true" src="../../../common/xml/wf_titleFav.xml" style=""></w2:wframe>
-    		<xf:group class="page_contents" id="">
-    			<xf:group class="dfbox1" id=""></xf:group>
-    			<xf:group class="page_contents_inner" id="" style="">
-    				<xf:group class="search_box" id="" style="">
-    					<xf:group class="search_area" id="grp_srchBox" style="">
-    						<xf:group class="search_tbl" id="" style="">
-    							<xf:group class="w2tb tb" id="" style="" tagname="table">
+    		<w2:content alwaysDraw="false" style="" id="content2"><w2:textbox tagname="h3" style="" id="" label="게시글 목록" class="title"></w2:textbox><xf:group style="" id="" class="sub_wrapper">
+    		<w2:wframe src="../../../common/xml/wf_titleFav.xml" scope="true" style="" id="" class="page_header"></w2:wframe>
+    		<xf:group id="" class="page_contents">
+    			<xf:group id="" class="dfbox1"></xf:group>
+    			<xf:group style="" id="" class="page_contents_inner">
+    				<xf:group style="" id="" class="search_box">
+    					<xf:group style="" id="grp_srchBox" class="search_area">
+    						<xf:group style="" id="" class="search_tbl">
+    							<xf:group tagname="table" style="" id="" class="w2tb tb">
     								<w2:attributes>
     									<w2:summary></w2:summary>
     								</w2:attributes>
     								<xf:group tagname="caption">디테일&amp;nbsp;테이블(2단)</xf:group>
     								<xf:group tagname="colgroup">
-    									<xf:group style="width:100px;" tagname="col"></xf:group>
-    									<xf:group style="" tagname="col"></xf:group>
-    									<xf:group style="width:100px;" tagname="col"></xf:group>
-    									<xf:group style="width:100px;" tagname="col"></xf:group>
+    									<xf:group tagname="col" style="width:100px;"></xf:group>
+    									<xf:group tagname="col" style=""></xf:group>
+    									<xf:group tagname="col" style="width:100px;"></xf:group>
+    									<xf:group tagname="col" style="width:100px;"></xf:group>
     									<xf:group tagname="col"></xf:group>
-    									<xf:group style="" tagname="col"></xf:group>
+    									<xf:group tagname="col" style=""></xf:group>
     								</xf:group>
     								<xf:group tagname="tr" style="height:50%;">
-    									<xf:group class="w2tb_th" tagname="th">
+    									<xf:group tagname="th" class="w2tb_th">
     										<w2:attributes>
     											<w2:scope>row</w2:scope>
     										</w2:attributes>
-    										<w2:textbox class="" id="" label="카테고리 1d" style="" tagname="label"></w2:textbox>
+    										<w2:textbox tagname="label" style="" id="" label="카테고리 1d" class=""></w2:textbox>
     									</xf:group>
-    									<xf:group class="w2tb_td" tagname="td" style="" tooltipTime="">
+    									<xf:group tagname="td" tooltipTime="" style="" class="w2tb_td">
     										<w2:attributes>
     											<w2:colspan>2</w2:colspan>
     											<w2:rowspan>1</w2:rowspan>
     										</w2:attributes>
-    										<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="전체" class="" direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="parentId" ref="data:dma_parentCategory.parentId" style="" submenuSize="auto" ev:onviewchange="scwin.type_onviewchange" ev:onchange="scwin.parentId_onchange">
+    										<xf:select1 chooseOptionLabel="전체" submenuSize="auto" ev:onchange="scwin.parentId_onchange" chooseOption="true" allOption="" ref="data:dma_parentCategory.parentId" appearance="minimal" disabledClass="w2selectbox_disabled" ev:onviewchange="scwin.type_onviewchange" disabled="false" style="" id="parentId" class="" direction="auto">
     											<xf:choices>
     												<xf:itemset nodeset="data:dlt_categoryList1d">
     													<xf:label ref="categoryName"></xf:label>
@@ -508,20 +510,20 @@ scwin.onpageunload = function() {
     											</xf:choices>
     										</xf:select1>
     									</xf:group>
-    									<xf:group class="w2tb_th" tagname="th">
+    									<xf:group tagname="th" class="w2tb_th">
     										<w2:attributes>
     											<w2:scope>row</w2:scope>
     											<w2:colspan>1</w2:colspan>
     											<w2:rowspan>1</w2:rowspan>
     										</w2:attributes>
-    										<w2:textbox class="" id="" label="카테고리 2d" style="" tagname="label"></w2:textbox>
+    										<w2:textbox tagname="label" style="" id="" label="카테고리 2d" class=""></w2:textbox>
     									</xf:group>
-    									<xf:group class="w2tb_td" tagname="td" style="">
+    									<xf:group tagname="td" style="" class="w2tb_td">
     										<w2:attributes>
     											<w2:colspan>2</w2:colspan>
     											<w2:rowspan>1</w2:rowspan>
     										</w2:attributes>
-    										<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="전체" class="" direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="childId" ref="data:dma_postParam.category2" style="" submenuSize="auto">
+    										<xf:select1 chooseOptionLabel="전체" ref="data:dma_postParam.category2" submenuSize="auto" appearance="minimal" disabledClass="w2selectbox_disabled" chooseOption="true" disabled="false" style="" allOption="" id="childId" class="" direction="auto">
 
     											<xf:choices>
     												<xf:itemset nodeset="data:dlt_categoryList2d">
@@ -533,18 +535,18 @@ scwin.onpageunload = function() {
     									</xf:group>
     								</xf:group>
     								<xf:group tagname="tr" style="">
-    									<xf:group class="w2tb_th" tagname="th">
+    									<xf:group tagname="th" class="w2tb_th">
     										<w2:attributes>
     											<w2:scope>row</w2:scope>
     										</w2:attributes>
-    										<w2:textbox class="" id="" label="기간 검색" style="" tagname="label"></w2:textbox>
+    										<w2:textbox tagname="label" style="" id="" label="기간 검색" class=""></w2:textbox>
     									</xf:group>
-    									<xf:group class="w2tb_td" tagname="td">
+    									<xf:group tagname="td" class="w2tb_td">
     										<w2:attributes>
     											<w2:colspan>2</w2:colspan>
     											<w2:rowspan>1</w2:rowspan>
     										</w2:attributes>
-    										<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="전체" class="" direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="periodType" ref="data:dma_postParam.periodType" style="" submenuSize="auto" ev:onviewchange="scwin.periodType_onviewchange">
+    										<xf:select1 chooseOptionLabel="전체" submenuSize="auto" chooseOption="true" allOption="" ref="data:dma_postParam.periodType" appearance="minimal" disabledClass="w2selectbox_disabled" ev:onviewchange="scwin.periodType_onviewchange" disabled="false" style="" id="periodType" class="" direction="auto">
     											<xf:choices>
     												<xf:item>
     													<xf:label><![CDATA[전시시작일시]]></xf:label>
@@ -565,16 +567,16 @@ scwin.onpageunload = function() {
     											</xf:choices>
     										</xf:select1>
     									</xf:group>
-    									<xf:group class="w2tb_td" tagname="td">
+    									<xf:group tagname="td" class="w2tb_td">
     										<w2:attributes>
     											<w2:scope>row</w2:scope>
     											<w2:colspan>2</w2:colspan>
     											<w2:rowspan>1</w2:rowspan>
     										</w2:attributes>
-    										<w2:inputCalendar footerDiv="false" id="startDate" style="width:200px;height:23px;" renderDiv="true" focusOnDateSelect="false" calendarValueType="yearMonthDateTimeSec" rightAlign="false" renderType="component" ref="data:dma_postParam.startDate">
+    										<w2:inputCalendar ref="data:dma_postParam.startDate" footerDiv="false" rightAlign="false" focusOnDateSelect="false" style="width:200px;height:23px;" id="startDate" renderType="component" renderDiv="true" calendarValueType="yearMonthDateTimeSec">
     										</w2:inputCalendar>
-    										<w2:span id="wave" label=" ~ " style=""></w2:span>
-    										<w2:inputCalendar footerDiv="false" id="endDate" style="width:200px;height:23px;" renderDiv="true" focusOnDateSelect="false" calendarValueType="yearMonthDateTimeSec" rightAlign="false" renderType="component" ref="data:dma_postParam.endDate">
+    										<w2:span style="" id="wave" label=" ~ "></w2:span>
+    										<w2:inputCalendar ref="data:dma_postParam.endDate" footerDiv="false" rightAlign="false" focusOnDateSelect="false" style="width:200px;height:23px;" id="endDate" renderType="component" renderDiv="true" calendarValueType="yearMonthDateTimeSec">
     										</w2:inputCalendar>
     									</xf:group>
     								</xf:group>
@@ -590,7 +592,7 @@ scwin.onpageunload = function() {
     											<w2:colspan>4</w2:colspan>
     											<w2:rowspan>1</w2:rowspan>
     										</w2:attributes>
-    										<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="전체" class="" direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="isDisplayed" ref="data:dma_postParam.isDisplayed" style="" submenuSize="auto">
+    										<xf:select1 chooseOptionLabel="전체" ref="data:dma_postParam.isDisplayed" submenuSize="auto" appearance="minimal" disabledClass="w2selectbox_disabled" chooseOption="true" disabled="false" style="" allOption="" id="isDisplayed" class="" direction="auto">
     											<xf:choices>
     												<xf:item>
     													<xf:label><![CDATA[Y]]></xf:label>
@@ -604,16 +606,16 @@ scwin.onpageunload = function() {
     										</xf:select1>
     									</xf:group>
     								</xf:group>
-    								<xf:group style="" tagname="tr">
-    									<xf:group class="w2tb_th" tagname="th">
+    								<xf:group tagname="tr" style="">
+    									<xf:group tagname="th" class="w2tb_th">
     										<w2:attributes>
     											<w2:scope>row</w2:scope>
     										</w2:attributes>
-    										<w2:textbox class="" id="" label="검색 조건" style="" tagname="label"></w2:textbox>
+    										<w2:textbox tagname="label" style="" id="" label="검색 조건" class=""></w2:textbox>
     									</xf:group>
-    									<xf:group class="w2tb_td" tagname="td" style="width: 40%;">
+    									<xf:group tagname="td" style="width: 40%;" class="w2tb_td">
     										<w2:attributes></w2:attributes>
-    										<xf:select1 allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel="전체" class="" direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="searchType" ref="data:dma_postParam.searchType" style="" submenuSize="auto">
+    										<xf:select1 chooseOptionLabel="전체" ref="data:dma_postParam.searchType" submenuSize="auto" appearance="minimal" disabledClass="w2selectbox_disabled" chooseOption="true" disabled="false" style="" allOption="" id="searchType" class="" direction="auto">
     											<xf:choices>
     												<xf:item>
     													<xf:label><![CDATA[제목]]></xf:label>
@@ -634,25 +636,25 @@ scwin.onpageunload = function() {
     											</xf:choices>
     										</xf:select1>
     									</xf:group>
-    									<xf:group class="w2tb_td" tagname="td" style="">
+    									<xf:group tagname="td" style="" class="w2tb_td">
     										<w2:attributes>
     											<w2:scope>row</w2:scope>
     											<w2:colspan>3</w2:colspan>
     											<w2:rowspan>1</w2:rowspan>
     										</w2:attributes>
-    										<xf:input adjustMaxLength="false" id="keyword" maxlength="" ref="data:dma_postParam.keyword" style="width: 99%;">
+    										<xf:input ref="data:dma_postParam.keyword" maxlength="" adjustMaxLength="false" style="width: 99%;" id="keyword">
     										</xf:input>
     									</xf:group>
     								</xf:group>
     							</xf:group>
     						</xf:group>
-    						<xf:group class="search_btn_box" id="">
-    							<xf:group class="list-inline mt5" id="" tagname="ul"></xf:group>
-    							<xf:group id="" tagname="" style="text-align:center;">
-    								<xf:trigger class="" ev:onclick="scwin.btn_init_onclick" id="btn_init" style="margin-right: 10px" type="button">
+    						<xf:group id="" class="search_btn_box">
+    							<xf:group tagname="ul" id="" class="list-inline mt5"></xf:group>
+    							<xf:group tagname="" style="text-align:center;" id="">
+    								<xf:trigger ev:onclick="scwin.btn_init_onclick" style="margin-right: 10px" id="btn_init" type="button" class="">
     									<xf:label><![CDATA[ 초기화 ]]></xf:label>
     								</xf:trigger>
-    								<xf:trigger class="purple-button" ev:onclick="scwin.btn_search_onclick" id="btn_search" style="" type="button">
+    								<xf:trigger ev:onclick="scwin.btn_search_onclick" style="" id="btn_search" type="button" class="purple-button">
     									<xf:label><![CDATA[ 검색 ]]></xf:label>
     								</xf:trigger>
 
@@ -660,29 +662,30 @@ scwin.onpageunload = function() {
     						</xf:group>
     					</xf:group>
     				</xf:group>
-    				<xf:group class="btnbox" id="" style="">
-    					<xf:group class="rta" id="" style="text-align:right;">
-    						<xf:trigger class="" ev:onclick="scwin.btn_category_onclick" id="btn_category" style="margin-right: 10px;margin-left: 10px;" type="button">
+    				<xf:group style="" id="" class="btnbox">
+    					<xf:group style="text-align:right;" id="" class="rta">
+    						<xf:trigger ev:onclick="scwin.btn_category_onclick" style="margin-right: 10px;margin-left: 10px;" id="btn_category" type="button" class="">
     							<xf:label><![CDATA[ 카테고리 관리 ]]></xf:label>
     						</xf:trigger>
-    						<xf:trigger class="purple-button" ev:onclick="scwin.btn_reg_onclick" id="btn_reg" style="padding-right: 10px;padding-left: 10px;" type="button">
+    						<xf:trigger ev:onclick="scwin.btn_reg_onclick" style="padding-right: 10px;padding-left: 10px;" id="btn_reg" type="button" class="purple-button">
     							<xf:label><![CDATA[등록]]></xf:label>
     						</xf:trigger>
 
     					</xf:group>
     				</xf:group>
-    				<w2:tabControl alwaysDraw="false" class="wq_tbc" confirmFalseAction="new" confirmTrueAction="exist" id="tabControl2" style="" useConfirmMessage="false" useMoveNextTabFocus="false" useTabKeyOnly="true">
-    					<w2:tabs disabled="false" id="tabs1" label="목록" style=""></w2:tabs>
-    					<w2:content alwaysDraw="false" id="content1" style="">
-    						<xf:group class="toggle-body" id="" style="">
-    							<xf:group class="gvwbox" id="" style="">
-    								<xf:group class="gvw_header" id="" style="">
-    									<xf:group class="gvw_toolbar" id="" style="">
-    										<xf:group class="gvw_info" id="" tagname="">
-    											<w2:textbox class="" id="" label="건수 &amp;nbsp;:" style="" tagname="span"></w2:textbox>
-    											<w2:textbox class="" id="tbx_total" label="0" ref="" style="" tagname="em"></w2:textbox>
-    											<w2:textbox class="" id="" label="건" style="" tagname="span"></w2:textbox>
-    											<xf:select1 submenuSize="auto" ref="data:dma_pageInfo.rowSize" appearance="minimal" disabledClass="w2selectbox_disabled" chooseOption="" style="width:54px;height:21px;" disabled="false" id="rowSize" allOption="" direction="auto" ev:onchange="scwin.slb_pagePerCount_onchange">
+    				
+    			</xf:group><w2:tabControl confirmTrueAction="exist" confirmFalseAction="new" useTabKeyOnly="true" useMoveNextTabFocus="false" useConfirmMessage="false" alwaysDraw="false" style="" id="tabControl2" class="wq_tbc">
+    					<w2:tabs disabled="false" style="" id="tabs1" label="목록"></w2:tabs>
+    					<w2:content alwaysDraw="false" style="" id="content1">
+    						<xf:group style="" id="" class="toggle-body">
+    							<xf:group style="" id="" class="gvwbox">
+    								<xf:group style="" id="" class="gvw_header">
+    									<xf:group style="" id="" class="gvw_toolbar">
+    										<xf:group tagname="" id="" class="gvw_info">
+    											<w2:textbox tagname="span" style="" id="" label="건수 &amp;nbsp;:" class=""></w2:textbox>
+    											<w2:textbox ref="" tagname="em" style="" id="tbx_total" label="0" class=""></w2:textbox>
+    											<w2:textbox tagname="span" style="" id="" label="건" class=""></w2:textbox>
+    											<xf:select1 submenuSize="auto" ref="data:dma_pageInfo.rowSize" appearance="minimal" ev:onchange="scwin.slb_pagePerCount_onchange" disabledClass="w2selectbox_disabled" chooseOption="" style="width:54px;height:21px;" disabled="false" id="rowSize" allOption="" direction="auto">
     												<xf:choices>
     													<xf:item>
     														<xf:label><![CDATA[5]]></xf:label>
@@ -709,32 +712,44 @@ scwin.onpageunload = function() {
     											</xf:select1>
     											<w2:textbox tagname="span" style="" id="" label=" / page" class=""></w2:textbox>
     										</xf:group>
-    										<xf:group class="gvw_length" id="" style="" tagname="">
-    											<xf:group id="" tagname="label"></xf:group>
+    										<xf:group tagname="" style="" id="" class="gvw_length">
+    											<xf:group tagname="label" id=""></xf:group>
     										</xf:group>
 
-    										<xf:group class="gvw_btn" id=""></xf:group>
+    										<xf:group id="" class="gvw_btn"></xf:group>
     									</xf:group>
-    									<xf:group id="" style="text-align:right;">
-    										<xf:trigger ev:onclick="scwin.btn_delete_onclick" style="margin-right: 10px;" id="trigger26" type="button" class="">
+    									<xf:group style="text-align:right;" id="">
+    										<xf:trigger ev:onclick="scwin.btn_delete_onclick" style="margin-right: 10px;" id="trigger26"
+    											type="button" class="">
     											<xf:label><![CDATA[ 선택 삭제 ]]></xf:label>
     										</xf:trigger>
-    										<xf:trigger ev:onclick="scwin.btn_save_onclick" style="margin-right: 10px;" id="trigger1" type="button" class="">
+    										<xf:trigger ev:onclick="scwin.btn_save_onclick" style="margin-right: 10px;" id="trigger1"
+    											type="button" class="">
     											<xf:label><![CDATA[ 전시 순서 저장 ]]></xf:label>
     										</xf:trigger>
-    										<xf:trigger ev:onclick="scwin.btn_excelDown_onclick" style="margin-right: 10px;" id="btn_excelDownload" type="button" class="">
+    										<xf:trigger ev:onclick="scwin.btn_excelDown_onclick" style="margin-right: 10px;"
+    											id="btn_excelDownload" type="button" class="">
     											<xf:label><![CDATA[ 엑셀 다운로드]]></xf:label>
     										</xf:trigger>
+    										<xf:select selectedindex="-1" id="" appearance="full"
+    											style="width:72px;height:21px;margin-right: 10px;" cols="" rows="" ref="data:dma_postParam.reqImg">
+    											<xf:choices>
+    												<xf:item>
+    													<xf:label><![CDATA[사진 포함]]></xf:label>
+    													<xf:value><![CDATA[Y]]></xf:value>
+    												</xf:item>
+    											</xf:choices>
+    										</xf:select>
     									</xf:group>
     								</xf:group>
     								<br></br>
-    								<w2:gridView autoFit="allColumn" class="wq_gvw" dataList="data:dlt_postList" defaultCellHeight="32" ev:oncellclick="scwin.grd_main_oncellclick" focusMode="row" id="grd_main" rowNumHeaderValue="번호" rowNumVisible="false" rowStatusVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true" style="height:98px;" visibleRowNum="all">
-    									<w2:caption id="caption1" style="" value="this is a grid caption."></w2:caption>
-    									<w2:header id="header1" style="">
-    										<w2:row id="row1" style="">
-    											<w2:column removeBorderStyle="false" width="50" inputType="checkbox" style="height:32px;" id="column7" value="체크" blockSelect="false" displayMode="label">
+    								<w2:gridView ev:oncellclick="scwin.grd_main_oncellclick" scrollByColumnAdaptive="false" rowNumVisible="false" rowNumHeaderValue="번호" scrollByColumn="false" sortable="true" defaultCellHeight="32" focusMode="row" rowStatusVisible="false" dataList="data:dlt_postList" style="height:215px;" autoFit="allColumn" id="grd_main" visibleRowNum="all" class="wq_gvw">
+    									<w2:caption style="" id="caption1" value="this is a grid caption."></w2:caption>
+    									<w2:header style="" id="header1">
+    										<w2:row style="" id="row1">
+    											<w2:column removeBorderStyle="false" width="32" inputType="checkbox" style="height:32px;" id="column7" value="체크" blockSelect="false" displayMode="label">
     											</w2:column>
-    											<w2:column removeBorderStyle="false" width="50" inputType="text" style="height:32px;" id="column31" value="번호" blockSelect="false" displayMode="label">
+    											<w2:column removeBorderStyle="false" width="37" inputType="text" style="height:32px;" id="column31" value="번호" blockSelect="false" displayMode="label">
     											</w2:column>
     											<w2:column removeBorderStyle="false" width="64" inputType="text" style="height:32px;" id="column5" value="전시순서" blockSelect="false" displayMode="label">
     											</w2:column>
@@ -758,46 +773,46 @@ scwin.onpageunload = function() {
     											</w2:column>
     											<w2:column sortLabel="true" removeBorderStyle="false" width="90" inputType="text" readOnly="true" style="height:32px;" id="column17" sortable="true" value="수정자" blockSelect="false" displayMode="label">
     											</w2:column>
-    											<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:32px;" id="postId" value="게시글 id" blockSelect="false" displayMode="label" hidden="true">
+    											<w2:column hidden="true" removeBorderStyle="false" width="70" inputType="text" style="height:32px;" id="postId" value="게시글 id" blockSelect="false" displayMode="label">
     											</w2:column>
     										</w2:row>
     									</w2:header>
-    									<w2:gBody id="gBody1" style="">
-    										<w2:row id="row2" style="">
-    											<w2:column removeBorderStyle="false" width="50" inputType="checkbox" id="check" blockSelect="false" displayMode="label">
+    									<w2:gBody style="" id="gBody1">
+    										<w2:row style="" id="row2">
+    											<w2:column removeBorderStyle="false" width="32" inputType="checkbox" id="check" blockSelect="false" displayMode="label">
     											</w2:column>
-    											<w2:column removeBorderStyle="false" width="50" inputType="text" style="height:32px" id="rowNum" value="" blockSelect="false" displayMode="label" customFormatter="scwin.gridNoFormat">
+    											<w2:column customFormatter="scwin.gridNoFormat" removeBorderStyle="false" width="37" inputType="text" style="height:32px" id="rowNum" value="" blockSelect="false" displayMode="label">
     											</w2:column>
     											<w2:column removeBorderStyle="false" width="64" inputType="text" readOnly="false" id="displayOrder" class="titleLink" blockSelect="false" displayMode="label">
     											</w2:column>
     											<w2:column removeBorderStyle="false" width="59" inputType="text" readOnly="true" style="height:32px" id="type" blockSelect="false" displayMode="label">
     											</w2:column>
-    											<w2:column editModeEvent="onclick" removeBorderStyle="false" viewType="icon" width="90" editType="select" inputType="text" style="height:20px" id="category1" displayMode="label" readOnly="true">
+    											<w2:column editModeEvent="onclick" removeBorderStyle="false" viewType="icon" width="90" editType="select" inputType="text" style="height:20px" readOnly="true" id="category1" displayMode="label">
     											</w2:column>
     											<w2:column removeBorderStyle="false" width="90" inputType="text" readOnly="true" style="height:32px" id="category2" blockSelect="false" displayMode="label">
     											</w2:column>
-    											<w2:column width="88" inputType="text" id="title" displayMode="label" readOnly="true"></w2:column>
-    											<w2:column width="70" inputType="text" id="views" displayMode="label" readOnly="true"></w2:column>
-    											<w2:column width="70" inputType="text" id="isDisplayed" displayMode="label" readOnly="true">
+    											<w2:column width="88" inputType="text" readOnly="true" id="title" displayMode="label"></w2:column>
+    											<w2:column width="70" inputType="text" readOnly="true" id="views" displayMode="label"></w2:column>
+    											<w2:column width="70" inputType="text" readOnly="true" id="isDisplayed" displayMode="label">
     											</w2:column>
-    											<w2:column width="90" inputType="text" id="createdAt" displayMode="label" readOnly="true"></w2:column>
+    											<w2:column width="90" inputType="text" readOnly="true" id="createdAt" displayMode="label"></w2:column>
     											<w2:column removeBorderStyle="false" width="90" inputType="text" readOnly="true" style="height:32px" id="createdBy" blockSelect="false" displayMode="label">
     											</w2:column>
     											<w2:column removeBorderStyle="false" width="90" inputType="text" readOnly="true" style="height:32px" id="updatedAt" blockSelect="false" displayMode="label">
     											</w2:column>
     											<w2:column removeBorderStyle="false" width="90" inputType="text" readOnly="true" style="height:32px" id="updatedBy" blockSelect="false" displayMode="label">
     											</w2:column>
-    											<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:32px" id="postId" value="" blockSelect="false" displayMode="label" hidden="false">
+    											<w2:column hidden="false" removeBorderStyle="false" width="70" inputType="text" style="height:32px" id="postId" value="" blockSelect="false" displayMode="label">
     											</w2:column>
     										</w2:row>
     									</w2:gBody>
     								</w2:gridView>
-    								<w2:pageList displayButtonType="auto" displayFormat="#" ev:onviewchange="scwin.pgl_pageList_onviewchange" id="pgl_pageList" pageSize="10" renderType="list" style="text-align:center;">
+    								<w2:pageList ev:onviewchange="scwin.pgl_pageList_onviewchange" displayButtonType="auto" displayFormat="#" pageSize="10" style="text-align:center;" id="pgl_pageList" renderType="list">
     								</w2:pageList>
-    								<w2:gridView autoFit="none" class="wq_gvw" dataList="data:dlt_excelList" defaultCellHeight="32" ev:oncellclick="scwin.grd_main_oncellclick" focusMode="row" id="grd_excelDown" rowNumHeaderValue="번호" rowNumVisible="false" rowStatusVisible="false" scrollByColumn="false" scrollByColumnAdaptive="false" sortable="true" style="height:98px;" visibleRowNum="all">
-    									<w2:caption id="caption1" style="" value="this is a grid caption."></w2:caption>
-    									<w2:header id="header1" style="">
-    										<w2:row id="row1" style="">
+    								<w2:gridView ev:oncellclick="scwin.grd_main_oncellclick" scrollByColumnAdaptive="false" rowNumVisible="false" rowNumHeaderValue="번호" scrollByColumn="false" sortable="true" defaultCellHeight="32" focusMode="row" rowStatusVisible="false" dataList="data:dlt_excelList" style="height:98px;" autoFit="none" id="grd_excelDown" visibleRowNum="all" class="wq_gvw">
+    									<w2:caption style="" id="caption1" value="this is a grid caption."></w2:caption>
+    									<w2:header style="" id="header1">
+    										<w2:row style="" id="row1">
     											<w2:column width="70" id="column2" value="번호"></w2:column>
     											<w2:column removeBorderStyle="false" width="64" inputType="text" style="height:32px;" id="column5" value="전시순서" blockSelect="false" displayMode="label">
     											</w2:column>
@@ -835,9 +850,9 @@ scwin.onpageunload = function() {
     											</w2:column>
     										</w2:row>
     									</w2:header>
-    									<w2:gBody id="gBody1" style="">
-    										<w2:row id="row2" style="">
-    											<w2:column width="70" id="rowNo" customFormatter="scwin.gridNoFormat"></w2:column>
+    									<w2:gBody style="" id="gBody1">
+    										<w2:row style="" id="row2">
+    											<w2:column customFormatter="scwin.gridNoFormat" width="70" id="rowNo"></w2:column>
     											<w2:column removeBorderStyle="false" width="64" inputType="text" readOnly="false" style="height:32px;" id="displayOrder" class="titleLink" blockSelect="false" displayMode="label">
     											</w2:column>
     											<w2:column removeBorderStyle="false" width="59" inputType="text" readOnly="true" style="height:32px;" id="type" blockSelect="false" displayMode="label">
@@ -857,9 +872,9 @@ scwin.onpageunload = function() {
     											<w2:column removeBorderStyle="false" width="140" inputType="text" style="height:32px;" id="displayEnd" value="" blockSelect="false" displayMode="label">
     											</w2:column>
     											<w2:column width="240" id="content"></w2:column>
-    											<w2:column width="223" id="pcImageUrl" inputType="image" imageSrc="" imageWidth="70"></w2:column>
+    											<w2:column imageWidth="70" width="223" inputType="image" imageSrc="" id="pcImageUrl"></w2:column>
     											<w2:column width="237" id="pcImageAltText"></w2:column>
-    											<w2:column width="215" id="mobileImageUrl" inputType="image" imageWidth="70"></w2:column>
+    											<w2:column imageWidth="70" width="215" inputType="image" id="mobileImageUrl"></w2:column>
     											<w2:column width="233" id="mobileImageAltText"></w2:column>
     											<w2:column width="189" id="sourceMediaList"></w2:column>
     											<w2:column width="144" id="travelPlaceList"></w2:column>
@@ -879,11 +894,7 @@ scwin.onpageunload = function() {
     						</xf:group>
     					</w2:content>
     				</w2:tabControl>
-    			</xf:group>
     		</xf:group>
     	</xf:group></w2:content>
-    	</w2:tabControl>
-    	
-    	
-    </body>
+    	</w2:tabControl></xf:group></body>
 </html>
