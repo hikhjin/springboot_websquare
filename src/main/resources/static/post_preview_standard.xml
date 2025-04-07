@@ -47,7 +47,7 @@ scwin.onpageload = function() {
 	updatedAt.setValue($p.getCurrentServerDate("yyyy-MM-dd HH:mm:ss"));
 	
 	// 이미지
-	var imageSrc = "http://localhost:8080" + pr.get("pcImageUrl");
+	var imageSrc = pr.get("pcImageUrl");
 	prevImg.setSrc(imageSrc);
 	
 	// 내용

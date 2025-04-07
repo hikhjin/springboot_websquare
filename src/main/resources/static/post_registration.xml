@@ -148,9 +148,6 @@ scwin.onpageload = function() {
 		var eyear = parseInt(end.substring(2, 4), 10);
 		var emonth = parseInt(end.substring(4, 6), 10);
 		var eday = parseInt(end.substring(6, 8), 10);
-		
-//		console.log("smonth: " + smonth);
-//		console.log("sday: " + sday);
     	
     	if ((start !== "" && end === "")) {
     		alert("검색 종료일시를 입력해주십시오.");
@@ -408,13 +405,13 @@ scwin.onpageload = function() {
 	    var targetId = this.getID();
 	    console.log(targetId);
 	
-	    if (targetId === "mf_upd_singleFileUpload_pc" || targetId === "mf_tabControl_contents_tab1_body_upd_singleFileUpload_pc") {
+	    if (targetId.includes("upd_singleFileUpload_pc")) {
 	        upd_singleFileUpload_pc.changeFormAction("http://localhost:8080/file/pc");
 	        upd_singleFileUpload_pc.submit();
-	    } else if (targetId === "mf_upd_singleFileUpload_mo" || targetId === "mf_tabControl_contents_tab1_body_upd_singleFileUpload_mo") {
+	    } else if (targetId.includes("upd_singleFileUpload_mo")) {
 	        upd_singleFileUpload_mo.changeFormAction("http://localhost:8080/file/mobile");
 	        upd_singleFileUpload_mo.submit();
-	    } else if (targetId === "mf_upd_singleFileUpload_at" || targetId === "mf_tabControl_contents_tab1_body_upd_singleFileUpload_at") {
+	    } else if (targetId.includes("upd_singleFileUpload_at")) {
 	        upd_singleFileUpload_at.changeFormAction("http://localhost:8080/file/attachment");
 	        upd_singleFileUpload_at.submit();
 	    }
@@ -424,10 +421,10 @@ scwin.onpageload = function() {
 	scwin.btn_DeleteFile_onclick = function(e) {
 		var targetId = this.getID();
 		console.log(targetId);
-	    if (targetId === "mf_btn_deleteFileP" || targetId === "mf_tabControl_contents_tab1_body_btn_deleteFileP") {
+	    if (targetId.includes("btn_deleteFileP")) {
 	        upd_singleFileUpload_pc.reset();
 	        $p.executeSubmission("sbm_deleteFilePc");
-	    } else if (targetId === "mf_btn_deleteFileM" || targetId === "mf_tabControl_contents_tab1_body_btn_deleteFileM") {
+	    } else if (targetId.includes("btn_deleteFileM")) {
 	        upd_singleFileUpload_mo.reset();
 	        $p.executeSubmission("sbm_deleteFileMo");
 	    } else {
@@ -454,19 +451,19 @@ scwin.onpageload = function() {
         console.log("Original File Name:", originalFileName);
         console.log("File Size:", fileSize);
         
-        if (uploadPath.startsWith("/common/images/pc/")) {
+        if (uploadPath.includes("/images/pc")) {
 	        dma_postForm.set("pcImageUrl", uploadPath);
             dma_postForm.set("pcImageOriginalName", originalFileName);
             dma_postForm.set("pcImageUploadedName", saveFileName);
             dma_postForm.set("pcImageSize", fileSize);
             isSetPc = true;
-        } else if (uploadPath.startsWith("/common/images/mobile/")) {
+        } else if (uploadPath.includes("/images/mobile")) {
 	        dma_postForm.set("mobileImageUrl", uploadPath);
             dma_postForm.set("mobileImageOriginalName", originalFileName);
             dma_postForm.set("mobileImageUploadedName", saveFileName);
             dma_postForm.set("mobileImageSize", fileSize);
             isSetMo = true;
-        } else if (uploadPath.startsWith("/common/attachment/")) {
+        } else if (uploadPath.includes("/attachment")) {
 	        dma_postForm.set("attachmentUrl", uploadPath);
             dma_postForm.set("attachmentOriginalName", originalFileName);
             dma_postForm.set("attachmentUploadedName", saveFileName);

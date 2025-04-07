@@ -19,7 +19,7 @@
         
 	scwin.onpageload = function() {
 		
-		var imageSrc = "http://localhost:8080" + $p.getParameter("param")["src"];
+		var imageSrc = $p.getParameter("param")["src"];
 		//console.log(imageSrc);
 		img_preView.setSrc( imageSrc )
 	};

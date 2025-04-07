@@ -33,6 +33,7 @@ public class FileController {
 
     @DeleteMapping("/attachment")
     public ResponseEntity<String> deleteFileAt(@RequestBody PostFormDto postFormDto) {
+        System.out.println(postFormDto);
         fileService.deleteFile(postFormDto.getAttachmentUrl());
         return ResponseEntity.ok("Success");
     }
