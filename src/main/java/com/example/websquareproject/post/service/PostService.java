@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,17 +60,11 @@ public class PostService {
     public void getExcelFile(String category1, String category2, String periodType,
                                                             String startDate, String endDate, String isDisplayed,
                                                             String searchType, String keyword, String reqImg, HttpServletResponse response) {
-        logger.info("getExcelFile() called with params: category1={}, category2={}, periodType={}, startDate={}, endDate={}, reqImg={}",
-                category1, category2, periodType, startDate, endDate, reqImg);
-
         List<ExcelListDto> posts = postMapper.getExcelList(
                 safeParseInt(category1), safeParseInt(category2), periodType, startDate,
                 endDate, isDisplayed, searchType, keyword);
 
-        logger.info("Retrieved {} rows for Excel export", posts.size());
-
         Workbook workbook = null;
-        System.out.println("reqImg: " + reqImg);
         try {
             if ("Y".equals(reqImg)) {
                 workbook = new XSSFWorkbook();
@@ -108,7 +103,6 @@ public class PostService {
                 row.createCell(20).setCellValue(post.getCreatedBy());
             }
 
-            System.out.println(workbook);
             logger.info("Excel file created successfully");
 
             response.setContentType("application/vnd.ms-excel");
@@ -122,9 +116,26 @@ public class PostService {
 
     private void insertImage(Sheet sheet, Workbook workbook, String imageUrl, int rowIndex, int colIndex) {
         InputStream is = null;
+
         try {
             if (imageUrl.startsWith("http") || imageUrl.startsWith("https")) {
-                is = new URL(imageUrl).openStream();
+//                System.out.println("이미지 다운로드 시도: " + imageUrl);
+//                is = new URL(imageUrl).openStream();
+//                System.out.println("이미지 스트림 열기 성공");
+                URL url = new URL(imageUrl.trim());
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(3000);  // 연결 시도 타임아웃 (ms)
+                conn.setReadTimeout(10000);    // 응답 대기 타임아웃 (ms)
+                conn.setRequestMethod("GET");
+
+                int responseCode = conn.getResponseCode();
+                if (responseCode == 200) {
+                    is = conn.getInputStream();
+                    System.out.println("이미지 스트림 열기 성공 (with timeout 설정)");
+                } else {
+                    System.err.println("이미지 응답 실패, responseCode: " + responseCode);
+                    return;
+                }
             } else {
                 String basePath = "C:\\Users\\hikhj\\IdeaProjects\\websquareProject\\src\\main\\resources\\static";
                 String absolutePath = basePath + imageUrl.replace("/", "\\");
@@ -158,6 +169,7 @@ public class PostService {
             XSSFPicture picture = drawing.createPicture(anchor, pictureIdx);
         } catch (Exception e) {
             System.err.println("이미지 삽입 실패: " + imageUrl);
+            e.printStackTrace();
         } finally {
             if (is != null) {
                 try {

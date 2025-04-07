@@ -96,13 +96,6 @@ public class S3Uploader {
         File convertFile = new File(file.getOriginalFilename());
         log.info("변환 파일 경로: {}", convertFile.getAbsolutePath());
 
-//        if (convertFile.createNewFile()) {
-//            try (FileOutputStream fos = new FileOutputStream(convertFile)) {
-//                fos.write(file.getBytes());
-//            }
-//            return Optional.of(convertFile);
-//        }
-//
         try {
             boolean created = convertFile.createNewFile();
             if (!created) {
