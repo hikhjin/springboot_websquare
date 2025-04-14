@@ -1,11 +1,9 @@
 package com.example.websquareproject.category.service;
 
 import com.example.websquareproject.category.dto.CategoryCreateDto;
-import com.example.websquareproject.category.dto.CategoryDto;
 import com.example.websquareproject.category.dto.CategoryTreeDto;
 import com.example.websquareproject.category.dto.CategoryFormDto;
 import com.example.websquareproject.category.mapper.CategoryMapper;
-import jdk.jfr.Category;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

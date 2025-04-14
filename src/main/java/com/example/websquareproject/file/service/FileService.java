@@ -9,14 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Slf4j
@@ -55,7 +48,7 @@ public class FileService {
             FileDto uploadedFile = new FileDto(
                     originalFileName,
                     fileUploadName,
-                    s3Url, // 파일 경로는 s3 URL로 대체
+                    s3Url,
                     file.getSize()
             );
             System.out.println(uploadedFile);

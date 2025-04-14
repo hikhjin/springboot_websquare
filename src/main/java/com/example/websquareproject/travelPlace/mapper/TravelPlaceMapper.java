@@ -1,6 +1,5 @@
 package com.example.websquareproject.travelPlace.mapper;
 
-import com.example.websquareproject.post.dto.PostListDto;
 import com.example.websquareproject.travelPlace.dto.TravelPlaceListDto;
 import org.apache.ibatis.annotations.Mapper;
 
